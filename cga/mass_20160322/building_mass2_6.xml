@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<grammar version="1.0" author="Gen Nishida">
+	<!-- parameters -->
+	<attr name="x_0" value="-10" range="-15,10"/>
+	<attr name="y_0" value="-10" range="-15,10"/>
+	<attr name="width_0" value="10" range="5,20"/>
+	<attr name="depth_0" value="20" range="5,20"/>
+	<attr name="height_0" value="10" range="3,25"/>
+	<attr name="x_1" value="0" range="-15,10"/>
+	<attr name="y_1" value="0" range="-15,10"/>
+	<attr name="width_1" value="10" range="5,20"/>
+	<attr name="depth_1" value="10" range="5,20"/>
+	<attr name="height_1" value="10" range="3,25"/>
+
+	<!-- building mass -->
+	<rule name="Start">
+		<copy name="Start2"/>
+		<translate mode="rel" coordSystem="world">
+			<param name="x" type="absolute" value="x_0"/>
+			<param name="y" type="absolute" value="y_0"/>
+			<param name="z" type="absolute" value="0"/>
+		</translate>
+		<size>
+			<param name="xSize" type="absolute" value="width_0"/>
+			<param name="ySize" type="absolute" value="depth_0"/>
+			<param name="zSize" type="absolute" value="0"/>
+		</size>
+		<extrude height="height_0"/>
+	</rule>
+	
+	<rule name="Start2">
+		<translate mode="rel" coordSystem="world">
+			<param name="x" type="absolute" value="x_1"/>
+			<param name="y" type="absolute" value="y_1"/>
+			<param name="z" type="absolute" value="0"/>
+		</translate>
+		<size>
+			<param name="xSize" type="absolute" value="width_1"/>
+			<param name="ySize" type="absolute" value="depth_1"/>
+			<param name="zSize" type="absolute" value="0"/>
+		</size>
+		<extrude height="height_1"/>
+	</rule>
+</grammar>
