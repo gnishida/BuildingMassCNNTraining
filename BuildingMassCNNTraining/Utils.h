@@ -27,6 +27,8 @@ namespace utils {
 	void cleanEdges(std::vector<std::pair<glm::vec2, glm::vec2>>& edges, float maxLineGap, float theta);
 	void cleanContours(std::vector<std::pair<glm::vec2, glm::vec2>>& edges, float maxLineGap, float theta);
 
-	void resizeImage(const cv::Mat src, cv::Mat& tgt, const cv::Size& size);
+	void resizeImage(cv::Mat& img, const cv::Size& size);
 	void blueImage(cv::Mat& img);
+	void blendImages(cv::Mat& img1, const cv::Mat& img2, const cv::Scalar& transparent_color);
+	void translateImage(cv::Mat& img, int offset_x, int offset_y);
 }

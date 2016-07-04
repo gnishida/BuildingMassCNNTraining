@@ -583,6 +583,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 						render();
 						QImage img = grabFrameBuffer();
 						cv::Mat mat = cv::Mat(img.height(), img.width(), CV_8UC4, img.bits(), img.bytesPerLine()).clone();
+						cv::cvtColor(mat, mat, cv::COLOR_BGRA2BGR);
 
 						// translate the image to the center
 						if (centering) {
@@ -630,7 +631,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 						}
 						else {
 							// 画像を縮小
-							utils::resizeImage(mat, mat, cv::Size(image_size, image_size));
+							utils::resizeImage(mat, cv::Size(image_size, image_size));
 
 							if (grayscale) {
 								cv::cvtColor(mat, mat, cv::COLOR_BGR2GRAY);
@@ -687,7 +688,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	std::cout << "Training images were successfully generated." << std::endl;
 }
 
-void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& testdata_dir, const QString& classification_dir, const QString& regression_dir, const QString& output_dir, bool centering3D, float cameraDistanceBase, float cameraHeight, int xrotMin, int xrotMax, int yrotMin, int yrotMax, int fovMin, int fovMax) {
+void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& testdata_dir, const QString& classification_dir, const QString& regression_dir, const QString& output_dir, bool centering, float cameraDistanceBase, float cameraHeight, int xrotMin, int xrotMax, int yrotMin, int yrotMax, int fovMin, int fovMax) {
 	int origWidth = width();
 	int origHeight = height();
 	resize(512, 512);
@@ -705,7 +706,7 @@ void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& test
 	}
 
 	// load pretrained models
-	std::vector<Regression*> regressions(2);
+	std::vector<Regression*> regressions(4);
 	for (int i = 0; i < regressions.size(); ++i) {
 		QString deploy_name = regression_dir + QString("/model/deploy_%1.prototxt").arg(i + 1, 2, 10, QChar('0'));
 		QString model_name = regression_dir + QString("/model/train_%1_iter_240000.caffemodel").arg(i + 1, 2, 10, QChar('0'));
@@ -720,7 +721,6 @@ void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& test
 		QFile file_true_params(testdata_dir + QString("/images/%1/parameters.txt").arg(i + 1, 2, 10, QChar('0')));
 		file_true_params.open(QIODevice::ReadOnly);
 		QTextStream in_true_params(&file_true_params);
-		//std::ifstream in_params((testdata_dir + QString("/images/%1/parameters.txt").arg(i + 1, 2, 10, QChar('0'))).toUtf8().constData());
 		while (!in_true_params.atEnd()) {
 			QString line = in_true_params.readLine();
 			if (line.isEmpty()) break;
@@ -735,19 +735,21 @@ void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& test
 		}
 	}
 
-	// open the output file for the predicted parameter values
-	QFile file_predicted_params(output_dir + "/predicted_params.txt");
-	if (!file_predicted_params.open(QIODevice::WriteOnly)) {
-		std::cout << "ERROR: can't open " << file_predicted_params.fileName().toUtf8().constData() << std::endl;
-		return;
-	}
-	QTextStream out_predicted_param(&file_predicted_params);
-
+	int correct_classification = 0;
+	int incorrect_classification = 0;
 	std::map<int, std::vector<float>> rmse;
 	std::map<int, int> rmse_count;
 
 	for (int grammar_id = 0; grammar_id < grammars.size(); ++grammar_id) {
 		printf("Grammar #%d:", grammar_id + 1);
+
+		// open the output file for the predicted parameter values
+		QFile file_predicted_params(output_dir + QString("/predicted_params_%1.txt").arg(grammar_id + 1, 2, 10, QChar('0')));
+		if (!file_predicted_params.open(QIODevice::WriteOnly)) {
+			std::cout << "ERROR: can't open " << file_predicted_params.fileName().toUtf8().constData() << std::endl;
+			return;
+		}
+		QTextStream out_predicted_param(&file_predicted_params);
 
 		int iter = 0;
 
@@ -816,36 +818,26 @@ void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& test
 			cga.derive(grammars[grammar_id], true);
 			std::vector<boost::shared_ptr<glutils::Face> > faces;
 			renderManager.removeObjects();
-			cga.generateGeometry(faces, centering3D);
+			cga.generateGeometry(faces, centering);
 			renderManager.addFaces(faces, true);
 
 			// render 2d image
 			render();
 			QImage rendered_img = grabFrameBuffer();
 			cv::Mat predicted_img = cv::Mat(rendered_img.height(), rendered_img.width(), CV_8UC4, rendered_img.bits(), rendered_img.bytesPerLine()).clone();
-			cv::cvtColor(predicted_img, predicted_img, cv::COLOR_BGRA2GRAY);
-			cv::cvtColor(predicted_img, predicted_img, cv::COLOR_GRAY2BGR);
+			cv::cvtColor(predicted_img, predicted_img, cv::COLOR_BGRA2BGR);
 
-			// 画像を縮小
-			utils::resizeImage(predicted_img, predicted_img, img.size());
+			// translate the image to the center
+			if (centering) moveCenter(predicted_img);
+
+			// resize the image
+			utils::resizeImage(predicted_img, img.size());
 
 			// make the predicted image blue
 			utils::blueImage(predicted_img);
 
 			// blend the prediction and the input image
-			for (int r = 0; r < predicted_img.rows; ++r) {
-				for (int c = 0; c < predicted_img.cols; ++c) {
-					cv::Vec3b color = predicted_img.at<cv::Vec3b>(r, c);
-					cv::Vec3b color2 = img.at<cv::Vec3b>(r, c);
-
-					if (color[1] == 0) {
-						predicted_img.at<cv::Vec3b>(r, c) = cv::Vec3b(255, 0, 0);
-					}
-					else {
-						predicted_img.at<cv::Vec3b>(r, c) = color2;
-					}
-				}
-			}
+			utils::blendImages(predicted_img, img, cv::Scalar(255, 255, 255));
 
 			//cv::imwrite((output_dir + QString("/%1_%2_input.png").arg(grammar_id, 2, 10, QChar('0')).arg(iter, 2, 10, QChar('0'))).toUtf8().constData(), img);
 			cv::imwrite((output_dir + QString("/%1_%2_pred.png").arg(grammar_id, 2, 10, QChar('0')).arg(iter, 6, 10, QChar('0'))).toUtf8().constData(), predicted_img);
@@ -884,7 +876,7 @@ bool GLWidget3D::moveCenter(cv::Mat& img) {
 	int max_r = -1;
 	for (int r = 0; r < img.rows; ++r) {
 		for (int c = 0; c < img.cols; ++c) {
-			cv::Vec4b color = img.at<cv::Vec4b>(r, c);
+			cv::Vec3b color = img.at<cv::Vec3b>(r, c);
 
 			if (color[0] < 100 && color[1] < 100 && color[2] < 100) {
 				if (!scan_r) {
@@ -904,7 +896,7 @@ bool GLWidget3D::moveCenter(cv::Mat& img) {
 	int max_c = -1;
 	for (int c = 0; c < img.rows; ++c) {
 		for (int r = 0; r < img.cols; ++r) {
-			cv::Vec4b color = img.at<cv::Vec4b>(r, c);
+			cv::Vec3b color = img.at<cv::Vec3b>(r, c);
 
 			if (color[0] < 100 && color[1] < 100 && color[2] < 100) {
 				if (!scan_c) {
@@ -918,41 +910,33 @@ bool GLWidget3D::moveCenter(cv::Mat& img) {
 			}
 		}
 	}
+	
+	bool acrossBoundary = false;
 
-	// if there is no image, cancel the translation.
-	if (min_r == -1 || min_c == -1) return false;
+	// if there is no image, no translation is necessary.
+	if (min_r == -1 || min_c == -1) return true;
 
-	// if the image is not strictly inside the canvas, cancel the translation.
-	if (min_r == 0 || min_c == 0 || max_r == img.rows - 1 || max_c == img.cols - 1) return false;
-
-	cv::Mat tmp = img.clone();
-	img = cv::Mat(img.size(), img.type(), cv::Vec4b(255, 255, 255, 255));
+	// if the image is not strictly inside the canvas, set the flag.
+	if (min_r == 0 || min_c == 0 || max_r == img.rows - 1 || max_c == img.cols - 1) acrossBoundary = true;
 
 	// translate the image
 	int offset_c = img.cols * 0.5 - (min_c + max_c) * 0.5;
 	int offset_r= img.rows * 0.5 - (min_r + max_r) * 0.5;
-	for (int r = 0; r < img.rows; ++r) {
-		for (int c = 0; c < img.cols; ++c) {
-			if (c + offset_c < 0 || c + offset_c >= img.cols) continue;
-			if (r + offset_r < 0 || r + offset_r >= img.rows) continue;
+	utils::translateImage(img, offset_c, offset_r);
 
-			img.at<cv::Vec4b>(r + offset_r, c + offset_c) = tmp.at<cv::Vec4b>(r, c);
-		}
-	}
-
-	return true;
+	return acrossBoundary;
 }
 
 void GLWidget3D::translateImage(cv::Mat source, cv::Mat& target, int shift_x, int shift_y) {
-	target = cv::Mat(source.size(), source.type(), cv::Scalar(255, 255, 255, 255));
+	target = cv::Mat(source.size(), source.type(), cv::Scalar(255, 255, 255));
 	
 	for (int r = 0; r < target.rows; ++r) {
 		for (int c = 0; c < target.cols; ++c) {
 			if (c - shift_x < 0 || c - shift_x >= source.cols) continue;
 			else if (r - shift_y < 0 || r - shift_y >= source.rows) continue;
 			else {
-				cv::Vec4b color = source.at<cv::Vec4b>(r - shift_y, c - shift_x);
-				target.at<cv::Vec4b>(r, c) = color;
+				cv::Vec3b color = source.at<cv::Vec3b>(r - shift_y, c - shift_x);
+				target.at<cv::Vec3b>(r, c) = color;
 			}
 		}
 	}

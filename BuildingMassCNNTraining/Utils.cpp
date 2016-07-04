@@ -432,24 +432,26 @@ namespace utils {
 	/**
 	 * Make the image smaller while preserving the black lines.
 	 */
-	void resizeImage(const cv::Mat src, cv::Mat& tgt, const cv::Size& size) {
-		tgt = src.clone();
-
-		if ((tgt.rows > 512 || tgt.cols > 512) && (size.width < 512 || size.height < 512)) {
-			cv::resize(tgt, tgt, cv::Size(512, 512));
-			cv::threshold(tgt, tgt, 220, 255, cv::THRESH_BINARY);
+	void resizeImage(cv::Mat& img, const cv::Size& size) {
+		if ((img.rows > 512 || img.cols > 512) && (size.width < 512 || size.height < 512)) {
+			cv::resize(img, img, cv::Size(512, 512));
+			cv::threshold(img, img, 220, 255, cv::THRESH_BINARY);
 		}
 
-		if ((tgt.rows > 256 || tgt.cols > 256) && (size.width < 256 || size.height < 256)) {
-			cv::resize(tgt, tgt, cv::Size(256, 256));
-			cv::threshold(tgt, tgt, 220, 255, cv::THRESH_BINARY);
+		if ((img.rows > 256 || img.cols > 256) && (size.width < 256 || size.height < 256)) {
+			cv::resize(img, img, cv::Size(256, 256));
+			cv::threshold(img, img, 220, 255, cv::THRESH_BINARY);
 		}
 
-		cv::resize(tgt, tgt, size);
-		cv::threshold(tgt, tgt, 220, 255, cv::THRESH_BINARY);
+		cv::resize(img, img, size);
+		cv::threshold(img, img, 220, 255, cv::THRESH_BINARY);
 	}
 
 	void blueImage(cv::Mat& img) {
+		if (img.channels() == 1) {
+			cv::cvtColor(img, img, cv::COLOR_GRAY2BGR);
+		}
+
 		for (int r = 0; r < img.rows; ++r) {
 			for (int c = 0; c < img.cols; ++c) {
 				cv::Vec3b color = img.at<cv::Vec3b>(r, c);
@@ -459,6 +461,36 @@ namespace utils {
 				else {
 					img.at<cv::Vec3b>(r, c) = cv::Vec3b(255, 255, 255);
 				}
+			}
+		}
+	}
+
+	void blendImages(cv::Mat& img1, const cv::Mat& img2, const cv::Scalar& transparent_color) {
+		for (int r = 0; r < img1.rows; ++r) {
+			for (int c = 0; c < img1.cols; ++c) {
+				cv::Vec3b color = img1.at<cv::Vec3b>(r, c);
+
+				if (color[0] == transparent_color[0] && color[1] == transparent_color[1] && color[2] == transparent_color[2]) {
+					img1.at<cv::Vec3b>(r, c) = img2.at<cv::Vec3b>(r, c);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Translate the image by offset_x along X axis and offset_y along Y axis.
+	 */
+	void translateImage(cv::Mat& img, int offset_x, int offset_y) {
+		cv::Mat tmp = img.clone();
+		img = cv::Mat(img.size(), img.type(), cv::Vec3b(255, 255, 255));
+
+		// translate the image
+		for (int r = 0; r < img.rows; ++r) {
+			for (int c = 0; c < img.cols; ++c) {
+				if (c + offset_x < 0 || c + offset_x >= img.cols) continue;
+				if (r + offset_y < 0 || r + offset_y >= img.rows) continue;
+
+				img.at<cv::Vec3b>(r + offset_y, c + offset_x) = tmp.at<cv::Vec3b>(r, c);
 			}
 		}
 	}
