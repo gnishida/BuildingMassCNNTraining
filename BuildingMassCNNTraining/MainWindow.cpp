@@ -30,19 +30,21 @@ void MainWindow::onGenerateTrainingImages() {
 		bool grayscale = dlg.ui.checkBoxGrayscale->isChecked();
 		bool centering = dlg.ui.checkBoxCentering->isChecked();
 		float cameraDistanceBase = dlg.ui.lineEditCameraDistance->text().toFloat();
-		int xrotMin = dlg.ui.lineEditXrotMin->text().toInt();
-		int xrotMax = dlg.ui.lineEditXrotMax->text().toInt();
-		int yrotMin = dlg.ui.lineEditYrotMin->text().toInt();
-		int yrotMax = dlg.ui.lineEditYrotMax->text().toInt();
-		int fovMin = dlg.ui.lineEditFovMin->text().toInt();
-		int fovMax = dlg.ui.lineEditFovMax->text().toInt();
+		std::pair<int, int> xrotRange = std::make_pair(dlg.ui.lineEditXrotMin->text().toInt(), dlg.ui.lineEditXrotMax->text().toInt());
+		int xrotSample = dlg.ui.lineEditXrotSample->text().toInt();
+		std::pair<int, int> yrotRange = std::make_pair(dlg.ui.lineEditYrotMin->text().toInt(), dlg.ui.lineEditYrotMax->text().toInt());
+		int yrotSample = dlg.ui.lineEditYrotSample->text().toInt();
+		std::pair<int, int> zrotRange = std::make_pair(dlg.ui.lineEditZrotMin->text().toInt(), dlg.ui.lineEditZrotMax->text().toInt());
+		int zrotSample = dlg.ui.lineEditZrotSample->text().toInt();
+		std::pair<int, int> fovRange = std::make_pair(dlg.ui.lineEditFovMin->text().toInt(), dlg.ui.lineEditFovMax->text().toInt());
+		int fovSample = dlg.ui.lineEditFovSample->text().toInt();
 		bool modifyImage = dlg.ui.checkBoxModifyImage->isChecked();
 		int lineWidthMin = dlg.ui.lineEditLineWidthMin->text().toInt();
 		int lineWidthMax = dlg.ui.lineEditLineWidthMax->text().toInt();
 		bool edgeNoise = dlg.ui.checkBoxEdgeNoise->isChecked();
 		float edgeNoiseMax = dlg.ui.lineEditEdgeNoiseMax->text().toFloat();
 
-		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, grayscale, centering, cameraDistanceBase, 0.0f, xrotMin, xrotMax, yrotMin, yrotMax, fovMin, fovMax, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
+		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, grayscale, centering, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
 	}
 }
 

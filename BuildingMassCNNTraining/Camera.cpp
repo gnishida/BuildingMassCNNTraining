@@ -6,10 +6,10 @@
 #endif
 
 Camera::Camera() {
-	xrot = 40.0f;
-	yrot = 0.0;
+	xrot = 50.0f;
+	yrot = 45.0;
 	zrot = 0.0f;
-	pos = glm::vec3(0, 15, 80);
+	pos = glm::vec3(0, 0, 93.30f);
 	fovy = 45.0f;
 }
 
@@ -31,18 +31,18 @@ void Camera::rotate(int mouse_x, int mouse_y) {
 	mouse_pos = glm::vec2(mouse_x, mouse_y);
 }
 
-/**
- * Call this function whenever the mouse moves while zooming.
- */
-/*void Camera::zoom(int mouse_x, int mouse_y) {
-	pos.z += (mouse_pos.y - mouse_y) * 0.5f;
+void Camera::rotateAroundZ(int mouse_x, int mouse_y) {
+	zrot += mouse_x - mouse_pos.x;
 	updateMVPMatrix();
 
 	mouse_pos = glm::vec2(mouse_x, mouse_y);
-}*/
+}
 
+/**
+ * Call this function whenever the mouse moves while zooming.
+ */
 void Camera::zoom(float delta) {
-	pos.z -= delta * 0.1f;
+	pos.z -= delta * 1.0f;
 	updateMVPMatrix();
 }
 
@@ -84,10 +84,10 @@ void Camera::updatePMatrix(int width,int height) {
 void Camera::updateMVPMatrix() {
 	// create model view matrix
 	mvMatrix = glm::mat4();
+	mvMatrix = glm::rotate(mvMatrix, zrot * (float)M_PI / 180.0f, glm::vec3(0, 0, 1));
 	mvMatrix = glm::translate(mvMatrix, -pos);
 	mvMatrix = glm::rotate(mvMatrix, xrot * (float)M_PI / 180.0f, glm::vec3(1, 0, 0));
 	mvMatrix = glm::rotate(mvMatrix, yrot * (float)M_PI / 180.0f, glm::vec3(0, 1, 0));
-	mvMatrix = glm::rotate(mvMatrix, zrot * (float)M_PI / 180.0f, glm::vec3(0, 0, 1));
 
 	// create model view projection matrix
 	mvpMatrix = pMatrix * mvMatrix;

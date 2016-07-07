@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>579</width>
-    <height>437</height>
+    <height>493</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>390</y>
+     <y>450</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>390</y>
+     <y>450</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -229,7 +229,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Xrot:</string>
+    <string>Rot around X axis:</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditXrotMin">
@@ -275,7 +275,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Yrot:</string>
+    <string>Rot around Y axis:</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditYrotMin">
@@ -315,7 +315,7 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>230</y>
+     <y>260</y>
      <width>51</width>
      <height>20</height>
     </rect>
@@ -325,7 +325,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>230</y>
+     <y>260</y>
      <width>51</width>
      <height>20</height>
     </rect>
@@ -335,7 +335,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>230</y>
+     <y>260</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -348,7 +348,7 @@
    <property name="geometry">
     <rect>
      <x>196</x>
-     <y>230</y>
+     <y>260</y>
      <width>16</width>
      <height>16</height>
     </rect>
@@ -360,9 +360,9 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>260</y>
-     <width>521</width>
+     <x>20</x>
+     <y>320</y>
+     <width>541</width>
      <height>111</height>
     </rect>
    </property>
@@ -464,6 +464,261 @@
      <string>%</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QLineEdit" name="lineEditZrotMax">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>230</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>230</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rot around view dir:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditZrotMin">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>230</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>170</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_18">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>200</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_19">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>230</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_20">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>260</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditXrotSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>170</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_21">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>170</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_22">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>170</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_23">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>200</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditYrotSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>200</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_24">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>200</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditZrotSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>230</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_25">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>230</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_26">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>230</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditFovSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>260</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_27">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>260</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_28">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>260</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditTotalNumImages">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>290</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_29">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>290</y>
+     <width>171</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>The total number of images will be</string>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -13,6 +13,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "CGA.h"
+#include <QTextStream>
 
 class MainWindow;
 
@@ -24,7 +25,7 @@ public:
 	void drawScene();
 	void render();
 	void loadCGA(const std::string& cga_filename);
-	void generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, bool centering, float cameraDistanceBase, float cameraHeight, int xrotMin, int xrotMax, int yrotMin, int yrotMax, int fovMin, int fovMax, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax);
+	void generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, bool centering, float cameraDistanceBase, const std::pair<int, int>& xrotRange, int xrotSample, const std::pair<int, int>& yrotRange, int yrotSample, const std::pair<int, int>& zrotRange, int zrotSample, const std::pair<int, int>& fovRange, int fovSample, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax);
 	void parameterEstimation(const QString& cga_dir, const QString& testdata_dir, const QString& classification_dir, const QString& regression_dir, const QString& output_dir, bool centering, float cameraDistanceBase, float cameraHeight, int xrotMin, int xrotMax, int yrotMin, int yrotMax, int fovMin, int fovMax);
 	bool moveCenter(cv::Mat& img);
 	void translateImage(cv::Mat source, cv::Mat& target, int shift_x, int shift_y);
@@ -32,11 +33,13 @@ public:
 	void keyPressEvent(QKeyEvent* e);
 	void keyReleaseEvent(QKeyEvent* e);
 
+	void outputVector(QTextStream& out, const std::vector<float>& values);
+
 protected:
 	void initializeGL();
 	void resizeGL(int width, int height);
-	//void paintGL();
-	void paintEvent(QPaintEvent* e);
+	void paintGL();
+	//void paintEvent(QPaintEvent* e);
 	void mousePressEvent(QMouseEvent *e);
 	void mouseMoveEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);

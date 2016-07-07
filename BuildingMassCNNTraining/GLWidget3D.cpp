@@ -56,6 +56,9 @@ void GLWidget3D::mousePressEvent(QMouseEvent *e) {
 	if (e->buttons() & Qt::RightButton) {
 		camera.mousePress(e->x(), e->y());
 	}
+	else if (e->buttons() & Qt::MidButton) { // Rotate around viewing direction
+		camera.mousePress(e->x(), e->y());
+	}
 }
 
 /**
@@ -75,6 +78,9 @@ void GLWidget3D::mouseMoveEvent(QMouseEvent *e) {
 		else {
 			camera.rotate(e->x(), e->y());
 		}
+	}
+	else if (e->buttons() & Qt::MidButton) { // Rotate around viewing direction
+		camera.rotateAroundZ(e->x(), e->y());
 	}
 	updateStatusBar();
 	update();
@@ -133,10 +139,12 @@ void GLWidget3D::initializeGL() {
 
 	glUniform1i(glGetUniformLocation(renderManager.programs["ssao"], "tex0"), 0);//tex0: 0
 
+	/*
 	std::vector<Vertex> vertices;
 	glutils::drawBox(30, 30, 15, glm::vec4(1, 1, 1, 1), glm::translate(glm::rotate(glm::mat4(), -(float)M_PI * 0.5f, glm::vec3(1, 0, 0)), glm::vec3(0, 0, 7.5)), vertices);
 	glutils::drawGrid(30, 30, 2, glm::vec4(0, 0, 1, 1), glm::vec4(0.95, 0.95, 1, 1), glm::rotate(glm::mat4(), -(float)M_PI * 0.5f, glm::vec3(1, 0, 0)), vertices);
 	renderManager.addObject("box", "", vertices, true);
+	*/
 
 	updateStatusBar();
 }
@@ -155,28 +163,10 @@ void GLWidget3D::resizeGL(int width, int height) {
 /**
  * This function is called whenever the widget needs to be painted.
  */
-void GLWidget3D::paintEvent(QPaintEvent* e) {
-	// OpenGLで描画
-	makeCurrent();
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	
+void GLWidget3D::paintGL() {	
 	render();
 
-	// REMOVE
 	glActiveTexture(GL_TEXTURE0);
-	
-	// OpenGLの設定を元に戻す
-	glShadeModel(GL_FLAT);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
-
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-
-	glEnable(GL_DEPTH_TEST);
 }
 
 /**
@@ -479,7 +469,7 @@ void GLWidget3D::loadCGA(const std::string& cga_filename) {
 * @param fovMin			min of fov
 * @param fovMax			max of fov
 */
-void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, bool centering, float cameraDistanceBase, float cameraHeight, int xrotMin, int xrotMax, int yrotMin, int yrotMax, int fovMin, int fovMax, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
+void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, bool centering, float cameraDistanceBase, const std::pair<int, int>& xrotRange, int xrotSample, const std::pair<int, int>& yrotRange, int yrotSample, const std::pair<int, int>& zrotRange, int zrotSample, const std::pair<int, int>& fovRange, int fovSample, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
 	if (QDir(out_dir).exists()) {
 		std::cout << "Clearning output directory..." << std::endl;
 		QDir(out_dir).removeRecursively();
@@ -495,10 +485,10 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	std::cout << "  grayscale: " << (grayscale ? "true" : "false") << std::endl;
 	std::cout << "  centering: " << (centering ? "true" : "false") << std::endl;
 	std::cout << "  camera distance base: " << cameraDistanceBase << std::endl;
-	std::cout << "  camera height: " << cameraHeight << std::endl;
-	std::cout << "  x rot: " << xrotMin << " - " << xrotMax << std::endl;
-	std::cout << "  y rot: " << yrotMin << " - " << yrotMax << std::endl;
-	std::cout << "  FOV: " << fovMin << " - " << fovMax << std::endl;
+	std::cout << "  x rot: " << xrotRange.first << " - " << xrotRange.second << " (every " << xrotSample << ")" << std::endl;
+	std::cout << "  y rot: " << yrotRange.first << " - " << yrotRange.second << " (every " << yrotSample << ")" << std::endl;
+	std::cout << "  z rot: " << zrotRange.first << " - " << zrotRange.second << " (every " << zrotSample << ")" << std::endl;
+	std::cout << "  FOV: " << fovRange.first << " - " << fovRange.second << " (every " << fovSample << ")" << std::endl;
 	std::cout << "  modify image: " << (modifyImage ? "true" : "false") << std::endl;
 	std::cout << "  line width: " << lineWidthMin << " - " << lineWidthMax << std::endl;
 	std::cout << "  edge noise: " << (edgeNoise ? "true" : "false") << std::endl;
@@ -514,13 +504,21 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	resize(512, 512);
 	resizeGL(512, 512);
 
+	// setup grammars
+	std::vector<cga::Grammar> grammars;
 	QStringList filters;
 	filters << "*.xml";
 	QFileInfoList fileInfoList = QDir(cga_dir).entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
 	for (int i = 0; i < fileInfoList.size(); ++i) {
+		cga::Grammar grammar;
+		cga::parseGrammar(fileInfoList[i].absoluteFilePath().toUtf8().constData(), grammar);
+		grammars.push_back(grammar);
+	}
+
+	for (int grammar_id = 0; grammar_id < grammars.size(); ++grammar_id) {
 		int count = 0;
 
-		QString out_dir_for_snippet = out_dir + "/" + QString("%1").arg(i + 1, 2, 10, QChar('0'));	// images/01, images/02, ...
+		QString out_dir_for_snippet = out_dir + "/" + QString("%1").arg(grammar_id + 1, 2, 10, QChar('0'));	// images/01, images/02, ...
 		if (!QDir(out_dir_for_snippet).exists()) QDir().mkdir(out_dir_for_snippet);
 
 		QFile file(out_dir_for_snippet + "/parameters.txt");
@@ -528,157 +526,137 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 			std::cerr << "Cannot open file for writing: " << qPrintable(file.errorString()) << std::endl;
 			return;
 		}
-
-		// show the progress
-		printf("Grammar: %s", fileInfoList[i].baseName().toUtf8().constData());
-
 		QTextStream out(&file);
 
-		cv::Mat meanMat;
-		if (grayscale) {
-			meanMat = cv::Mat(image_size, image_size, CV_64F, cv::Scalar(0));
-		}
-		else {
-			meanMat = cv::Mat(image_size, image_size, CV_64FC3, cv::Scalar(0, 0, 0));
-		}
-		
-		cga::CGA cga;
+		// show the progress
+		printf("Grammar #%d:", grammar_id + 1);
+	
+		for (int yrot = yrotRange.first; yrot <= yrotRange.second; yrot += yrotSample) {
+			for (int xrot = xrotRange.first; xrot <= xrotRange.second; xrot += xrotSample) {
+				for (int zrot = zrotRange.first; zrot <= zrotRange.second; zrot += zrotSample) {
+					for (int fov = fovRange.first; fov <= fovRange.second; fov += fovSample) {
+						float cameraDistance = cameraDistanceBase / tanf((float)fov * 0.5 / 180.0f * M_PI);
 
-		cga::Grammar grammar;
-		cga.modelMat = glm::rotate(glm::mat4(), -(float)M_PI * 0.5f, glm::vec3(1, 0, 0));
-		cga::parseGrammar(fileInfoList[i].absoluteFilePath().toUtf8().constData(), grammar);
+						camera.xrot = xrot;
+						camera.yrot = yrot;
+						camera.zrot = zrot;
+						camera.pos = glm::vec3(0, 0, cameraDistance);
+						camera.fovy = fov;
+						camera.updatePMatrix(width(), height());
 
-		// rotate the camera around y axis within the range
-		for (int yrot = yrotMin; yrot <= yrotMax; ++yrot) {
-			// rotate the camera around x axis within the range
-			for (int xrot = xrotMin; xrot <= xrotMax; ++xrot) {
-				for (int fov = fovMin; fov <= fovMax; ++fov) {
-					float cameraDistance = cameraDistanceBase / tanf((float)fov * 0.5 / 180.0f * M_PI);
+						// randomly sample N parameter values
+						for (int k = 0; k < numSamples; ++k) {
+							printf("\rGrammar #%d: count = %d", grammar_id + 1, count + 1);
 
-					camera.xrot = xrot;
-					camera.yrot = yrot;
-					camera.zrot = 0;
-					camera.pos = glm::vec3(0, cameraHeight, cameraDistance);
-					camera.fovy = fov;
-					camera.updatePMatrix(width(), height());
+							std::vector<float> param_values;
+							param_values = cga.randomParamValues(grammars[grammar_id]);
 
-					// randomly sample N parameter values
-					for (int k = 0; k < numSamples; ++k) {
-						renderManager.removeObjects();
+							// set axiom
+							boost::shared_ptr<cga::Shape> start = boost::shared_ptr<cga::Shape>(new cga::Rectangle("Start", "", glm::translate(glm::rotate(glm::mat4(), -3.141592f * 0.5f, glm::vec3(1, 0, 0)), glm::vec3(0, 0, 0)), glm::mat4(), 0, 0, glm::vec3(1, 1, 1)));
+							cga.stack.push_back(start);
 
-						std::vector<float> param_values;
-						param_values = cga.randomParamValues(grammar);
+							// generate 3d model
+							cga.derive(grammars[grammar_id], true);
+							std::vector<boost::shared_ptr<glutils::Face> > faces;
+							renderManager.removeObjects();
+							cga.generateGeometry(faces, centering);
+							renderManager.addFaces(faces, true);
 
-						// set axiom
-						cga::Rectangle* start = new cga::Rectangle("Start", "", glm::translate(glm::rotate(glm::mat4(), -3.141592f * 0.5f, glm::vec3(1, 0, 0)), glm::vec3(0, 0, 0)), glm::mat4(), 0, 0, glm::vec3(1, 1, 1));
-						cga.stack.push_back(boost::shared_ptr<cga::Shape>(start));
+							// render 2d image
+							render();
+							QImage img = grabFrameBuffer();
+							cv::Mat mat = cv::Mat(img.height(), img.width(), CV_8UC4, img.bits(), img.bytesPerLine()).clone();
+							cv::cvtColor(mat, mat, cv::COLOR_BGRA2BGR);
 
-						// generate 3d model
-						cga.derive(grammar, true);
-						std::vector<boost::shared_ptr<glutils::Face> > faces;
-						cga.generateGeometry(faces, centering);
-						renderManager.addFaces(faces, true);
+							// translate the image to the center
+							if (centering) {
+								//if (!moveCenter(mat)) continue;
+								moveCenter(mat);
+							}
 
-						// render 2d image
-						render();
-						QImage img = grabFrameBuffer();
-						cv::Mat mat = cv::Mat(img.height(), img.width(), CV_8UC4, img.bits(), img.bytesPerLine()).clone();
-						cv::cvtColor(mat, mat, cv::COLOR_BGRA2BGR);
+							if (modifyImage) {
+								// extract contour vectors
+								std::vector<std::pair<glm::vec2, glm::vec2>> contour;
+								utils::extractEdges(mat, contour);
 
-						// translate the image to the center
-						if (centering) {
-							if (!moveCenter(mat)) continue;
-						}
+								// add noise
+								if (edgeNoise) {
+									for (int ci = 0; ci < contour.size(); ++ci) {
+										contour[ci].first.x += round(utils::genRand(-width() * edgeNoiseMax * 0.01f, width() * edgeNoiseMax * 0.01f));
+										contour[ci].first.y += round(utils::genRand(-height() * edgeNoiseMax * 0.01f, height() * edgeNoiseMax * 0.01f));
+										contour[ci].second.x += round(utils::genRand(-width() * edgeNoiseMax * 0.01f, width() * edgeNoiseMax * 0.01f));
+										contour[ci].second.y += round(utils::genRand(-height() * edgeNoiseMax * 0.01f, height() * edgeNoiseMax * 0.01f));
+									}
+								}
 
-						if (modifyImage) {
-							// extract contour vectors
-							std::vector<std::pair<glm::vec2, glm::vec2>> contour;
-							utils::extractEdges(mat, contour);
-
-							// add noise
-							if (edgeNoise) {
+								// 画像を縮小
+								glm::vec2 scale((float)image_size / width(), (float)image_size / height());
 								for (int ci = 0; ci < contour.size(); ++ci) {
-									contour[ci].first.x += round(utils::genRand(-width() * edgeNoiseMax * 0.01f, width() * edgeNoiseMax * 0.01f));
-									contour[ci].first.y += round(utils::genRand(-height() * edgeNoiseMax * 0.01f, height() * edgeNoiseMax * 0.01f));
-									contour[ci].second.x += round(utils::genRand(-width() * edgeNoiseMax * 0.01f, width() * edgeNoiseMax * 0.01f));
-									contour[ci].second.y += round(utils::genRand(-height() * edgeNoiseMax * 0.01f, height() * edgeNoiseMax * 0.01f));
+									contour[ci].first.x *= scale.x;
+									contour[ci].first.y *= scale.y;
+									contour[ci].second.x *= scale.x;
+									contour[ci].second.y *= scale.y;
+								}
+
+								// generate the rendered image
+								cv::Scalar color;
+								if (grayscale) {
+									mat = cv::Mat(image_size, image_size, CV_8U, cv::Scalar(255));
+									color = cv::Scalar(0);
+								}
+								else {
+									mat = cv::Mat(image_size, image_size, CV_8UC3, cv::Scalar(255, 255, 255));
+									color = cv::Scalar(0, 0, 0);
+								}
+								for (int ci = 0; ci < contour.size(); ++ci) {
+									int lineWidth = utils::genIntRand(lineWidthMin, lineWidthMax);
+									cv::line(mat, cv::Point(contour[ci].first.x, contour[ci].first.y), cv::Point(contour[ci].second.x, contour[ci].second.y), color, lineWidth, cv::LINE_AA);
+								}
+							}
+							else {
+								// 画像を縮小
+								utils::resizeImage(mat, cv::Size(image_size, image_size));
+
+								if (grayscale) {
+									cv::cvtColor(mat, mat, cv::COLOR_BGR2GRAY);
 								}
 							}
 
-							// 画像を縮小
-							glm::vec2 scale((float)image_size / width(), (float)image_size / height());
-							for (int ci = 0; ci < contour.size(); ++ci) {
-								contour[ci].first.x *= scale.x;
-								contour[ci].first.y *= scale.y;
-								contour[ci].second.x *= scale.x;
-								contour[ci].second.y *= scale.y;
+							// create the subfolder
+							int subfolder_idx = count / 100000;
+							QString subfolder_name = QString("%1").arg(subfolder_idx, 3, 10, QChar('0'));
+							QString subfolder_path = out_dir_for_snippet + "/" + subfolder_name;
+							if (!QDir(subfolder_path).exists()) QDir().mkdir(subfolder_path);	// images/01/000, images/01/001, ...
+
+							// save an image to a file
+							QString filename = subfolder_path + "/" + QString("%1.png").arg(count, 6, 10, QChar('0'));
+							cv::imwrite(filename.toUtf8().constData(), mat);
+
+							// add camera parameters to the params
+							if (fovRange.first != fovRange.second) {
+								param_values.insert(param_values.begin(), (float)(fov - fovRange.first) / (fovRange.second - fovRange.first));
+							}
+							if (zrotRange.first != zrotRange.second) {
+								param_values.insert(param_values.begin(), (float)(zrot - zrotRange.first) / (zrotRange.second - zrotRange.first));
+							}
+							if (yrotRange.first != yrotRange.second) {
+								param_values.insert(param_values.begin(), (float)(yrot - yrotRange.first) / (yrotRange.second - yrotRange.first));
+							}
+							if (xrotRange.first != xrotRange.second) {
+								param_values.insert(param_values.begin(), (float)(xrot - xrotRange.first) / (xrotRange.second - xrotRange.first));
 							}
 
-							// generate the rendered image
-							cv::Scalar color;
-							if (grayscale) {
-								mat = cv::Mat(image_size, image_size, CV_8U, cv::Scalar(255));
-								color = cv::Scalar(0);
-							}
-							else {
-								mat = cv::Mat(image_size, image_size, CV_8UC3, cv::Scalar(255, 255, 255));
-								color = cv::Scalar(0, 0, 0);
-							}
-							for (int ci = 0; ci < contour.size(); ++ci) {
-								int lineWidth = utils::genIntRand(lineWidthMin, lineWidthMax);
-								cv::line(mat, cv::Point(contour[ci].first.x, contour[ci].first.y), cv::Point(contour[ci].second.x, contour[ci].second.y), color, lineWidth, cv::LINE_AA);
-							}
+							// write all the param values [xrot, yrot, zrot, fov, param1, param2, ...] to the file
+							outputVector(out, param_values);
+
+							count++;
 						}
-						else {
-							// 画像を縮小
-							utils::resizeImage(mat, cv::Size(image_size, image_size));
-
-							if (grayscale) {
-								cv::cvtColor(mat, mat, cv::COLOR_BGR2GRAY);
-							}
-						}
-
-						// create the subfolder
-						int subfolder_idx = count / 100000;
-						QString subfolder_name = QString("%1").arg(subfolder_idx, 3, 10, QChar('0'));
-						QString subfolder_path = out_dir_for_snippet + "/" + subfolder_name;
-						if (!QDir(subfolder_path).exists()) QDir().mkdir(subfolder_path);	// images/01/000, images/01/001, ...
-
-						// save an image to a file
-						QString filename = subfolder_path + "/" + QString("%1.png").arg(count, 6, 10, QChar('0'));
-						cv::imwrite(filename.toUtf8().constData(), mat);
-
-						// add camera parameters to the params
-						if (fovMin != fovMax) {
-							param_values.insert(param_values.begin(), (float)(fov - fovMin) / (fovMax - fovMin));
-						}
-						if (xrotMin != xrotMax || yrotMin != yrotMax) {
-							param_values.insert(param_values.begin(), (float)(yrot - yrotMin) / (yrotMax - yrotMin));
-							param_values.insert(param_values.begin(), (float)(xrot - xrotMin) / (xrotMax - xrotMin));
-						}
-
-						// write all the param values [xrot, yrot, param1, param2, ...] to the file
-						for (int pi = 0; pi < param_values.size(); ++pi) {
-							if (pi > 0) {
-								out << ",";
-							}
-							out << param_values[pi];
-						}
-						out << "\n";
-
-						count++;
-
-						// show the progress
-						printf("\rGrammar: %s, count = %d", fileInfoList[i].baseName().toUtf8().constData(), count);
-						fflush(stdout);
 					}
 				}
 			}
 		}
 
 		file.close();
-
-		// show the progress
 		printf("\n");
 	}
 
@@ -768,6 +746,8 @@ void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& test
 
 			// read the test image
 			cv::Mat img = cv::imread((testdata_dir + QString("/images/%1/").arg(grammar_id + 1, 2, 10, QChar('0')) + file_path).toUtf8().constData());
+
+			moveCenter(img);
 
 			// parameter estimation
 			std::vector<float> predicted_params = regressions[grammar_id]->Predict(img);
@@ -924,7 +904,7 @@ bool GLWidget3D::moveCenter(cv::Mat& img) {
 	int offset_r= img.rows * 0.5 - (min_r + max_r) * 0.5;
 	utils::translateImage(img, offset_c, offset_r);
 
-	return acrossBoundary;
+	return !acrossBoundary;
 }
 
 void GLWidget3D::translateImage(cv::Mat source, cv::Mat& target, int shift_x, int shift_y) {
@@ -956,4 +936,12 @@ void GLWidget3D::keyPressEvent(QKeyEvent *e) {
 
 void GLWidget3D::keyReleaseEvent(QKeyEvent* e) {
 	shiftPressed = false;
+}
+
+void GLWidget3D::outputVector(QTextStream& out, const std::vector<float>& values) {
+	for (int i = 0; i < values.size(); ++i) {
+		if (i > 0) out << ",";
+		out << values[i];
+	}
+	out << "\n";
 }
