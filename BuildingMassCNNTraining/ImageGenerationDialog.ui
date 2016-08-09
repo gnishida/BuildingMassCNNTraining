@@ -720,6 +720,19 @@
     <string>The total number of images will be</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="checkBoxGenerateMean">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>290</y>
+     <width>91</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Generate mean</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

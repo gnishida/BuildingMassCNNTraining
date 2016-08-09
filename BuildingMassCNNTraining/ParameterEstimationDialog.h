@@ -15,7 +15,6 @@ public:
 public slots:
 	void onCGADirectory();
 	void onTestDataDirectory();
-	void onClassificationDirectory();
 	void onRegressionDirectory();
 	void onOutputDirectory();
 	void onOK();

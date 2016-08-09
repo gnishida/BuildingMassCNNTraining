@@ -37,6 +37,7 @@ public:
     QAction *actionExtractCameraParameter;
     QAction *actionParameterEstimationWithCameraCalibration;
     QAction *actionGenerateTrainingImages;
+    QAction *actionGenerateTrainingImages2;
     QWidget *centralWidget;
     QMenuBar *menuBar;
     QMenu *menuFile;
@@ -71,6 +72,8 @@ public:
         actionParameterEstimationWithCameraCalibration->setObjectName(QStringLiteral("actionParameterEstimationWithCameraCalibration"));
         actionGenerateTrainingImages = new QAction(MainWindowClass);
         actionGenerateTrainingImages->setObjectName(QStringLiteral("actionGenerateTrainingImages"));
+        actionGenerateTrainingImages2 = new QAction(MainWindowClass);
+        actionGenerateTrainingImages2->setObjectName(QStringLiteral("actionGenerateTrainingImages2"));
         centralWidget = new QWidget(MainWindowClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         MainWindowClass->setCentralWidget(centralWidget);
@@ -96,6 +99,8 @@ public:
         menuFile->addAction(actionExit);
         menuTool->addAction(actionGenerateTrainingImages);
         menuTool->addAction(actionParameterEstimation);
+        menuTool->addSeparator();
+        menuTool->addAction(actionGenerateTrainingImages2);
 
         retranslateUi(MainWindowClass);
 
@@ -121,6 +126,7 @@ public:
         actionExtractCameraParameter->setText(QApplication::translate("MainWindowClass", "Extract Camera Parameter", 0));
         actionParameterEstimationWithCameraCalibration->setText(QApplication::translate("MainWindowClass", "Parameter Estimation with Camera Calibration", 0));
         actionGenerateTrainingImages->setText(QApplication::translate("MainWindowClass", "Generate Training Images", 0));
+        actionGenerateTrainingImages2->setText(QApplication::translate("MainWindowClass", "Generate Training Images2", 0));
         menuFile->setTitle(QApplication::translate("MainWindowClass", "File", 0));
         menuTool->setTitle(QApplication::translate("MainWindowClass", "Tool", 0));
     } // retranslateUi

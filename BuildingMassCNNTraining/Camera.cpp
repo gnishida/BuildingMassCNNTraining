@@ -42,7 +42,7 @@ void Camera::rotateAroundZ(int mouse_x, int mouse_y) {
  * Call this function whenever the mouse moves while zooming.
  */
 void Camera::zoom(float delta) {
-	pos.z -= delta * 1.0f;
+	pos.z -= delta;
 	updateMVPMatrix();
 }
 
@@ -84,7 +84,7 @@ void Camera::updatePMatrix(int width,int height) {
 void Camera::updateMVPMatrix() {
 	// create model view matrix
 	mvMatrix = glm::mat4();
-	mvMatrix = glm::rotate(mvMatrix, zrot * (float)M_PI / 180.0f, glm::vec3(0, 0, 1));
+	mvMatrix = glm::rotate(mvMatrix, zrot * (float)M_PI / 180.0f, glm::vec3(0, 0, 1));	// rotate around the viewing direction instead of Z axis
 	mvMatrix = glm::translate(mvMatrix, -pos);
 	mvMatrix = glm::rotate(mvMatrix, xrot * (float)M_PI / 180.0f, glm::vec3(1, 0, 0));
 	mvMatrix = glm::rotate(mvMatrix, yrot * (float)M_PI / 180.0f, glm::vec3(0, 1, 0));

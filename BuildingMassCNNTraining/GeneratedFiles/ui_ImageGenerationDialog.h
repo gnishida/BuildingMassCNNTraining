@@ -85,6 +85,7 @@ public:
     QLabel *label_28;
     QLineEdit *lineEditTotalNumImages;
     QLabel *label_29;
+    QCheckBox *checkBoxGenerateMean;
 
     void setupUi(QDialog *ImageGenerationDialog)
     {
@@ -269,6 +270,9 @@ public:
         label_29 = new QLabel(ImageGenerationDialog);
         label_29->setObjectName(QStringLiteral("label_29"));
         label_29->setGeometry(QRect(20, 290, 171, 16));
+        checkBoxGenerateMean = new QCheckBox(ImageGenerationDialog);
+        checkBoxGenerateMean->setObjectName(QStringLiteral("checkBoxGenerateMean"));
+        checkBoxGenerateMean->setGeometry(QRect(370, 290, 91, 17));
 
         retranslateUi(ImageGenerationDialog);
 
@@ -316,6 +320,7 @@ public:
         label_27->setText(QApplication::translate("ImageGenerationDialog", "Sample every", 0));
         label_28->setText(QApplication::translate("ImageGenerationDialog", "degree", 0));
         label_29->setText(QApplication::translate("ImageGenerationDialog", "The total number of images will be", 0));
+        checkBoxGenerateMean->setText(QApplication::translate("ImageGenerationDialog", "Generate mean", 0));
     } // retranslateUi
 
 };

@@ -6,7 +6,6 @@ ParameterEstimationDialog::ParameterEstimationDialog(QWidget *parent) : QDialog(
 
 	ui.lineEditCGADirectory->setText("../cga/mass");
 	ui.lineEditTestDataDirectory->setText("C:/Anaconda/caffe/contour_regression/data");
-	ui.lineEditClassificationDirectory->setText("C:/Anaconda/caffe/contour");
 	ui.lineEditRegressionDirectory->setText("C:/Anaconda/caffe/contour_regression");
 	ui.lineEditOutputDirectory->setText("results");
 	ui.checkBoxCentering->setChecked(true);
@@ -15,12 +14,13 @@ ParameterEstimationDialog::ParameterEstimationDialog(QWidget *parent) : QDialog(
 	ui.lineEditXrotMax->setText("70");
 	ui.lineEditYrotMin->setText("20");
 	ui.lineEditYrotMax->setText("70");
-	ui.lineEditFovMin->setText("30");
-	ui.lineEditFovMax->setText("30");
+	ui.lineEditZrotMin->setText("-20");
+	ui.lineEditZrotMax->setText("20");
+	ui.lineEditFovMin->setText("10");
+	ui.lineEditFovMax->setText("10");
 
 	connect(ui.pushButtonCGADirectory, SIGNAL(clicked()), this, SLOT(onCGADirectory()));
 	connect(ui.pushButtonTestDataDirectory, SIGNAL(clicked()), this, SLOT(onTestDataDirectory()));
-	connect(ui.pushButtonClassificationDirectory, SIGNAL(clicked()), this, SLOT(onClassificationDirectory()));
 	connect(ui.pushButtonRegressionDirectory, SIGNAL(clicked()), this, SLOT(onRegressionDirectory()));
 	connect(ui.pushButtonOutputDirectory, SIGNAL(clicked()), this, SLOT(onOutputDirectory()));
 	connect(ui.pushButtonOK, SIGNAL(clicked()), this, SLOT(onOK()));
@@ -41,13 +41,6 @@ void ParameterEstimationDialog::onTestDataDirectory() {
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), ui.lineEditTestDataDirectory->text(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 	if (!dir.isEmpty()) {
 		ui.lineEditTestDataDirectory->setText(dir);
-	}
-}
-
-void ParameterEstimationDialog::onClassificationDirectory() {
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), ui.lineEditClassificationDirectory->text(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-	if (!dir.isEmpty()) {
-		ui.lineEditClassificationDirectory->setText(dir);
 	}
 }
 

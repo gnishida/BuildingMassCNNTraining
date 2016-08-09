@@ -37,6 +37,8 @@
     </property>
     <addaction name="actionGenerateTrainingImages"/>
     <addaction name="actionParameterEstimation"/>
+    <addaction name="separator"/>
+    <addaction name="actionGenerateTrainingImages2"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTool"/>
@@ -118,6 +120,11 @@
   <action name="actionGenerateTrainingImages">
    <property name="text">
     <string>Generate Training Images</string>
+   </property>
+  </action>
+  <action name="actionGenerateTrainingImages2">
+   <property name="text">
+    <string>Generate Training Images2</string>
    </property>
   </action>
  </widget>

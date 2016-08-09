@@ -18,6 +18,7 @@ public:
 public slots:
 	void onOpenCGA();
 	void onGenerateTrainingImages();
+	void onGenerateTrainingImages2();
 	void onParameterEstimation();
 };
 

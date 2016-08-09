@@ -20,9 +20,10 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	ui.lineEditZrotMin->setText("-20");
 	ui.lineEditZrotMax->setText("20");
 	ui.lineEditZrotSample->setText("1");
-	ui.lineEditFovMin->setText("30");
-	ui.lineEditFovMax->setText("30");
+	ui.lineEditFovMin->setText("10");
+	ui.lineEditFovMax->setText("10");
 	ui.lineEditFovSample->setText("1");
+	ui.checkBoxGenerateMean->setChecked(true);
 	ui.checkBoxModifyImage->setChecked(true);
 	ui.lineEditLineWidthMin->setText("1");
 	ui.lineEditLineWidthMax->setText("1");
