@@ -507,6 +507,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 	// setup grammars
 	std::vector<cga::Grammar> grammars;
+	std::vector<QString> grammar_filenames;
 	QStringList filters;
 	filters << "*.xml";
 	QFileInfoList fileInfoList = QDir(cga_dir).entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
@@ -514,12 +515,20 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 		cga::Grammar grammar;
 		cga::parseGrammar(fileInfoList[i].absoluteFilePath().toUtf8().constData(), grammar);
 		grammars.push_back(grammar);
+
+		int index = fileInfoList[i].baseName().indexOf("_");
+		if (index >= 0) {
+			grammar_filenames.push_back(fileInfoList[i].baseName().mid(index + 1));
+		}
+		else {
+			grammar_filenames.push_back(QString().number(i + 1));
+		}
 	}
 
 	for (int grammar_id = 0; grammar_id < grammars.size(); ++grammar_id) {
 		int count = 0;
 
-		QString out_dir_for_snippet = out_dir + "/" + QString("%1").arg(grammar_id + 1, 2, 10, QChar('0'));	// images/01, images/02, ...
+		QString out_dir_for_snippet = out_dir + "/" + grammar_filenames[grammar_id];	// images/01, images/02, ...
 		if (!QDir(out_dir_for_snippet).exists()) QDir().mkdir(out_dir_for_snippet);
 
 		QFile file(out_dir_for_snippet + "/parameters.txt");
@@ -555,7 +564,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 						// randomly sample N parameter values
 						for (int k = 0; k < numSamples; ++k) {
-							printf("\rGrammar #%d: count = %d", grammar_id + 1, count + 1);
+							printf("\rGrammar %s: count = %d", grammar_filenames[grammar_id].toUtf8().constData(), count + 1);
 
 							std::vector<float> param_values;
 							param_values = cga.randomParamValues(grammars[grammar_id]);

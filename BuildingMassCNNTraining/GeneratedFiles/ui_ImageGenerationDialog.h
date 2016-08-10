@@ -272,7 +272,36 @@ public:
         label_29->setGeometry(QRect(20, 290, 171, 16));
         checkBoxGenerateMean = new QCheckBox(ImageGenerationDialog);
         checkBoxGenerateMean->setObjectName(QStringLiteral("checkBoxGenerateMean"));
-        checkBoxGenerateMean->setGeometry(QRect(370, 290, 91, 17));
+        checkBoxGenerateMean->setGeometry(QRect(370, 290, 101, 17));
+        QWidget::setTabOrder(lineEditCGADirectory, pushButtonCGADirectory);
+        QWidget::setTabOrder(pushButtonCGADirectory, lineEditOutputDirectory);
+        QWidget::setTabOrder(lineEditOutputDirectory, pushButtonOutputDirectory);
+        QWidget::setTabOrder(pushButtonOutputDirectory, lineEditNumSamples);
+        QWidget::setTabOrder(lineEditNumSamples, lineEditImageSize);
+        QWidget::setTabOrder(lineEditImageSize, checkBoxGrayscale);
+        QWidget::setTabOrder(checkBoxGrayscale, checkBoxCentering);
+        QWidget::setTabOrder(checkBoxCentering, lineEditCameraDistance);
+        QWidget::setTabOrder(lineEditCameraDistance, lineEditXrotMin);
+        QWidget::setTabOrder(lineEditXrotMin, lineEditXrotMax);
+        QWidget::setTabOrder(lineEditXrotMax, lineEditXrotSample);
+        QWidget::setTabOrder(lineEditXrotSample, lineEditYrotMin);
+        QWidget::setTabOrder(lineEditYrotMin, lineEditYrotMax);
+        QWidget::setTabOrder(lineEditYrotMax, lineEditYrotSample);
+        QWidget::setTabOrder(lineEditYrotSample, lineEditZrotMin);
+        QWidget::setTabOrder(lineEditZrotMin, lineEditZrotMax);
+        QWidget::setTabOrder(lineEditZrotMax, lineEditZrotSample);
+        QWidget::setTabOrder(lineEditZrotSample, lineEditFovMin);
+        QWidget::setTabOrder(lineEditFovMin, lineEditFovMax);
+        QWidget::setTabOrder(lineEditFovMax, lineEditFovSample);
+        QWidget::setTabOrder(lineEditFovSample, lineEditTotalNumImages);
+        QWidget::setTabOrder(lineEditTotalNumImages, checkBoxGenerateMean);
+        QWidget::setTabOrder(checkBoxGenerateMean, checkBoxModifyImage);
+        QWidget::setTabOrder(checkBoxModifyImage, lineEditLineWidthMin);
+        QWidget::setTabOrder(lineEditLineWidthMin, lineEditLineWidthMax);
+        QWidget::setTabOrder(lineEditLineWidthMax, checkBoxEdgeNoise);
+        QWidget::setTabOrder(checkBoxEdgeNoise, lineEditEdgeNoiseMax);
+        QWidget::setTabOrder(lineEditEdgeNoiseMax, pushButtonOK);
+        QWidget::setTabOrder(pushButtonOK, pushButtonCancel);
 
         retranslateUi(ImageGenerationDialog);
 

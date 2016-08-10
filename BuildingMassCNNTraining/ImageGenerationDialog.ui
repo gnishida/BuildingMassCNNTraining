@@ -725,7 +725,7 @@
     <rect>
      <x>370</x>
      <y>290</y>
-     <width>91</width>
+     <width>101</width>
      <height>17</height>
     </rect>
    </property>
@@ -735,6 +735,38 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>lineEditCGADirectory</tabstop>
+  <tabstop>pushButtonCGADirectory</tabstop>
+  <tabstop>lineEditOutputDirectory</tabstop>
+  <tabstop>pushButtonOutputDirectory</tabstop>
+  <tabstop>lineEditNumSamples</tabstop>
+  <tabstop>lineEditImageSize</tabstop>
+  <tabstop>checkBoxGrayscale</tabstop>
+  <tabstop>checkBoxCentering</tabstop>
+  <tabstop>lineEditCameraDistance</tabstop>
+  <tabstop>lineEditXrotMin</tabstop>
+  <tabstop>lineEditXrotMax</tabstop>
+  <tabstop>lineEditXrotSample</tabstop>
+  <tabstop>lineEditYrotMin</tabstop>
+  <tabstop>lineEditYrotMax</tabstop>
+  <tabstop>lineEditYrotSample</tabstop>
+  <tabstop>lineEditZrotMin</tabstop>
+  <tabstop>lineEditZrotMax</tabstop>
+  <tabstop>lineEditZrotSample</tabstop>
+  <tabstop>lineEditFovMin</tabstop>
+  <tabstop>lineEditFovMax</tabstop>
+  <tabstop>lineEditFovSample</tabstop>
+  <tabstop>lineEditTotalNumImages</tabstop>
+  <tabstop>checkBoxGenerateMean</tabstop>
+  <tabstop>checkBoxModifyImage</tabstop>
+  <tabstop>lineEditLineWidthMin</tabstop>
+  <tabstop>lineEditLineWidthMax</tabstop>
+  <tabstop>checkBoxEdgeNoise</tabstop>
+  <tabstop>lineEditEdgeNoiseMax</tabstop>
+  <tabstop>pushButtonOK</tabstop>
+  <tabstop>pushButtonCancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
