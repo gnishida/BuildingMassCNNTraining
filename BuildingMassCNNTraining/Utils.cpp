@@ -441,18 +441,14 @@ namespace utils {
 	 * Make the image smaller while preserving the black lines.
 	 */
 	void resizeImage(cv::Mat& img, const cv::Size& size) {
-		if ((img.rows > 512 || img.cols > 512) && (size.width < 512 || size.height < 512)) {
-			cv::resize(img, img, cv::Size(512, 512));
-			cv::threshold(img, img, 220, 255, cv::THRESH_BINARY);
-		}
+		while (img.cols != size.width || img.rows != size.height) {
+			cv::Size next_size(img.cols * 0.6, img.rows * 0.6);
+			if (next_size.width < size.width) next_size.width = size.width;
+			if (next_size.height < size.height) next_size.height = size.height;
 
-		if ((img.rows > 256 || img.cols > 256) && (size.width < 256 || size.height < 256)) {
-			cv::resize(img, img, cv::Size(256, 256));
-			cv::threshold(img, img, 220, 255, cv::THRESH_BINARY);
+			cv::resize(img, img, next_size);
+			cv::threshold(img, img, 250, 255, cv::THRESH_BINARY);
 		}
-
-		cv::resize(img, img, size);
-		cv::threshold(img, img, 220, 255, cv::THRESH_BINARY);
 	}
 
 	void blueImage(cv::Mat& img) {
