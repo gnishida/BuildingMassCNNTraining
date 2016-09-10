@@ -162,9 +162,15 @@ namespace utils {
 	}
 
 	void extractEdges(const cv::Mat& img, std::vector<std::pair<glm::vec2, glm::vec2>>& edges) {
-		cv::Mat mat = img.clone();
-		if (mat.channels() > 1) {
-			cv::cvtColor(mat, mat, CV_BGRA2GRAY);
+		cv::Mat mat;
+		if (img.channels() == 1) {
+			mat = img.clone();
+		}
+		else if (img.channels() == 3) {
+			cv::cvtColor(img, mat, CV_BGR2GRAY);
+		}
+		else if (img.channels() == 4) {
+			cv::cvtColor(img, mat, CV_BGRA2GRAY);
 		}
 
 #if 0
@@ -318,6 +324,8 @@ namespace utils {
 	}
 
 	void cleanContours(std::vector<std::pair<glm::vec2, glm::vec2>>& edges, float maxLineGap, float theta) {
+		if (edges.size() == 0) return;
+
 		float dotTol = cosf(theta);
 
 		std::vector<std::pair<glm::vec2, glm::vec2>> contour;
