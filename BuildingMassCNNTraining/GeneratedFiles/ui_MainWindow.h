@@ -38,10 +38,13 @@ public:
     QAction *actionParameterEstimationWithCameraCalibration;
     QAction *actionGenerateTrainingImages;
     QAction *actionGenerateTrainingImages2;
+    QAction *actionCameraStreetView;
+    QAction *actionCameraAerialView;
     QWidget *centralWidget;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuTool;
+    QMenu *menuCamera;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -74,6 +77,12 @@ public:
         actionGenerateTrainingImages->setObjectName(QStringLiteral("actionGenerateTrainingImages"));
         actionGenerateTrainingImages2 = new QAction(MainWindowClass);
         actionGenerateTrainingImages2->setObjectName(QStringLiteral("actionGenerateTrainingImages2"));
+        actionCameraStreetView = new QAction(MainWindowClass);
+        actionCameraStreetView->setObjectName(QStringLiteral("actionCameraStreetView"));
+        actionCameraStreetView->setCheckable(true);
+        actionCameraAerialView = new QAction(MainWindowClass);
+        actionCameraAerialView->setObjectName(QStringLiteral("actionCameraAerialView"));
+        actionCameraAerialView->setCheckable(true);
         centralWidget = new QWidget(MainWindowClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         MainWindowClass->setCentralWidget(centralWidget);
@@ -84,6 +93,8 @@ public:
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuTool = new QMenu(menuBar);
         menuTool->setObjectName(QStringLiteral("menuTool"));
+        menuCamera = new QMenu(menuBar);
+        menuCamera->setObjectName(QStringLiteral("menuCamera"));
         MainWindowClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindowClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -94,13 +105,14 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuTool->menuAction());
+        menuBar->addAction(menuCamera->menuAction());
         menuFile->addAction(actionOpenCGA);
         menuFile->addSeparator();
         menuFile->addAction(actionExit);
         menuTool->addAction(actionGenerateTrainingImages);
         menuTool->addAction(actionParameterEstimation);
-        menuTool->addSeparator();
-        menuTool->addAction(actionGenerateTrainingImages2);
+        menuCamera->addAction(actionCameraStreetView);
+        menuCamera->addAction(actionCameraAerialView);
 
         retranslateUi(MainWindowClass);
 
@@ -127,8 +139,11 @@ public:
         actionParameterEstimationWithCameraCalibration->setText(QApplication::translate("MainWindowClass", "Parameter Estimation with Camera Calibration", 0));
         actionGenerateTrainingImages->setText(QApplication::translate("MainWindowClass", "Generate Training Images", 0));
         actionGenerateTrainingImages2->setText(QApplication::translate("MainWindowClass", "Generate Training Images2", 0));
+        actionCameraStreetView->setText(QApplication::translate("MainWindowClass", "Street View", 0));
+        actionCameraAerialView->setText(QApplication::translate("MainWindowClass", "Aerial View", 0));
         menuFile->setTitle(QApplication::translate("MainWindowClass", "File", 0));
         menuTool->setTitle(QApplication::translate("MainWindowClass", "Tool", 0));
+        menuCamera->setTitle(QApplication::translate("MainWindowClass", "Camera", 0));
     } // retranslateUi
 
 };

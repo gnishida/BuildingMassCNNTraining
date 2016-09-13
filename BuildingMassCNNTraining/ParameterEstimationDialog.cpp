@@ -4,12 +4,18 @@
 ParameterEstimationDialog::ParameterEstimationDialog(QWidget *parent) : QDialog(parent) {
 	ui.setupUi(this);
 
+	QButtonGroup group(this);
+	group.addButton(ui.radioButtonStreetView);
+	group.addButton(ui.radioButtonAerialView);
+
 	ui.lineEditCGADirectory->setText("../cga/mass");
 	ui.lineEditTestDataDirectory->setText("C:/Anaconda/caffe/contour_regression/data");
 	ui.lineEditRegressionDirectory->setText("C:/Anaconda/caffe/contour_regression");
 	ui.lineEditOutputDirectory->setText("results");
 	ui.checkBoxCentering->setChecked(true);
+	ui.radioButtonStreetView->setChecked(true);
 	ui.lineEditCameraDistance->setText("25");
+	ui.checkBoxSubtractMean->setChecked(false);
 	ui.lineEditXrotMin->setText("50");
 	ui.lineEditXrotMax->setText("70");
 	ui.lineEditYrotMin->setText("20");

@@ -4,12 +4,17 @@
 ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) {
 	ui.setupUi(this);
 
+	QButtonGroup group(this);
+	group.addButton(ui.radioButtonStreetView);
+	group.addButton(ui.radioButtonAerialView);
+
 	ui.lineEditCGADirectory->setText("../cga/mass");
 	ui.lineEditOutputDirectory->setText("C:/Anaconda/caffe/contour_regression/data/images");
 	ui.lineEditNumSamples->setText("100");
 	ui.lineEditImageSize->setText("128");
 	ui.checkBoxGrayscale->setChecked(true);
 	ui.checkBoxCentering->setChecked(true);
+	ui.radioButtonStreetView->setChecked(true);
 	ui.lineEditCameraDistance->setText("25");
 	ui.lineEditXrotMin->setText("50");
 	ui.lineEditXrotMax->setText("70");
@@ -32,6 +37,7 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 
 	connect(ui.pushButtonCGADirectory, SIGNAL(clicked()), this, SLOT(onCGADirectory()));
 	connect(ui.pushButtonOutputDirectory, SIGNAL(clicked()), this, SLOT(onOutputDirectory()));
+	connect(ui.lineEditNumSamples, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditXrotMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditXrotMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditXrotSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));

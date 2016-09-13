@@ -19,6 +19,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 
 QT_BEGIN_NAMESPACE
 
@@ -58,70 +59,74 @@ public:
     QLineEdit *lineEditFovMin;
     QLabel *label_12;
     QLabel *label_15;
+    QLabel *label_9;
+    QRadioButton *radioButtonStreetView;
+    QRadioButton *radioButtonAerialView;
+    QCheckBox *checkBoxSubtractMean;
 
     void setupUi(QDialog *ParameterEstimationDialog)
     {
         if (ParameterEstimationDialog->objectName().isEmpty())
             ParameterEstimationDialog->setObjectName(QStringLiteral("ParameterEstimationDialog"));
-        ParameterEstimationDialog->resize(621, 362);
+        ParameterEstimationDialog->resize(621, 370);
         label_11 = new QLabel(ParameterEstimationDialog);
         label_11->setObjectName(QStringLiteral("label_11"));
-        label_11->setGeometry(QRect(203, 250, 16, 20));
+        label_11->setGeometry(QRect(203, 260, 16, 20));
         label_11->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         lineEditZrotMax = new QLineEdit(ParameterEstimationDialog);
         lineEditZrotMax->setObjectName(QStringLiteral("lineEditZrotMax"));
-        lineEditZrotMax->setGeometry(QRect(230, 250, 61, 20));
+        lineEditZrotMax->setGeometry(QRect(230, 260, 61, 20));
         lineEditYrotMin = new QLineEdit(ParameterEstimationDialog);
         lineEditYrotMin->setObjectName(QStringLiteral("lineEditYrotMin"));
-        lineEditYrotMin->setGeometry(QRect(140, 220, 61, 20));
+        lineEditYrotMin->setGeometry(QRect(140, 230, 61, 20));
         lineEditXrotMin = new QLineEdit(ParameterEstimationDialog);
         lineEditXrotMin->setObjectName(QStringLiteral("lineEditXrotMin"));
-        lineEditXrotMin->setGeometry(QRect(140, 190, 61, 20));
+        lineEditXrotMin->setGeometry(QRect(140, 200, 61, 20));
         label_13 = new QLabel(ParameterEstimationDialog);
         label_13->setObjectName(QStringLiteral("label_13"));
-        label_13->setGeometry(QRect(203, 190, 16, 20));
+        label_13->setGeometry(QRect(203, 200, 16, 20));
         label_13->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         lineEditYrotMax = new QLineEdit(ParameterEstimationDialog);
         lineEditYrotMax->setObjectName(QStringLiteral("lineEditYrotMax"));
-        lineEditYrotMax->setGeometry(QRect(230, 220, 61, 20));
+        lineEditYrotMax->setGeometry(QRect(230, 230, 61, 20));
         lineEditXrotMax = new QLineEdit(ParameterEstimationDialog);
         lineEditXrotMax->setObjectName(QStringLiteral("lineEditXrotMax"));
-        lineEditXrotMax->setGeometry(QRect(230, 190, 61, 20));
+        lineEditXrotMax->setGeometry(QRect(230, 200, 61, 20));
         label_14 = new QLabel(ParameterEstimationDialog);
         label_14->setObjectName(QStringLiteral("label_14"));
-        label_14->setGeometry(QRect(203, 220, 16, 20));
+        label_14->setGeometry(QRect(203, 230, 16, 20));
         label_14->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         label_10 = new QLabel(ParameterEstimationDialog);
         label_10->setObjectName(QStringLiteral("label_10"));
-        label_10->setGeometry(QRect(20, 250, 101, 20));
+        label_10->setGeometry(QRect(20, 260, 101, 20));
         label_10->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         lineEditCameraDistance = new QLineEdit(ParameterEstimationDialog);
         lineEditCameraDistance->setObjectName(QStringLiteral("lineEditCameraDistance"));
-        lineEditCameraDistance->setGeometry(QRect(140, 160, 61, 20));
+        lineEditCameraDistance->setGeometry(QRect(140, 170, 61, 20));
         label_7 = new QLabel(ParameterEstimationDialog);
         label_7->setObjectName(QStringLiteral("label_7"));
-        label_7->setGeometry(QRect(20, 160, 91, 20));
+        label_7->setGeometry(QRect(20, 170, 91, 20));
         label_7->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_6 = new QLabel(ParameterEstimationDialog);
         label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(20, 190, 91, 20));
+        label_6->setGeometry(QRect(20, 200, 91, 20));
         label_6->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_8 = new QLabel(ParameterEstimationDialog);
         label_8->setObjectName(QStringLiteral("label_8"));
-        label_8->setGeometry(QRect(20, 220, 91, 20));
+        label_8->setGeometry(QRect(20, 230, 91, 20));
         label_8->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         lineEditZrotMin = new QLineEdit(ParameterEstimationDialog);
         lineEditZrotMin->setObjectName(QStringLiteral("lineEditZrotMin"));
-        lineEditZrotMin->setGeometry(QRect(140, 250, 61, 20));
+        lineEditZrotMin->setGeometry(QRect(140, 260, 61, 20));
         pushButtonCancel = new QPushButton(ParameterEstimationDialog);
         pushButtonCancel->setObjectName(QStringLiteral("pushButtonCancel"));
-        pushButtonCancel->setGeometry(QRect(510, 320, 91, 31));
+        pushButtonCancel->setGeometry(QRect(510, 330, 91, 31));
         pushButtonOK = new QPushButton(ParameterEstimationDialog);
         pushButtonOK->setObjectName(QStringLiteral("pushButtonOK"));
-        pushButtonOK->setGeometry(QRect(410, 320, 91, 31));
+        pushButtonOK->setGeometry(QRect(410, 330, 91, 31));
         checkBoxCentering = new QCheckBox(ParameterEstimationDialog);
         checkBoxCentering->setObjectName(QStringLiteral("checkBoxCentering"));
-        checkBoxCentering->setGeometry(QRect(290, 160, 91, 17));
+        checkBoxCentering->setGeometry(QRect(290, 170, 91, 17));
         label = new QLabel(ParameterEstimationDialog);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(20, 20, 101, 21));
@@ -160,26 +165,52 @@ public:
         lineEditRegressionDirectory->setGeometry(QRect(140, 80, 431, 20));
         lineEditFovMax = new QLineEdit(ParameterEstimationDialog);
         lineEditFovMax->setObjectName(QStringLiteral("lineEditFovMax"));
-        lineEditFovMax->setGeometry(QRect(230, 280, 61, 20));
+        lineEditFovMax->setGeometry(QRect(230, 290, 61, 20));
         lineEditFovMin = new QLineEdit(ParameterEstimationDialog);
         lineEditFovMin->setObjectName(QStringLiteral("lineEditFovMin"));
-        lineEditFovMin->setGeometry(QRect(140, 280, 61, 20));
+        lineEditFovMin->setGeometry(QRect(140, 290, 61, 20));
         label_12 = new QLabel(ParameterEstimationDialog);
         label_12->setObjectName(QStringLiteral("label_12"));
-        label_12->setGeometry(QRect(20, 280, 91, 20));
+        label_12->setGeometry(QRect(20, 290, 91, 20));
         label_12->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_15 = new QLabel(ParameterEstimationDialog);
         label_15->setObjectName(QStringLiteral("label_15"));
-        label_15->setGeometry(QRect(203, 280, 16, 20));
+        label_15->setGeometry(QRect(203, 290, 16, 20));
         label_15->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        QWidget::setTabOrder(checkBoxCentering, lineEditCameraDistance);
-        QWidget::setTabOrder(lineEditCameraDistance, lineEditXrotMin);
+        label_9 = new QLabel(ParameterEstimationDialog);
+        label_9->setObjectName(QStringLiteral("label_9"));
+        label_9->setGeometry(QRect(20, 140, 91, 20));
+        label_9->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        radioButtonStreetView = new QRadioButton(ParameterEstimationDialog);
+        radioButtonStreetView->setObjectName(QStringLiteral("radioButtonStreetView"));
+        radioButtonStreetView->setGeometry(QRect(140, 140, 82, 17));
+        radioButtonAerialView = new QRadioButton(ParameterEstimationDialog);
+        radioButtonAerialView->setObjectName(QStringLiteral("radioButtonAerialView"));
+        radioButtonAerialView->setGeometry(QRect(270, 140, 82, 17));
+        checkBoxSubtractMean = new QCheckBox(ParameterEstimationDialog);
+        checkBoxSubtractMean->setObjectName(QStringLiteral("checkBoxSubtractMean"));
+        checkBoxSubtractMean->setGeometry(QRect(400, 170, 101, 17));
+        QWidget::setTabOrder(lineEditCGADirectory, pushButtonCGADirectory);
+        QWidget::setTabOrder(pushButtonCGADirectory, lineEditTestDataDirectory);
+        QWidget::setTabOrder(lineEditTestDataDirectory, pushButtonTestDataDirectory);
+        QWidget::setTabOrder(pushButtonTestDataDirectory, lineEditRegressionDirectory);
+        QWidget::setTabOrder(lineEditRegressionDirectory, pushButtonRegressionDirectory);
+        QWidget::setTabOrder(pushButtonRegressionDirectory, lineEditOutputDirectory);
+        QWidget::setTabOrder(lineEditOutputDirectory, pushButtonOutputDirectory);
+        QWidget::setTabOrder(pushButtonOutputDirectory, radioButtonStreetView);
+        QWidget::setTabOrder(radioButtonStreetView, radioButtonAerialView);
+        QWidget::setTabOrder(radioButtonAerialView, lineEditCameraDistance);
+        QWidget::setTabOrder(lineEditCameraDistance, checkBoxCentering);
+        QWidget::setTabOrder(checkBoxCentering, checkBoxSubtractMean);
+        QWidget::setTabOrder(checkBoxSubtractMean, lineEditXrotMin);
         QWidget::setTabOrder(lineEditXrotMin, lineEditXrotMax);
         QWidget::setTabOrder(lineEditXrotMax, lineEditYrotMin);
         QWidget::setTabOrder(lineEditYrotMin, lineEditYrotMax);
         QWidget::setTabOrder(lineEditYrotMax, lineEditZrotMin);
         QWidget::setTabOrder(lineEditZrotMin, lineEditZrotMax);
-        QWidget::setTabOrder(lineEditZrotMax, pushButtonOK);
+        QWidget::setTabOrder(lineEditZrotMax, lineEditFovMin);
+        QWidget::setTabOrder(lineEditFovMin, lineEditFovMax);
+        QWidget::setTabOrder(lineEditFovMax, pushButtonOK);
         QWidget::setTabOrder(pushButtonOK, pushButtonCancel);
 
         retranslateUi(ParameterEstimationDialog);
@@ -210,6 +241,10 @@ public:
         label_5->setText(QApplication::translate("ParameterEstimationDialog", "Regression directory:", 0));
         label_12->setText(QApplication::translate("ParameterEstimationDialog", "Field of view:", 0));
         label_15->setText(QApplication::translate("ParameterEstimationDialog", "~", 0));
+        label_9->setText(QApplication::translate("ParameterEstimationDialog", "Camera type:", 0));
+        radioButtonStreetView->setText(QApplication::translate("ParameterEstimationDialog", "Street view", 0));
+        radioButtonAerialView->setText(QApplication::translate("ParameterEstimationDialog", "Aerial view", 0));
+        checkBoxSubtractMean->setText(QApplication::translate("ParameterEstimationDialog", "Subtract mean", 0));
     } // retranslateUi
 
 };

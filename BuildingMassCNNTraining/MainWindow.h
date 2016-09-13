@@ -10,6 +10,7 @@ class MainWindow : public QMainWindow {
 
 public:
 	Ui::MainWindowClass ui;
+	QActionGroup* camera_menu_group;
 	GLWidget3D* glWidget3D;
 
 public:
@@ -18,8 +19,8 @@ public:
 public slots:
 	void onOpenCGA();
 	void onGenerateTrainingImages();
-	void onGenerateTrainingImages2();
 	void onParameterEstimation();
+	void onCameraModeChanged();
 };
 
 #endif // MAINWINDOW_H
