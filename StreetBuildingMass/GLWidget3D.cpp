@@ -588,22 +588,22 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 									// perturbe the parameter a little
 									if (xrotRange.first != xrotRange.second) {
-										xrot2 = utils::genRand(xrot - xrotSample * 0.5, xrot + xrotSample * 0.5);
+										xrot2 = glm::clamp(utils::genRand(xrot - xrotSample * 0.5, xrot + xrotSample * 0.5), (float)xrotRange.first, (float)xrotRange.second);
 									}
 									if (yrotRange.first != yrotRange.second) {
-										yrot2 = utils::genRand(yrot - yrotSample * 0.5, yrot + yrotSample * 0.5);
+										yrot2 = glm::clamp(utils::genRand(yrot - yrotSample * 0.5, yrot + yrotSample * 0.5), (float)yrotRange.first, (float)yrotRange.second);
 									}
 									if (zrotRange.first != zrotRange.second) {
-										zrot2 = utils::genRand(zrot - zrotSample * 0.5, zrot + zrotSample * 0.5);
+										zrot2 = glm::clamp(utils::genRand(zrot - zrotSample * 0.5, zrot + zrotSample * 0.5), (float)zrotRange.first, (float)zrotRange.second);
 									}
 									if (fovRange.first != fovRange.second) {
-										fov2 = utils::genRand(fov - fovSample * 0.5, fov + fovSample * 0.5);
+										fov2 = glm::clamp(utils::genRand(fov - fovSample * 0.5, fov + fovSample * 0.5), (float)fovRange.first, (float)fovRange.second);
 									}
 									if (xRange.first != xRange.second) {
-										xpos2 = utils::genRand(xpos - xSample * 0.5, xpos + xSample * 0.5);
+										xpos2 = glm::clamp(utils::genRand(xpos - xSample * 0.5, xpos + xSample * 0.5), (float)xRange.first, (float)xRange.second);
 									}
 									if (yRange.first != yRange.second) {
-										ypos2 = utils::genRand(ypos - ySample * 0.5, ypos + ySample * 0.5);
+										ypos2 = glm::clamp(utils::genRand(ypos - ySample * 0.5, ypos + ySample * 0.5), (float)yRange.first, (float)yRange.second);
 									}
 
 									float camera_distance = camera.distanceBase / tan(utils::deg2rad(fov2 * 0.5));
@@ -618,7 +618,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 									cv::Mat mat;
 									std::vector<float> param_values;
-									bool retry_failed = true;
+									bool valid_image = false;
 									for (int retry = 0; retry < 3; ++retry) {
 										param_values = cga.randomParamValues(grammars[grammar_id]);
 
@@ -652,12 +652,12 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 										cv::cvtColor(mat, mat, cv::COLOR_BGRA2BGR);
 
 										if (validateImage(mat)) {
-											retry_failed = false;
+											valid_image = true;
 											break;
 										}
 									}
 
-									if (retry_failed) continue;
+									if (!valid_image) continue;
 
 									if (modifyImage) {
 										// extract contour vectors
@@ -741,6 +741,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 									// write all the param values [xrot, yrot, zrot, fov, param1, param2, ...] to the file
 									outputVector(out, param_values);
+									out.flush();
 
 									// update mean image
 									if (generateMean) {
