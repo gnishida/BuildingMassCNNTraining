@@ -551,6 +551,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 	for (int grammar_id = 0; grammar_id < grammars.size(); ++grammar_id) {
 		int count = 0;
+		int iter = 0;
 
 		QString out_dir_for_snippet = out_dir + "/" + grammar_filenames[grammar_id];	// images/01, images/02, ...
 		if (!QDir(out_dir_for_snippet).exists()) QDir().mkdir(out_dir_for_snippet);
@@ -573,24 +574,52 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 					for (int fov = fovRange.first; fov <= fovRange.second; fov += fovSample) {
 						for (int xpos = xRange.first; xpos <= xRange.second; xpos += xSample) {
 							for (int ypos = yRange.first; ypos <= yRange.second; ypos += ySample) {
-								float camera_distance = camera.distanceBase / tan(utils::deg2rad(fov * 0.5));
-								camera.xrot = xrot;
-								camera.yrot = yrot;
-								camera.zrot = zrot;
-								camera.pos.x = xpos;
-								camera.pos.y = ypos;
-								camera.pos.z = camera_distance;// *cosf(camera.xrot / 180.0f * M_PI);// +cameraHeight * sinf(camera.xrot / 180.0f * M_PI);
-								camera.fovy = fov;
-								camera.updatePMatrix(width(), height());
-
 								// randomly sample N parameter values
 								for (int k = 0; k < numSamples; ++k) {
-									printf("\rGrammar %s: count = %d", grammar_filenames[grammar_id].toUtf8().constData(), count + 1);
+									printf("\rGrammar %s: iter = %d", grammar_filenames[grammar_id].toUtf8().constData(), iter + 1);
+									iter++;
+
+									float xrot2 = xrot;
+									float yrot2 = yrot;
+									float zrot2 = zrot;
+									float fov2 = fov;
+									float xpos2 = xpos;
+									float ypos2 = ypos;
+
+									// perturbe the parameter a little
+									if (xrotRange.first != xrotRange.second) {
+										xrot2 = utils::genRand(xrot - xrotSample * 0.5, xrot + xrotSample * 0.5);
+									}
+									if (yrotRange.first != yrotRange.second) {
+										yrot2 = utils::genRand(yrot - yrotSample * 0.5, yrot + yrotSample * 0.5);
+									}
+									if (zrotRange.first != zrotRange.second) {
+										zrot2 = utils::genRand(zrot - zrotSample * 0.5, zrot + zrotSample * 0.5);
+									}
+									if (fovRange.first != fovRange.second) {
+										fov2 = utils::genRand(fov - fovSample * 0.5, fov + fovSample * 0.5);
+									}
+									if (xRange.first != xRange.second) {
+										xpos2 = utils::genRand(xpos - xSample * 0.5, xpos + xSample * 0.5);
+									}
+									if (yRange.first != yRange.second) {
+										ypos2 = utils::genRand(ypos - ySample * 0.5, ypos + ySample * 0.5);
+									}
+
+									float camera_distance = camera.distanceBase / tan(utils::deg2rad(fov2 * 0.5));
+									camera.xrot = xrot2;
+									camera.yrot = yrot2;
+									camera.zrot = zrot2;
+									camera.pos.x = xpos2;
+									camera.pos.y = ypos2;
+									camera.pos.z = camera_distance;// *cosf(camera.xrot / 180.0f * M_PI);// +cameraHeight * sinf(camera.xrot / 180.0f * M_PI);
+									camera.fovy = fov2;
+									camera.updatePMatrix(width(), height());
 
 									cv::Mat mat;
 									std::vector<float> param_values;
 									bool retry_failed = true;
-									for (int retry = 0; retry < 10; ++retry) {
+									for (int retry = 0; retry < 3; ++retry) {
 										param_values = cga.randomParamValues(grammars[grammar_id]);
 
 										// set axiom
@@ -649,6 +678,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 											}
 										}
 
+										/*
 										// 画像を縮小
 										glm::vec2 scale((float)image_size / width(), (float)image_size / height());
 										for (int ci = 0; ci < contour.size(); ++ci) {
@@ -657,6 +687,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 											contour[ci].second.x *= scale.x;
 											contour[ci].second.y *= scale.y;
 										}
+										*/
 
 										// generate the rendered image
 										cv::Scalar color;
@@ -675,7 +706,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 									}
 									else {
 										// 画像を縮小
-										utils::resizeImage(mat, cv::Size(image_size, image_size));
+										//utils::resizeImage(mat, cv::Size(image_size, image_size));
 
 										if (grayscale) {
 											cv::cvtColor(mat, mat, cv::COLOR_BGR2GRAY);
@@ -694,22 +725,22 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 									// add camera parameters to the params
 									if (yRange.first != yRange.second) {
-										param_values.insert(param_values.begin(), (float)(ypos - yRange.first) / (yRange.second - yRange.first));
+										param_values.insert(param_values.begin(), (float)(ypos2 - yRange.first) / (yRange.second - yRange.first));
 									}
 									if (xRange.first != xRange.second) {
-										param_values.insert(param_values.begin(), (float)(xpos - xRange.first) / (xRange.second - xRange.first));
+										param_values.insert(param_values.begin(), (float)(xpos2 - xRange.first) / (xRange.second - xRange.first));
 									}
 									if (fovRange.first != fovRange.second) {
-										param_values.insert(param_values.begin(), (float)(fov - fovRange.first) / (fovRange.second - fovRange.first));
+										param_values.insert(param_values.begin(), (float)(fov2 - fovRange.first) / (fovRange.second - fovRange.first));
 									}
 									if (zrotRange.first != zrotRange.second) {
-										param_values.insert(param_values.begin(), (float)(zrot - zrotRange.first) / (zrotRange.second - zrotRange.first));
+										param_values.insert(param_values.begin(), (float)(zrot2 - zrotRange.first) / (zrotRange.second - zrotRange.first));
 									}
 									if (yrotRange.first != yrotRange.second) {
-										param_values.insert(param_values.begin(), (float)(yrot - yrotRange.first) / (yrotRange.second - yrotRange.first));
+										param_values.insert(param_values.begin(), (float)(yrot2 - yrotRange.first) / (yrotRange.second - yrotRange.first));
 									}
 									if (xrotRange.first != xrotRange.second) {
-										param_values.insert(param_values.begin(), (float)(xrot - xrotRange.first) / (xrotRange.second - xrotRange.first));
+										param_values.insert(param_values.begin(), (float)(xrot2 - xrotRange.first) / (xrotRange.second - xrotRange.first));
 									}
 
 									// write all the param values [xrot, yrot, zrot, fov, param1, param2, ...] to the file
