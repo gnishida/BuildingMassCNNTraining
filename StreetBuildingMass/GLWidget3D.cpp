@@ -633,22 +633,18 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 										cga.generateGeometry(faces, true);
 										renderManager.addFaces(faces, true);
 
-#if 0
-										///////////////////////////////////////// DEBUG /////////////////////////////
-										for (int xx1 = 0; xx1 < faces.size(); ++xx1) {
-											std::cout << "-------------------------" << std::endl;
-											std::cout << "face " << xx1 << std::endl;
-											for (int xx2 = 0; xx2 < faces[xx1]->vertices.size(); ++xx2) {
-												if (xx2 == 3 || xx2 == 4) continue;
-												glm::vec4 pp = camera.mvpMatrix * glm::vec4(faces[xx1]->vertices[xx2].position, 1);
-												float ppx = (pp.x / pp.w + 1) * 0.5 * width();
-												float ppy = (1 - pp.y / pp.w) * 0.5 * height();
-												std::cout << "(" << ppx << "," << ppy << ")" << std::endl;
-											}
-										}
-										///////////////////////////////////////// DEBUG /////////////////////////////
-#endif
+										// if the top face is visible, discard this
+										// Hack: assuming that faces[0] is the top face.
+										glm::vec3 top_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(faces[0]->vertices[0].position, 1));
+										glm::vec3 top_normal = glm::vec3(camera.mvMatrix * glm::vec4(faces[0]->vertices[0].normal, 0));
+										if (glm::dot(top_normal, top_view_dir) < 0) continue;
 										
+										// if the bottom face is visible, discard this
+										// Hack: assuming that faces[1] is the bottom face.
+										glm::vec3 bottom_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(faces[1]->vertices[0].position, 1));
+										glm::vec3 bottom_normal = glm::vec3(camera.mvMatrix * glm::vec4(faces[1]->vertices[0].normal, 0));
+										if (glm::dot(bottom_normal, bottom_view_dir) < 0) continue;
+
 										// render 2d image
 										render();
 										QImage img = grabFrameBuffer();
@@ -774,7 +770,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 			}
 		}
 
-		if (generateMean) {
+		if (generateMean && count > 0) {
 			// generate mean image
 			meanImg /= count;
 			if (grayscale) {

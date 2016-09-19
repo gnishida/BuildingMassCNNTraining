@@ -50,6 +50,12 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	connect(ui.lineEditFovMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditFovMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditFovSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditXMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditXMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditXSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditYMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditYMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditYSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.checkBoxModifyImage, SIGNAL(clicked()), this, SLOT(onModifyImageClicked()));
 	connect(ui.checkBoxEdgeNoise, SIGNAL(clicked()), this, SLOT(onEdgeNoiseClicked()));
 	connect(ui.pushButtonOK, SIGNAL(clicked()), this, SLOT(onOK()));
