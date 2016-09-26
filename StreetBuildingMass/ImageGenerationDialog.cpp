@@ -4,6 +4,10 @@
 ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) {
 	ui.setupUi(this);
 
+	QButtonGroup group(this);
+	group.addButton(ui.radioButtonRenderSilhouette);
+	group.addButton(ui.radioButtonRenderLine);
+
 	ui.lineEditCGADirectory->setText("../cga/mass");
 	ui.lineEditOutputDirectory->setText("C:/Anaconda/caffe/contour_regression/data/images");
 	ui.lineEditNumSamples->setText("1");
@@ -13,8 +17,8 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	ui.lineEditXrotMin->setText("-40");
 	ui.lineEditXrotMax->setText("0");
 	ui.lineEditXrotSample->setText("4");
-	ui.lineEditYrotMin->setText("20");
-	ui.lineEditYrotMax->setText("70");
+	ui.lineEditYrotMin->setText("-70");
+	ui.lineEditYrotMax->setText("-20");
 	ui.lineEditYrotSample->setText("5");
 	ui.lineEditZrotMin->setText("-10");
 	ui.lineEditZrotMax->setText("10");
@@ -28,10 +32,13 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	ui.lineEditYMin->setText("-15");
 	ui.lineEditYMax->setText("15");
 	ui.lineEditYSample->setText("3");
-	ui.checkBoxGenerateMean->setChecked(true);
-	ui.checkBoxModifyImage->setChecked(true);
+	ui.checkBoxGenerateMean->setChecked(false);
+	ui.radioButtonRenderSilhouette->setChecked(true);
+	ui.radioButtonRenderLine->setChecked(false);
+	ui.checkBoxModifyImage->setChecked(false);
 	ui.lineEditLineWidthMin->setText("1");
 	ui.lineEditLineWidthMax->setText("1");
+	ui.checkBoxEdgeNoise->setEnabled(false);
 	ui.checkBoxEdgeNoise->setChecked(false);
 	ui.lineEditEdgeNoiseMax->setText("1.0");
 

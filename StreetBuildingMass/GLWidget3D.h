@@ -25,7 +25,7 @@ public:
 	void drawScene();
 	void render();
 	void loadCGA(const std::string& cga_filename);
-	void generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, float cameraDistanceBase, const std::pair<int, int>& xrotRange, int xrotSample, const std::pair<int, int>& yrotRange, int yrotSample, const std::pair<int, int>& zrotRange, int zrotSample, const std::pair<int, int>& fovRange, int fovSample, const std::pair<int, int>& xRange, int xSample, const std::pair<int, int>& yRange, int ySample, bool generateMean, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax);
+	void generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, float cameraDistanceBase, const std::pair<int, int>& xrotRange, int xrotSample, const std::pair<int, int>& yrotRange, int yrotSample, const std::pair<int, int>& zrotRange, int zrotSample, const std::pair<int, int>& fovRange, int fovSample, const std::pair<int, int>& xRange, int xSample, const std::pair<int, int>& yRange, int ySample, bool generateMean, int render_option, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax);
 	void parameterEstimation(const QString& cga_dir, const QString& testdata_dir, const QString& regression_dir, const QString& output_dir, bool centering, bool subtract_mean, int camera_type, float cameraDistanceBase, float cameraHeight, const std::pair<int, int>& xrotRange, const std::pair<int, int>& yrotRange, const std::pair<int, int>& zrotRange, const std::pair<int, int>& fovRange);
 	bool moveCenter(cv::Mat& img);
 	bool validateImage(const cv::Mat& img);

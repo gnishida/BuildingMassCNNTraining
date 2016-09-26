@@ -489,7 +489,7 @@ void GLWidget3D::loadCGA(const std::string& cga_filename) {
 * @param fovMin			min of fov
 * @param fovMax			max of fov
 */
-void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, float cameraDistanceBase, const std::pair<int, int>& xrotRange, int xrotSample, const std::pair<int, int>& yrotRange, int yrotSample, const std::pair<int, int>& zrotRange, int zrotSample, const std::pair<int, int>& fovRange, int fovSample, const std::pair<int, int>& xRange, int xSample, const std::pair<int, int>& yRange, int ySample, bool generateMean, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
+void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, float cameraDistanceBase, const std::pair<int, int>& xrotRange, int xrotSample, const std::pair<int, int>& yrotRange, int yrotSample, const std::pair<int, int>& zrotRange, int zrotSample, const std::pair<int, int>& fovRange, int fovSample, const std::pair<int, int>& xRange, int xSample, const std::pair<int, int>& yRange, int ySample, bool generateMean, int render_option, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
 	if (QDir(out_dir).exists()) {
 		std::cout << "Clearning output directory..." << std::endl;
 		QDir(out_dir).removeRecursively();
@@ -511,6 +511,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	std::cout << "  x pos: " << xRange.first << " - " << xRange.second << " (every " << xSample << ")" << std::endl;
 	std::cout << "  y pos: " << yRange.first << " - " << yRange.second << " (every " << ySample << ")" << std::endl;
 	std::cout << "  generate Mean: " << (generateMean ? "true" : "false") << std::endl;
+	std::cout << "  render option: " << (render_option == RenderManager::RENDERING_MODE_CONTOUR ? "contour" : "line") << std::endl;
 	std::cout << "  modify image: " << (modifyImage ? "true" : "false") << std::endl;
 	std::cout << "  line width: " << lineWidthMin << " - " << lineWidthMax << std::endl;
 	std::cout << "  edge noise: " << (edgeNoise ? "true" : "false") << std::endl;
@@ -521,8 +522,8 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 	srand(0);
 	renderManager.useShadow = false;
-	renderManager.renderingMode = RenderManager::RENDERING_MODE_CONTOUR;
-	//renderManager.renderingMode = RenderManager::RENDERING_MODE_LINE;
+	//renderManager.renderingMode = RenderManager::RENDERING_MODE_CONTOUR;
+	renderManager.renderingMode = render_option;
 
 	int origWidth = width();
 	int origHeight = height();
@@ -587,6 +588,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 									float ypos2 = ypos;
 
 									// perturbe the parameter a little
+									/*
 									if (xrotRange.first != xrotRange.second) {
 										xrot2 = glm::clamp(utils::genRand(xrot - xrotSample * 0.5, xrot + xrotSample * 0.5), (float)xrotRange.first, (float)xrotRange.second);
 									}
@@ -605,6 +607,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 									if (yRange.first != yRange.second) {
 										ypos2 = glm::clamp(utils::genRand(ypos - ySample * 0.5, ypos + ySample * 0.5), (float)yRange.first, (float)yRange.second);
 									}
+									*/
 
 									float camera_distance = camera.distanceBase / tan(utils::deg2rad(fov2 * 0.5));
 									camera.xrot = xrot2;
@@ -1076,9 +1079,18 @@ bool GLWidget3D::validateImage(const cv::Mat& img) {
 	cvutils::grayScale(img, gray_img);
 
 	// if there is no line, return false.
+	/*
 	double min_val, max_val;
 	cv::minMaxLoc(gray_img, &min_val, &max_val);
 	if (min_val >= 100) return false;
+	*/
+	int count = 0;
+	for (int r = 0; r < gray_img.rows; ++r) {
+		for (int c = 0; c < gray_img.cols; ++c) {
+			if (gray_img.at<uchar>(r, c) < 100) count++;
+		}
+	}
+	if (count < 10) return false;
 
 	// check horizontally
 	cv::Mat hor;

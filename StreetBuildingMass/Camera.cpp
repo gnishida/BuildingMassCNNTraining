@@ -51,7 +51,7 @@ void Camera::zoom(float delta) {
 void Camera::changeFov(float delta, float senstivity, int width, int height) {
 	fovy += delta * senstivity;
 	if (fovy < 5) fovy = 5;
-	if (fovy > 110) fovy = 110;
+	if (fovy > 160) fovy = 160;
 	pos.z = distanceBase / tanf((float)fovy * 0.5 / 180.0f * M_PI);
 	updatePMatrix(width, height);
 }

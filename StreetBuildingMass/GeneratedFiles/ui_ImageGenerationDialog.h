@@ -20,6 +20,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 
 QT_BEGIN_NAMESPACE
 
@@ -98,18 +99,21 @@ public:
     QLineEdit *lineEditXSample;
     QLabel *label_37;
     QLineEdit *lineEditYSample;
+    QLabel *label_38;
+    QRadioButton *radioButtonRenderSilhouette;
+    QRadioButton *radioButtonRenderLine;
 
     void setupUi(QDialog *ImageGenerationDialog)
     {
         if (ImageGenerationDialog->objectName().isEmpty())
             ImageGenerationDialog->setObjectName(QStringLiteral("ImageGenerationDialog"));
-        ImageGenerationDialog->resize(579, 542);
+        ImageGenerationDialog->resize(579, 584);
         pushButtonOK = new QPushButton(ImageGenerationDialog);
         pushButtonOK->setObjectName(QStringLiteral("pushButtonOK"));
-        pushButtonOK->setGeometry(QRect(360, 500, 91, 31));
+        pushButtonOK->setGeometry(QRect(360, 530, 91, 31));
         pushButtonCancel = new QPushButton(ImageGenerationDialog);
         pushButtonCancel->setObjectName(QStringLiteral("pushButtonCancel"));
-        pushButtonCancel->setGeometry(QRect(460, 500, 91, 31));
+        pushButtonCancel->setGeometry(QRect(460, 530, 91, 31));
         label = new QLabel(ImageGenerationDialog);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(20, 20, 91, 16));
@@ -190,7 +194,7 @@ public:
         label_12->setGeometry(QRect(196, 260, 16, 16));
         groupBox = new QGroupBox(ImageGenerationDialog);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(20, 370, 541, 111));
+        groupBox->setGeometry(QRect(20, 410, 541, 111));
         checkBoxModifyImage = new QCheckBox(groupBox);
         checkBoxModifyImage->setObjectName(QStringLiteral("checkBoxModifyImage"));
         checkBoxModifyImage->setGeometry(QRect(40, 20, 141, 17));
@@ -321,6 +325,15 @@ public:
         lineEditYSample = new QLineEdit(ImageGenerationDialog);
         lineEditYSample->setObjectName(QStringLiteral("lineEditYSample"));
         lineEditYSample->setGeometry(QRect(410, 320, 31, 20));
+        label_38 = new QLabel(ImageGenerationDialog);
+        label_38->setObjectName(QStringLiteral("label_38"));
+        label_38->setGeometry(QRect(20, 380, 91, 16));
+        radioButtonRenderSilhouette = new QRadioButton(ImageGenerationDialog);
+        radioButtonRenderSilhouette->setObjectName(QStringLiteral("radioButtonRenderSilhouette"));
+        radioButtonRenderSilhouette->setGeometry(QRect(140, 380, 82, 17));
+        radioButtonRenderLine = new QRadioButton(ImageGenerationDialog);
+        radioButtonRenderLine->setObjectName(QStringLiteral("radioButtonRenderLine"));
+        radioButtonRenderLine->setGeometry(QRect(250, 380, 82, 17));
         QWidget::setTabOrder(lineEditCGADirectory, pushButtonCGADirectory);
         QWidget::setTabOrder(pushButtonCGADirectory, lineEditOutputDirectory);
         QWidget::setTabOrder(lineEditOutputDirectory, pushButtonOutputDirectory);
@@ -409,6 +422,9 @@ public:
         label_35->setText(QApplication::translate("ImageGenerationDialog", "~", 0));
         label_36->setText(QApplication::translate("ImageGenerationDialog", "Sample every", 0));
         label_37->setText(QApplication::translate("ImageGenerationDialog", "Sample every", 0));
+        label_38->setText(QApplication::translate("ImageGenerationDialog", "Rendering option:", 0));
+        radioButtonRenderSilhouette->setText(QApplication::translate("ImageGenerationDialog", "Silhouette", 0));
+        radioButtonRenderLine->setText(QApplication::translate("ImageGenerationDialog", "Line", 0));
     } // retranslateUi
 
 };

@@ -50,13 +50,14 @@ void MainWindow::onGenerateTrainingImages() {
 		std::pair<int, int> yRange = std::make_pair(dlg.ui.lineEditYMin->text().toInt(), dlg.ui.lineEditYMax->text().toInt());
 		int ySample = dlg.ui.lineEditYSample->text().toInt();
 		bool generateMean = dlg.ui.checkBoxGenerateMean->isChecked();
+		int render_option = dlg.ui.radioButtonRenderSilhouette->isChecked() ? RenderManager::RENDERING_MODE_CONTOUR : RenderManager::RENDERING_MODE_LINE;
 		bool modifyImage = dlg.ui.checkBoxModifyImage->isChecked();
 		int lineWidthMin = dlg.ui.lineEditLineWidthMin->text().toInt();
 		int lineWidthMax = dlg.ui.lineEditLineWidthMax->text().toInt();
 		bool edgeNoise = dlg.ui.checkBoxEdgeNoise->isChecked();
 		float edgeNoiseMax = dlg.ui.lineEditEdgeNoiseMax->text().toFloat();
 
-		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, grayscale, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, xRange, xSample, yRange, ySample, generateMean, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
+		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, grayscale, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, xRange, xSample, yRange, ySample, generateMean, render_option, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
 	}
 }
 

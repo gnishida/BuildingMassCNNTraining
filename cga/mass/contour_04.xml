@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<grammar version="1.0" author="Gen Nishida">
+<grammar type="building" version="1.0" author="Gen Nishida">
 	<!-- parameters -->
-	<attr name="width" value="10" range="4,50"/>
-	<attr name="depth" value="10" range="4,50"/>
-	<attr name="height" value="10" range="4,50"/>
-
-	<!-- building mass -->
+	<attr name="width" value="10" range="10,40"/>
+	<attr name="depth" value="10" range="10,40"/>
+	<attr name="height" value="10" range="10,40"/>
+	<attr name="corner_cut_length" value="4" range="4,9"/>
+	
 	<rule name="Start">
 		<translate mode="rel" coordSystem="world">
 			<param name="x" type="absolute" value="0"/>
@@ -17,6 +17,12 @@
 			<param name="ySize" type="absolute" value="depth"/>
 			<param name="zSize" type="absolute" value="0"/>
 		</size>
+		<cornerCut type="curve" length="corner_cut_length"/>
 		<extrude height="height"/>
+		<comp>
+			<param name="side" value="Facade"/>
+			<param name="top" value="Roof"/>
+			<param name="bottom" value="Base."/>
+		</comp>
 	</rule>
-</grammar>
+</rules>
