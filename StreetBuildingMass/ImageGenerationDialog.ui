@@ -1,954 +1,993 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-  <class>ImageGenerationDialog</class>
-  <widget class="QDialog" name="ImageGenerationDialog">
-    <property name="geometry">
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>579</width>
-        <height>584</height>
-      </rect>
-    </property>
-    <property name="windowTitle">
-      <string>ImageGenerationDialog</string>
-    </property>
-    <widget class="QPushButton" name="pushButtonOK">
-      <property name="geometry">
-        <rect>
-          <x>360</x>
-          <y>530</y>
-          <width>91</width>
-          <height>31</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>OK</string>
-      </property>
-    </widget>
-    <widget class="QPushButton" name="pushButtonCancel">
-      <property name="geometry">
-        <rect>
-          <x>460</x>
-          <y>530</y>
-          <width>91</width>
-          <height>31</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Cancel</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>20</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>CGA directory:</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>50</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Output directory:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditCGADirectory">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>20</y>
-          <width>381</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QPushButton" name="pushButtonCGADirectory">
-      <property name="geometry">
-        <rect>
-          <x>530</x>
-          <y>20</y>
-          <width>31</width>
-          <height>23</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>...</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditOutputDirectory">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>50</y>
-          <width>381</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QPushButton" name="pushButtonOutputDirectory">
-      <property name="geometry">
-        <rect>
-          <x>530</x>
-          <y>50</y>
-          <width>31</width>
-          <height>23</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>...</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_3">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>80</y>
-          <width>111</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>#Samples / viewpoint:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditNumSamples">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>80</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-      <property name="geometry">
-        <rect>
-          <x>198</x>
-          <y>110</y>
-          <width>16</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>px</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>110</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Image size:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditImageSize">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>110</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QCheckBox" name="checkBoxGrayscale">
-      <property name="geometry">
-        <rect>
-          <x>280</x>
-          <y>110</y>
-          <width>70</width>
-          <height>17</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Grayscale</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_6">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>140</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Camera distance:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditCameraDistance">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>140</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_7">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>170</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Rot around X axis:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditXrotMin">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>170</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditXrotMax">
-      <property name="geometry">
-        <rect>
-          <x>210</x>
-          <y>170</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_8">
-      <property name="geometry">
-        <rect>
-          <x>196</x>
-          <y>170</y>
-          <width>16</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>~</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_9">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>200</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Rot around Y axis:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditYrotMin">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>200</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditYrotMax">
-      <property name="geometry">
-        <rect>
-          <x>210</x>
-          <y>200</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_10">
-      <property name="geometry">
-        <rect>
-          <x>196</x>
-          <y>200</y>
-          <width>16</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>~</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditFovMax">
-      <property name="geometry">
-        <rect>
-          <x>210</x>
-          <y>260</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditFovMin">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>260</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_11">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>260</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Field of view:</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_12">
-      <property name="geometry">
-        <rect>
-          <x>196</x>
-          <y>260</y>
-          <width>16</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>~</string>
-      </property>
-    </widget>
-    <widget class="QGroupBox" name="groupBox">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>410</y>
-          <width>541</width>
-          <height>111</height>
-        </rect>
-      </property>
-      <property name="title">
-        <string>Image modification</string>
-      </property>
-      <widget class="QCheckBox" name="checkBoxModifyImage">
-        <property name="geometry">
-          <rect>
-            <x>40</x>
-            <y>20</y>
-            <width>141</width>
-            <height>17</height>
-          </rect>
-        </property>
-        <property name="text">
-          <string>Modify rendered image</string>
-        </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditLineWidthMax">
-        <property name="geometry">
-          <rect>
-            <x>230</x>
-            <y>50</y>
-            <width>51</width>
-            <height>20</height>
-          </rect>
-        </property>
-      </widget>
-      <widget class="QLabel" name="label_13">
-        <property name="geometry">
-          <rect>
-            <x>40</x>
-            <y>50</y>
-            <width>91</width>
-            <height>16</height>
-          </rect>
-        </property>
-        <property name="text">
-          <string>Line width:</string>
-        </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditLineWidthMin">
-        <property name="geometry">
-          <rect>
-            <x>160</x>
-            <y>50</y>
-            <width>51</width>
-            <height>20</height>
-          </rect>
-        </property>
-      </widget>
-      <widget class="QLabel" name="label_14">
-        <property name="geometry">
-          <rect>
-            <x>215</x>
-            <y>50</y>
-            <width>16</width>
-            <height>16</height>
-          </rect>
-        </property>
-        <property name="text">
-          <string>~</string>
-        </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBoxEdgeNoise">
-        <property name="geometry">
-          <rect>
-            <x>40</x>
-            <y>80</y>
-            <width>91</width>
-            <height>17</height>
-          </rect>
-        </property>
-        <property name="text">
-          <string>Edge noise</string>
-        </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditEdgeNoiseMax">
-        <property name="geometry">
-          <rect>
-            <x>160</x>
-            <y>80</y>
-            <width>51</width>
-            <height>20</height>
-          </rect>
-        </property>
-      </widget>
-      <widget class="QLabel" name="label_15">
-        <property name="geometry">
-          <rect>
-            <x>216</x>
-            <y>80</y>
-            <width>16</width>
-            <height>21</height>
-          </rect>
-        </property>
-        <property name="text">
-          <string>%</string>
-        </property>
-      </widget>
-    </widget>
-    <widget class="QLineEdit" name="lineEditZrotMax">
-      <property name="geometry">
-        <rect>
-          <x>210</x>
-          <y>230</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_16">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>230</y>
-          <width>101</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Rot around Z axis:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditZrotMin">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>230</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_17">
-      <property name="geometry">
-        <rect>
-          <x>270</x>
-          <y>170</y>
-          <width>41</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>degree</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_18">
-      <property name="geometry">
-        <rect>
-          <x>270</x>
-          <y>200</y>
-          <width>41</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>degree</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_19">
-      <property name="geometry">
-        <rect>
-          <x>270</x>
-          <y>230</y>
-          <width>41</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>degree</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_20">
-      <property name="geometry">
-        <rect>
-          <x>270</x>
-          <y>260</y>
-          <width>41</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>degree</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditXrotSample">
-      <property name="geometry">
-        <rect>
-          <x>410</x>
-          <y>170</y>
-          <width>31</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_21">
-      <property name="geometry">
-        <rect>
-          <x>340</x>
-          <y>170</y>
-          <width>71</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Sample every</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_22">
-      <property name="geometry">
-        <rect>
-          <x>450</x>
-          <y>170</y>
-          <width>41</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>degree</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_23">
-      <property name="geometry">
-        <rect>
-          <x>340</x>
-          <y>200</y>
-          <width>71</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Sample every</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditYrotSample">
-      <property name="geometry">
-        <rect>
-          <x>410</x>
-          <y>200</y>
-          <width>31</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_24">
-      <property name="geometry">
-        <rect>
-          <x>450</x>
-          <y>200</y>
-          <width>41</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>degree</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditZrotSample">
-      <property name="geometry">
-        <rect>
-          <x>410</x>
-          <y>230</y>
-          <width>31</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_25">
-      <property name="geometry">
-        <rect>
-          <x>340</x>
-          <y>230</y>
-          <width>71</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Sample every</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_26">
-      <property name="geometry">
-        <rect>
-          <x>450</x>
-          <y>230</y>
-          <width>41</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>degree</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditFovSample">
-      <property name="geometry">
-        <rect>
-          <x>410</x>
-          <y>260</y>
-          <width>31</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_27">
-      <property name="geometry">
-        <rect>
-          <x>340</x>
-          <y>260</y>
-          <width>71</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Sample every</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_28">
-      <property name="geometry">
-        <rect>
-          <x>450</x>
-          <y>260</y>
-          <width>41</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>degree</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditTotalNumImages">
-      <property name="enabled">
-        <bool>false</bool>
-      </property>
-      <property name="geometry">
-        <rect>
-          <x>190</x>
-          <y>350</y>
-          <width>81</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_29">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>350</y>
-          <width>171</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>The total number of images will be</string>
-      </property>
-    </widget>
-    <widget class="QCheckBox" name="checkBoxGenerateMean">
-      <property name="geometry">
-        <rect>
-          <x>370</x>
-          <y>350</y>
-          <width>101</width>
-          <height>17</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Generate mean</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_31">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>290</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>X coordinates:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditXMin">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>290</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditXMax">
-      <property name="geometry">
-        <rect>
-          <x>210</x>
-          <y>290</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditYMin">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>320</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_32">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>320</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Y coordinates:</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditYMax">
-      <property name="geometry">
-        <rect>
-          <x>210</x>
-          <y>320</y>
-          <width>51</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_33">
-      <property name="geometry">
-        <rect>
-          <x>196</x>
-          <y>230</y>
-          <width>16</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>~</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_34">
-      <property name="geometry">
-        <rect>
-          <x>196</x>
-          <y>290</y>
-          <width>16</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>~</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_35">
-      <property name="geometry">
-        <rect>
-          <x>196</x>
-          <y>320</y>
-          <width>16</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>~</string>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_36">
-      <property name="geometry">
-        <rect>
-          <x>340</x>
-          <y>290</y>
-          <width>71</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Sample every</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditXSample">
-      <property name="geometry">
-        <rect>
-          <x>410</x>
-          <y>290</y>
-          <width>31</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_37">
-      <property name="geometry">
-        <rect>
-          <x>340</x>
-          <y>320</y>
-          <width>71</width>
-          <height>21</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Sample every</string>
-      </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditYSample">
-      <property name="geometry">
-        <rect>
-          <x>410</x>
-          <y>320</y>
-          <width>31</width>
-          <height>20</height>
-        </rect>
-      </property>
-    </widget>
-    <widget class="QLabel" name="label_38">
-      <property name="geometry">
-        <rect>
-          <x>20</x>
-          <y>380</y>
-          <width>91</width>
-          <height>16</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Rendering option:</string>
-      </property>
-    </widget>
-    <widget class="QRadioButton" name="radioButtonRenderSilhouette">
-      <property name="geometry">
-        <rect>
-          <x>140</x>
-          <y>380</y>
-          <width>82</width>
-          <height>17</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Silhouette</string>
-      </property>
-    </widget>
-    <widget class="QRadioButton" name="radioButtonRenderLine">
-      <property name="geometry">
-        <rect>
-          <x>250</x>
-          <y>380</y>
-          <width>82</width>
-          <height>17</height>
-        </rect>
-      </property>
-      <property name="text">
-        <string>Line</string>
-      </property>
-    </widget>
+ <class>ImageGenerationDialog</class>
+ <widget class="QDialog" name="ImageGenerationDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>579</width>
+    <height>610</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ImageGenerationDialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonOK">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>570</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
   </widget>
-  <layoutdefault spacing="6" margin="11"/>
-  <tabstops>
-    <tabstop>lineEditCGADirectory</tabstop>
-    <tabstop>pushButtonCGADirectory</tabstop>
-    <tabstop>lineEditOutputDirectory</tabstop>
-    <tabstop>pushButtonOutputDirectory</tabstop>
-    <tabstop>lineEditNumSamples</tabstop>
-    <tabstop>lineEditImageSize</tabstop>
-    <tabstop>checkBoxGrayscale</tabstop>
-    <tabstop>lineEditCameraDistance</tabstop>
-    <tabstop>lineEditXrotMin</tabstop>
-    <tabstop>lineEditXrotMax</tabstop>
-    <tabstop>lineEditXrotSample</tabstop>
-    <tabstop>lineEditYrotMin</tabstop>
-    <tabstop>lineEditYrotMax</tabstop>
-    <tabstop>lineEditYrotSample</tabstop>
-    <tabstop>lineEditZrotMin</tabstop>
-    <tabstop>lineEditZrotMax</tabstop>
-    <tabstop>lineEditZrotSample</tabstop>
-    <tabstop>lineEditFovMin</tabstop>
-    <tabstop>lineEditFovMax</tabstop>
-    <tabstop>lineEditFovSample</tabstop>
-    <tabstop>lineEditXMin</tabstop>
-    <tabstop>lineEditXMax</tabstop>
-    <tabstop>lineEditXSample</tabstop>
-    <tabstop>lineEditYMin</tabstop>
-    <tabstop>lineEditYMax</tabstop>
-    <tabstop>lineEditYSample</tabstop>
-    <tabstop>lineEditTotalNumImages</tabstop>
-    <tabstop>checkBoxGenerateMean</tabstop>
-    <tabstop>checkBoxModifyImage</tabstop>
-    <tabstop>lineEditLineWidthMin</tabstop>
-    <tabstop>lineEditLineWidthMax</tabstop>
-    <tabstop>checkBoxEdgeNoise</tabstop>
-    <tabstop>lineEditEdgeNoiseMax</tabstop>
-    <tabstop>pushButtonOK</tabstop>
-    <tabstop>pushButtonCancel</tabstop>
-  </tabstops>
-  <resources/>
-  <connections/>
+  <widget class="QPushButton" name="pushButtonCancel">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>570</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CGA directory:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Output directory:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditCGADirectory">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>20</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCGADirectory">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>20</y>
+     <width>31</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditOutputDirectory">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>50</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonOutputDirectory">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>50</y>
+     <width>31</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>#Samples / viewpoint:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditNumSamples">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>80</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>198</x>
+     <y>110</y>
+     <width>16</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>px</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>110</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Image size:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditImageSize">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>110</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxGrayscale">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>110</y>
+     <width>70</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Grayscale</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Camera distance:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditCameraDistance">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>140</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>170</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rot around X axis:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditXrotMin">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>170</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditXrotMax">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>170</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>170</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>~</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>200</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rot around Y axis:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditYrotMin">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>200</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditYrotMax">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>200</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>200</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>~</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditFovMax">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>260</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditFovMin">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>260</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>260</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Field of view:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>260</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>~</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>440</y>
+     <width>541</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Image modification</string>
+   </property>
+   <widget class="QCheckBox" name="checkBoxModifyImage">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>141</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Modify rendered image</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditLineWidthMax">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>50</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>50</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Line width:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditLineWidthMin">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>50</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>215</x>
+      <y>50</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>~</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxEdgeNoise">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>91</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edge noise</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditEdgeNoiseMax">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>80</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>216</x>
+      <y>80</y>
+      <width>16</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>%</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLineEdit" name="lineEditZrotMax">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>230</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>230</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rot around Z axis:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditZrotMin">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>230</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>170</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_18">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>200</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_19">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>230</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_20">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>260</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditXrotSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>170</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_21">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>170</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_22">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>170</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_23">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>200</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditYrotSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>200</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_24">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>200</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditZrotSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>230</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_25">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>230</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_26">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>230</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditFovSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>260</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_27">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>260</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_28">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>260</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>degree</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditTotalNumImages">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>350</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_29">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>350</y>
+     <width>171</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>The total number of images will be</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxGenerateMean">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>350</y>
+     <width>101</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Generate mean</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_31">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>290</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>X coordinates:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditXMin">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>290</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditXMax">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>290</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditYMin">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>320</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_32">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>320</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Y coordinates:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditYMax">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>320</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_33">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>230</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>~</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_34">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>290</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>~</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_35">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>320</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>~</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_36">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>290</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditXSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>290</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_37">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>320</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sample every</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditYSample">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>320</y>
+     <width>31</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_38">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>380</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rendering option:</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButtonRenderSilhouette">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>380</y>
+     <width>82</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Silhouette</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButtonRenderLine">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>380</y>
+     <width>82</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Line</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_39">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>410</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Discard:</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxDiscardTopFaceVisible">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>410</y>
+     <width>141</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>If the top face is visible</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxDiscardBottomFaceVisible">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>410</y>
+     <width>141</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>If the bottom face is visible</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>lineEditCGADirectory</tabstop>
+  <tabstop>pushButtonCGADirectory</tabstop>
+  <tabstop>lineEditOutputDirectory</tabstop>
+  <tabstop>pushButtonOutputDirectory</tabstop>
+  <tabstop>lineEditNumSamples</tabstop>
+  <tabstop>lineEditImageSize</tabstop>
+  <tabstop>checkBoxGrayscale</tabstop>
+  <tabstop>lineEditCameraDistance</tabstop>
+  <tabstop>lineEditXrotMin</tabstop>
+  <tabstop>lineEditXrotMax</tabstop>
+  <tabstop>lineEditXrotSample</tabstop>
+  <tabstop>lineEditYrotMin</tabstop>
+  <tabstop>lineEditYrotMax</tabstop>
+  <tabstop>lineEditYrotSample</tabstop>
+  <tabstop>lineEditZrotMin</tabstop>
+  <tabstop>lineEditZrotMax</tabstop>
+  <tabstop>lineEditZrotSample</tabstop>
+  <tabstop>lineEditFovMin</tabstop>
+  <tabstop>lineEditFovMax</tabstop>
+  <tabstop>lineEditFovSample</tabstop>
+  <tabstop>lineEditXMin</tabstop>
+  <tabstop>lineEditXMax</tabstop>
+  <tabstop>lineEditXSample</tabstop>
+  <tabstop>lineEditYMin</tabstop>
+  <tabstop>lineEditYMax</tabstop>
+  <tabstop>lineEditYSample</tabstop>
+  <tabstop>lineEditTotalNumImages</tabstop>
+  <tabstop>checkBoxGenerateMean</tabstop>
+  <tabstop>checkBoxModifyImage</tabstop>
+  <tabstop>lineEditLineWidthMin</tabstop>
+  <tabstop>lineEditLineWidthMax</tabstop>
+  <tabstop>checkBoxEdgeNoise</tabstop>
+  <tabstop>lineEditEdgeNoiseMax</tabstop>
+  <tabstop>pushButtonOK</tabstop>
+  <tabstop>pushButtonCancel</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
 </ui>

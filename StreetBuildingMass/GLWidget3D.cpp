@@ -489,7 +489,7 @@ void GLWidget3D::loadCGA(const std::string& cga_filename) {
 * @param fovMin			min of fov
 * @param fovMax			max of fov
 */
-void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, float cameraDistanceBase, const std::pair<int, int>& xrotRange, int xrotSample, const std::pair<int, int>& yrotRange, int yrotSample, const std::pair<int, int>& zrotRange, int zrotSample, const std::pair<int, int>& fovRange, int fovSample, const std::pair<int, int>& xRange, int xSample, const std::pair<int, int>& yRange, int ySample, bool generateMean, int render_option, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
+void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, float cameraDistanceBase, const std::pair<float, float>& xrotRange, float xrotSample, const std::pair<float, float>& yrotRange, float yrotSample, const std::pair<float, float>& zrotRange, float zrotSample, const std::pair<float, float>& fovRange, float fovSample, const std::pair<float, float>& xRange, float xSample, const std::pair<float, float>& yRange, float ySample, bool generateMean, int render_option, bool discardIfTopFaceIsVisible, bool discardIfBottomFaceIsVisible, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
 	if (QDir(out_dir).exists()) {
 		std::cout << "Clearning output directory..." << std::endl;
 		QDir(out_dir).removeRecursively();
@@ -512,6 +512,8 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	std::cout << "  y pos: " << yRange.first << " - " << yRange.second << " (every " << ySample << ")" << std::endl;
 	std::cout << "  generate Mean: " << (generateMean ? "true" : "false") << std::endl;
 	std::cout << "  render option: " << (render_option == RenderManager::RENDERING_MODE_CONTOUR ? "contour" : "line") << std::endl;
+	std::cout << "  discard if top face is visible: " << (discardIfTopFaceIsVisible ? "true" : "false") << std::endl;
+	std::cout << "  discard if bottom face is visible: " << (discardIfBottomFaceIsVisible ? "true" : "false") << std::endl;
 	std::cout << "  modify image: " << (modifyImage ? "true" : "false") << std::endl;
 	std::cout << "  line width: " << lineWidthMin << " - " << lineWidthMax << std::endl;
 	std::cout << "  edge noise: " << (edgeNoise ? "true" : "false") << std::endl;
@@ -569,54 +571,25 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 		// show the progress
 		printf("Grammar #%d:", grammar_id + 1);
 	
-		for (int yrot = yrotRange.first; yrot <= yrotRange.second; yrot += yrotSample) {
-			for (int xrot = xrotRange.first; xrot <= xrotRange.second; xrot += xrotSample) {
-				for (int zrot = zrotRange.first; zrot <= zrotRange.second; zrot += zrotSample) {
-					for (int fov = fovRange.first; fov <= fovRange.second; fov += fovSample) {
-						for (int xpos = xRange.first; xpos <= xRange.second; xpos += xSample) {
-							for (int ypos = yRange.first; ypos <= yRange.second; ypos += ySample) {
+		for (float yrot = yrotRange.first; yrot < yrotRange.second + yrotSample * 0.5; yrot += yrotSample) {
+			for (float xrot = xrotRange.first; xrot < xrotRange.second + xrotSample * 0.5; xrot += xrotSample) {
+				for (float zrot = zrotRange.first; zrot < zrotRange.second + zrotSample * 0.5; zrot += zrotSample) {
+					for (float fov = fovRange.first; fov < fovRange.second + fovSample * 0.5; fov += fovSample) {
+						for (float xpos = xRange.first; xpos < xRange.second + xSample * 0.5; xpos += xSample) {
+							for (float ypos = yRange.first; ypos < yRange.second + ySample * 0.5; ypos += ySample) {
 								// randomly sample N parameter values
 								for (int k = 0; k < numSamples; ++k) {
 									printf("\rGrammar %s: iter = %d", grammar_filenames[grammar_id].toUtf8().constData(), iter + 1);
 									iter++;
 
-									float xrot2 = xrot;
-									float yrot2 = yrot;
-									float zrot2 = zrot;
-									float fov2 = fov;
-									float xpos2 = xpos;
-									float ypos2 = ypos;
-
-									// perturbe the parameter a little
-									/*
-									if (xrotRange.first != xrotRange.second) {
-										xrot2 = glm::clamp(utils::genRand(xrot - xrotSample * 0.5, xrot + xrotSample * 0.5), (float)xrotRange.first, (float)xrotRange.second);
-									}
-									if (yrotRange.first != yrotRange.second) {
-										yrot2 = glm::clamp(utils::genRand(yrot - yrotSample * 0.5, yrot + yrotSample * 0.5), (float)yrotRange.first, (float)yrotRange.second);
-									}
-									if (zrotRange.first != zrotRange.second) {
-										zrot2 = glm::clamp(utils::genRand(zrot - zrotSample * 0.5, zrot + zrotSample * 0.5), (float)zrotRange.first, (float)zrotRange.second);
-									}
-									if (fovRange.first != fovRange.second) {
-										fov2 = glm::clamp(utils::genRand(fov - fovSample * 0.5, fov + fovSample * 0.5), (float)fovRange.first, (float)fovRange.second);
-									}
-									if (xRange.first != xRange.second) {
-										xpos2 = glm::clamp(utils::genRand(xpos - xSample * 0.5, xpos + xSample * 0.5), (float)xRange.first, (float)xRange.second);
-									}
-									if (yRange.first != yRange.second) {
-										ypos2 = glm::clamp(utils::genRand(ypos - ySample * 0.5, ypos + ySample * 0.5), (float)yRange.first, (float)yRange.second);
-									}
-									*/
-
-									float camera_distance = camera.distanceBase / tan(utils::deg2rad(fov2 * 0.5));
-									camera.xrot = xrot2;
-									camera.yrot = yrot2;
-									camera.zrot = zrot2;
-									camera.pos.x = xpos2;
-									camera.pos.y = ypos2;
+									float camera_distance = camera.distanceBase / tan(utils::deg2rad(fov * 0.5));
+									camera.xrot = xrot;
+									camera.yrot = yrot;
+									camera.zrot = zrot;
+									camera.pos.x = xpos * camera_distance;
+									camera.pos.y = ypos * camera_distance;
 									camera.pos.z = camera_distance;// *cosf(camera.xrot / 180.0f * M_PI);// +cameraHeight * sinf(camera.xrot / 180.0f * M_PI);
-									camera.fovy = fov2;
+									camera.fovy = fov;
 									camera.updatePMatrix(width(), height());
 
 									cv::Mat mat;
@@ -638,15 +611,19 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 										// if the top face is visible, discard this
 										// Hack: assuming that faces[0] is the top face.
-										glm::vec3 top_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(faces[0]->vertices[0].position, 1));
-										glm::vec3 top_normal = glm::vec3(camera.mvMatrix * glm::vec4(faces[0]->vertices[0].normal, 0));
-										if (glm::dot(top_normal, top_view_dir) < 0) continue;
+										if (discardIfTopFaceIsVisible) {
+											glm::vec3 top_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(faces[0]->vertices[0].position, 1));
+											glm::vec3 top_normal = glm::vec3(camera.mvMatrix * glm::vec4(faces[0]->vertices[0].normal, 0));
+											if (glm::dot(top_normal, top_view_dir) < 0) continue;
+										}
 										
 										// if the bottom face is visible, discard this
 										// Hack: assuming that faces[1] is the bottom face.
-										glm::vec3 bottom_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(faces[1]->vertices[0].position, 1));
-										glm::vec3 bottom_normal = glm::vec3(camera.mvMatrix * glm::vec4(faces[1]->vertices[0].normal, 0));
-										if (glm::dot(bottom_normal, bottom_view_dir) < 0) continue;
+										if (discardIfBottomFaceIsVisible) {
+											glm::vec3 bottom_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(faces[1]->vertices[0].position, 1));
+											glm::vec3 bottom_normal = glm::vec3(camera.mvMatrix * glm::vec4(faces[1]->vertices[0].normal, 0));
+											if (glm::dot(bottom_normal, bottom_view_dir) < 0) continue;
+										}
 
 										// render 2d image
 										render();
@@ -724,22 +701,22 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 									// add camera parameters to the params
 									if (yRange.first != yRange.second) {
-										param_values.insert(param_values.begin(), (float)(ypos2 - yRange.first) / (yRange.second - yRange.first));
+										param_values.insert(param_values.begin(), (float)(ypos - yRange.first) / (yRange.second - yRange.first));
 									}
 									if (xRange.first != xRange.second) {
-										param_values.insert(param_values.begin(), (float)(xpos2 - xRange.first) / (xRange.second - xRange.first));
+										param_values.insert(param_values.begin(), (float)(xpos - xRange.first) / (xRange.second - xRange.first));
 									}
 									if (fovRange.first != fovRange.second) {
-										param_values.insert(param_values.begin(), (float)(fov2 - fovRange.first) / (fovRange.second - fovRange.first));
+										param_values.insert(param_values.begin(), (float)(fov - fovRange.first) / (fovRange.second - fovRange.first));
 									}
 									if (zrotRange.first != zrotRange.second) {
-										param_values.insert(param_values.begin(), (float)(zrot2 - zrotRange.first) / (zrotRange.second - zrotRange.first));
+										param_values.insert(param_values.begin(), (float)(zrot - zrotRange.first) / (zrotRange.second - zrotRange.first));
 									}
 									if (yrotRange.first != yrotRange.second) {
-										param_values.insert(param_values.begin(), (float)(yrot2 - yrotRange.first) / (yrotRange.second - yrotRange.first));
+										param_values.insert(param_values.begin(), (float)(yrot - yrotRange.first) / (yrotRange.second - yrotRange.first));
 									}
 									if (xrotRange.first != xrotRange.second) {
-										param_values.insert(param_values.begin(), (float)(xrot2 - xrotRange.first) / (xrotRange.second - xrotRange.first));
+										param_values.insert(param_values.begin(), (float)(xrot - xrotRange.first) / (xrotRange.second - xrotRange.first));
 									}
 
 									// write all the param values [xrot, yrot, zrot, fov, param1, param2, ...] to the file

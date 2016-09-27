@@ -102,18 +102,21 @@ public:
     QLabel *label_38;
     QRadioButton *radioButtonRenderSilhouette;
     QRadioButton *radioButtonRenderLine;
+    QLabel *label_39;
+    QCheckBox *checkBoxDiscardTopFaceVisible;
+    QCheckBox *checkBoxDiscardBottomFaceVisible;
 
     void setupUi(QDialog *ImageGenerationDialog)
     {
         if (ImageGenerationDialog->objectName().isEmpty())
             ImageGenerationDialog->setObjectName(QStringLiteral("ImageGenerationDialog"));
-        ImageGenerationDialog->resize(579, 584);
+        ImageGenerationDialog->resize(579, 610);
         pushButtonOK = new QPushButton(ImageGenerationDialog);
         pushButtonOK->setObjectName(QStringLiteral("pushButtonOK"));
-        pushButtonOK->setGeometry(QRect(360, 530, 91, 31));
+        pushButtonOK->setGeometry(QRect(360, 570, 91, 31));
         pushButtonCancel = new QPushButton(ImageGenerationDialog);
         pushButtonCancel->setObjectName(QStringLiteral("pushButtonCancel"));
-        pushButtonCancel->setGeometry(QRect(460, 530, 91, 31));
+        pushButtonCancel->setGeometry(QRect(460, 570, 91, 31));
         label = new QLabel(ImageGenerationDialog);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(20, 20, 91, 16));
@@ -194,7 +197,7 @@ public:
         label_12->setGeometry(QRect(196, 260, 16, 16));
         groupBox = new QGroupBox(ImageGenerationDialog);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(20, 410, 541, 111));
+        groupBox->setGeometry(QRect(20, 440, 541, 111));
         checkBoxModifyImage = new QCheckBox(groupBox);
         checkBoxModifyImage->setObjectName(QStringLiteral("checkBoxModifyImage"));
         checkBoxModifyImage->setGeometry(QRect(40, 20, 141, 17));
@@ -334,6 +337,15 @@ public:
         radioButtonRenderLine = new QRadioButton(ImageGenerationDialog);
         radioButtonRenderLine->setObjectName(QStringLiteral("radioButtonRenderLine"));
         radioButtonRenderLine->setGeometry(QRect(250, 380, 82, 17));
+        label_39 = new QLabel(ImageGenerationDialog);
+        label_39->setObjectName(QStringLiteral("label_39"));
+        label_39->setGeometry(QRect(20, 410, 91, 16));
+        checkBoxDiscardTopFaceVisible = new QCheckBox(ImageGenerationDialog);
+        checkBoxDiscardTopFaceVisible->setObjectName(QStringLiteral("checkBoxDiscardTopFaceVisible"));
+        checkBoxDiscardTopFaceVisible->setGeometry(QRect(140, 410, 141, 17));
+        checkBoxDiscardBottomFaceVisible = new QCheckBox(ImageGenerationDialog);
+        checkBoxDiscardBottomFaceVisible->setObjectName(QStringLiteral("checkBoxDiscardBottomFaceVisible"));
+        checkBoxDiscardBottomFaceVisible->setGeometry(QRect(310, 410, 141, 17));
         QWidget::setTabOrder(lineEditCGADirectory, pushButtonCGADirectory);
         QWidget::setTabOrder(pushButtonCGADirectory, lineEditOutputDirectory);
         QWidget::setTabOrder(lineEditOutputDirectory, pushButtonOutputDirectory);
@@ -425,6 +437,9 @@ public:
         label_38->setText(QApplication::translate("ImageGenerationDialog", "Rendering option:", 0));
         radioButtonRenderSilhouette->setText(QApplication::translate("ImageGenerationDialog", "Silhouette", 0));
         radioButtonRenderLine->setText(QApplication::translate("ImageGenerationDialog", "Line", 0));
+        label_39->setText(QApplication::translate("ImageGenerationDialog", "Discard:", 0));
+        checkBoxDiscardTopFaceVisible->setText(QApplication::translate("ImageGenerationDialog", "If the top face is visible", 0));
+        checkBoxDiscardBottomFaceVisible->setText(QApplication::translate("ImageGenerationDialog", "If the bottom face is visible", 0));
     } // retranslateUi
 
 };

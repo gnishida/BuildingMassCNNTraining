@@ -76,49 +76,49 @@ ImageGenerationDialog::~ImageGenerationDialog() {
 
 void ImageGenerationDialog::updateTotalNumImages() {
 	int samples = ui.lineEditNumSamples->text().toInt();
-	int xrot_min = ui.lineEditXrotMin->text().toInt();
-	int xrot_max = ui.lineEditXrotMax->text().toInt();
-	int xrot_sam = ui.lineEditXrotSample->text().toInt();
+	float xrot_min = ui.lineEditXrotMin->text().toFloat();
+	float xrot_max = ui.lineEditXrotMax->text().toFloat();
+	float xrot_sam = ui.lineEditXrotSample->text().toFloat();
 	if (xrot_sam == 0) {
 		xrot_sam = 1;
 		ui.lineEditXrotSample->setText("1");
 	}
 
-	int yrot_min = ui.lineEditYrotMin->text().toInt();
-	int yrot_max = ui.lineEditYrotMax->text().toInt();
-	int yrot_sam = ui.lineEditYrotSample->text().toInt();
+	float yrot_min = ui.lineEditYrotMin->text().toFloat();
+	float yrot_max = ui.lineEditYrotMax->text().toFloat();
+	float yrot_sam = ui.lineEditYrotSample->text().toFloat();
 	if (yrot_sam == 0) {
 		yrot_sam = 1;
 		ui.lineEditYrotSample->setText("1");
 	}
 
-	int zrot_min = ui.lineEditZrotMin->text().toInt();
-	int zrot_max = ui.lineEditZrotMax->text().toInt();
-	int zrot_sam = ui.lineEditZrotSample->text().toInt();
+	float zrot_min = ui.lineEditZrotMin->text().toFloat();
+	float zrot_max = ui.lineEditZrotMax->text().toFloat();
+	float zrot_sam = ui.lineEditZrotSample->text().toFloat();
 	if (zrot_sam == 0) {
 		zrot_sam = 1;
 		ui.lineEditZrotSample->setText("1");
 	}
 
-	int f_min = ui.lineEditFovMin->text().toInt();
-	int f_max = ui.lineEditFovMax->text().toInt();
-	int f_sam = ui.lineEditFovSample->text().toInt();
+	float f_min = ui.lineEditFovMin->text().toFloat();
+	float f_max = ui.lineEditFovMax->text().toFloat();
+	float f_sam = ui.lineEditFovSample->text().toFloat();
 	if (f_sam == 0) {
 		f_sam = 1;
 		ui.lineEditFovSample->setText("1");
 	}
 
-	int x_min = ui.lineEditXMin->text().toInt();
-	int x_max = ui.lineEditXMax->text().toInt();
-	int x_sam = ui.lineEditXSample->text().toInt();
+	float x_min = ui.lineEditXMin->text().toFloat();
+	float x_max = ui.lineEditXMax->text().toFloat();
+	float x_sam = ui.lineEditXSample->text().toFloat();
 	if (x_sam == 0) {
 		x_sam = 1;
 		ui.lineEditXSample->setText("1");
 	}
 
-	int y_min = ui.lineEditYMin->text().toInt();
-	int y_max = ui.lineEditYMax->text().toInt();
-	int y_sam = ui.lineEditYSample->text().toInt();
+	float y_min = ui.lineEditYMin->text().toFloat();
+	float y_max = ui.lineEditYMax->text().toFloat();
+	float y_sam = ui.lineEditYSample->text().toFloat();
 	if (y_sam == 0) {
 		y_sam = 1;
 		ui.lineEditYSample->setText("1");

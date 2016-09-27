@@ -37,27 +37,29 @@ void MainWindow::onGenerateTrainingImages() {
 		int imageSize = dlg.ui.lineEditImageSize->text().toInt();
 		bool grayscale = dlg.ui.checkBoxGrayscale->isChecked();
 		float cameraDistanceBase = dlg.ui.lineEditCameraDistance->text().toFloat();
-		std::pair<int, int> xrotRange = std::make_pair(dlg.ui.lineEditXrotMin->text().toInt(), dlg.ui.lineEditXrotMax->text().toInt());
-		int xrotSample = dlg.ui.lineEditXrotSample->text().toInt();
-		std::pair<int, int> yrotRange = std::make_pair(dlg.ui.lineEditYrotMin->text().toInt(), dlg.ui.lineEditYrotMax->text().toInt());
-		int yrotSample = dlg.ui.lineEditYrotSample->text().toInt();
-		std::pair<int, int> zrotRange = std::make_pair(dlg.ui.lineEditZrotMin->text().toInt(), dlg.ui.lineEditZrotMax->text().toInt());
-		int zrotSample = dlg.ui.lineEditZrotSample->text().toInt();
-		std::pair<int, int> fovRange = std::make_pair(dlg.ui.lineEditFovMin->text().toInt(), dlg.ui.lineEditFovMax->text().toInt());
-		int fovSample = dlg.ui.lineEditFovSample->text().toInt();
-		std::pair<int, int> xRange = std::make_pair(dlg.ui.lineEditXMin->text().toInt(), dlg.ui.lineEditXMax->text().toInt());
-		int xSample = dlg.ui.lineEditXSample->text().toInt();
-		std::pair<int, int> yRange = std::make_pair(dlg.ui.lineEditYMin->text().toInt(), dlg.ui.lineEditYMax->text().toInt());
-		int ySample = dlg.ui.lineEditYSample->text().toInt();
+		std::pair<float, float> xrotRange = std::make_pair(dlg.ui.lineEditXrotMin->text().toFloat(), dlg.ui.lineEditXrotMax->text().toFloat());
+		float xrotSample = dlg.ui.lineEditXrotSample->text().toFloat();
+		std::pair<float, float> yrotRange = std::make_pair(dlg.ui.lineEditYrotMin->text().toFloat(), dlg.ui.lineEditYrotMax->text().toFloat());
+		float yrotSample = dlg.ui.lineEditYrotSample->text().toFloat();
+		std::pair<float, float> zrotRange = std::make_pair(dlg.ui.lineEditZrotMin->text().toFloat(), dlg.ui.lineEditZrotMax->text().toFloat());
+		float zrotSample = dlg.ui.lineEditZrotSample->text().toFloat();
+		std::pair<float, float> fovRange = std::make_pair(dlg.ui.lineEditFovMin->text().toFloat(), dlg.ui.lineEditFovMax->text().toFloat());
+		float fovSample = dlg.ui.lineEditFovSample->text().toFloat();
+		std::pair<float, float> xRange = std::make_pair(dlg.ui.lineEditXMin->text().toFloat(), dlg.ui.lineEditXMax->text().toFloat());
+		float xSample = dlg.ui.lineEditXSample->text().toFloat();
+		std::pair<float, float> yRange = std::make_pair(dlg.ui.lineEditYMin->text().toFloat(), dlg.ui.lineEditYMax->text().toFloat());
+		float ySample = dlg.ui.lineEditYSample->text().toFloat();
 		bool generateMean = dlg.ui.checkBoxGenerateMean->isChecked();
 		int render_option = dlg.ui.radioButtonRenderSilhouette->isChecked() ? RenderManager::RENDERING_MODE_CONTOUR : RenderManager::RENDERING_MODE_LINE;
+		bool discardIfTopFaceIsVisible = dlg.ui.checkBoxDiscardTopFaceVisible->isChecked();
+		bool discardIfBottomFaceIsVisible = dlg.ui.checkBoxDiscardBottomFaceVisible->isChecked();
 		bool modifyImage = dlg.ui.checkBoxModifyImage->isChecked();
 		int lineWidthMin = dlg.ui.lineEditLineWidthMin->text().toInt();
 		int lineWidthMax = dlg.ui.lineEditLineWidthMax->text().toInt();
 		bool edgeNoise = dlg.ui.checkBoxEdgeNoise->isChecked();
 		float edgeNoiseMax = dlg.ui.lineEditEdgeNoiseMax->text().toFloat();
 
-		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, grayscale, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, xRange, xSample, yRange, ySample, generateMean, render_option, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
+		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, grayscale, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, xRange, xSample, yRange, ySample, generateMean, render_option, discardIfTopFaceIsVisible, discardIfBottomFaceIsVisible, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
 	}
 }
 
