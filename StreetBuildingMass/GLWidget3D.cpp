@@ -586,8 +586,8 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 									camera.xrot = xrot;
 									camera.yrot = yrot;
 									camera.zrot = zrot;
-									camera.pos.x = xpos * camera_distance;
-									camera.pos.y = ypos * camera_distance;
+									camera.pos.x = xpos;// *camera_distance;
+									camera.pos.y = ypos;// *camera_distance;
 									camera.pos.z = camera_distance;// *cosf(camera.xrot / 180.0f * M_PI);// +cameraHeight * sinf(camera.xrot / 180.0f * M_PI);
 									camera.fovy = fov;
 									camera.updatePMatrix(width(), height());
