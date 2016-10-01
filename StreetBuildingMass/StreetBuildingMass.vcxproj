@@ -529,6 +529,20 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\lc_frag_blur.glsl" />
+    <None Include="..\shaders\lc_frag_contour.glsl" />
+    <None Include="..\shaders\lc_frag_line.glsl" />
+    <None Include="..\shaders\lc_frag_pass1.glsl" />
+    <None Include="..\shaders\lc_frag_shadow.glsl" />
+    <None Include="..\shaders\lc_frag_ssao.glsl" />
+    <None Include="..\shaders\lc_vert_blur.glsl" />
+    <None Include="..\shaders\lc_vert_contour.glsl" />
+    <None Include="..\shaders\lc_vert_line.glsl" />
+    <None Include="..\shaders\lc_vert_pass1.glsl" />
+    <None Include="..\shaders\lc_vert_shadow.glsl" />
+    <None Include="..\shaders\lc_vert_ssao.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 7.0.targets" />

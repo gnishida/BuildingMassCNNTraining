@@ -78,19 +78,18 @@ void GLWidget3D::mouseMoveEvent(QMouseEvent *e) {
 			camera.move(e->x(), e->y());
 		}
 		else {
-			camera.rotate(e->x(), e->y());
+			camera.rotate(e->x(), e->y(), (ctrlPressed ? 0.1 : 1));
 		}
 	}
 	else if (e->buttons() & Qt::MidButton) { // Rotate around viewing direction
-		camera.rotateAroundZ(e->x(), e->y());
+		camera.rotateAroundZ(e->x(), e->y(), (ctrlPressed ? 0.1 : 1));
 	}
 	updateStatusBar();
 	update();
 }
 
 void GLWidget3D::wheelEvent(QWheelEvent* e) {
-	camera.changeFov(e->delta() * 0.05, 1, width(), height());
-	//camera.zoom(e->delta() * 0.1);
+	camera.changeFov(e->delta() * 0.05, (ctrlPressed ? 0.1 : 1), width(), height());
 	updateStatusBar();
 	update();
 }
