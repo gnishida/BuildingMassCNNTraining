@@ -18,10 +18,9 @@ public:
 	bool hasRange;
 	float range_start;
 	float range_end;
-	bool fixed;
 
 public:
-	Attribute() : fixed(false) {}
+	Attribute() {}
 	Attribute(const std::string& name, const std::string& value);
 	Attribute(const std::string& name, const std::string& value, float range_start, float range_end);
 };
