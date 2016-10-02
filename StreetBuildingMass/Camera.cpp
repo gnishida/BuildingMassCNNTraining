@@ -74,7 +74,7 @@ void Camera::move(int mouse_x, int mouse_y) {
 void Camera::updatePMatrix(int width,int height) {
 	float aspect = (float)width / (float)height;
 	float zfar = 1000.0f;
-	float znear = 10.0f;
+	float znear = 1.0f;
 	float f = 1.0f / tan(fovy * M_PI / 360.0f);
 
 	// projection行列
