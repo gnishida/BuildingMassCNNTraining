@@ -188,8 +188,12 @@ void Cuboid::offset(const std::string& name, float offsetDistance, const std::st
 void Cuboid::setupProjection(float texWidth, float texHeight) {
 }
 
-void Cuboid::size(float xSize, float ySize, float zSize) {
+void Cuboid::size(float xSize, float ySize, float zSize, bool centered) {
 	_prev_scope = _scope;
+
+	if (centered) {
+		_modelMat = glm::translate(_modelMat, glm::vec3((_scope.x - xSize) * 0.5, (_scope.y - ySize) * 0.5, (_scope.z - zSize) * 0.5));
+	}
 
 	_scope.x = xSize;
 	_scope.y = ySize;
@@ -228,6 +232,7 @@ void Cuboid::split(int splitAxis, const std::vector<float>& sizes, const std::ve
 
 void Cuboid::generateGeometry(std::vector<boost::shared_ptr<glutils::Face> >& faces, float opacity) const {
 	if (!_active) return;
+
 	if (_scope.z == 0) return;
 	int num = 0;
 	
