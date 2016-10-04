@@ -13,10 +13,10 @@ namespace cga {
 
 UShape::UShape(const std::string& name, const std::string& grammar_type, const glm::mat4& pivot, const glm::mat4& modelMat, float width, float height, float front_width, float back_height, const glm::vec3& color) {
 	this->_active = true;
+	this->_pivot = pivot;
 	this->_axiom = false;
 	this->_name = name;
 	this->_grammar_type = grammar_type;
-	this->_pivot = pivot;
 	this->_modelMat = modelMat;
 	this->_scope = glm::vec3(width, height, 0);
 	this->_front_width = front_width;

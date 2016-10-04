@@ -44,7 +44,6 @@ public:
 class Operator {
 public:
 	std::string name;
-	std::vector<std::string> params;
 
 public:
 	Operator() {}

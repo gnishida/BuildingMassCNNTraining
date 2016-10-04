@@ -2,7 +2,6 @@
 #include "CGA.h"
 #include "Shape.h"
 #include <sstream>
-#include "Utils.h"
 
 namespace cga {
 
@@ -10,10 +9,6 @@ CornerCutOperator::CornerCutOperator(int type, const std::string& length) {
 	this->name = "cornerCut";
 	this->type = type;
 	this->length = length;
-
-	if (!utils::isNumber(length)) {
-		this->params.push_back(length);
-	}
 }
 
 
