@@ -207,9 +207,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
-    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraCalibration.cpp" />
     <ClCompile Include="CenterOperator.cpp" />
     <ClCompile Include="CGA.cpp" />
     <ClCompile Include="Circle.cpp" />
@@ -384,9 +382,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asset.h" />
-    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraCalibration.h" />
     <ClInclude Include="CenterOperator.h" />
     <ClInclude Include="CGA.h" />
     <ClInclude Include="Circle.h" />
@@ -478,7 +474,6 @@
     <ClInclude Include="ShapeLOperator.h" />
     <ClInclude Include="ShapeUOperator.h" />
     <ClInclude Include="SizeOperator.h" />
-    <ClInclude Include="SketchyRenderingBuffer.h" />
     <ClInclude Include="SplitOperator.h" />
     <ClInclude Include="TaperOperator.h" />
     <ClInclude Include="TextureOperator.h" />

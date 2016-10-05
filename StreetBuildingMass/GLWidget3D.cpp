@@ -10,7 +10,6 @@
 #include <QProcess>
 #include "Utils.h"
 #include "CVUtils.h"
-//#include "MCMC.h"
 #include "GrammarParser.h"
 #include "CGA.h"
 #include "Rectangle.h"
