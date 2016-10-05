@@ -20,17 +20,14 @@
 #include "Regression.h"
 #include <boost/algorithm/string.hpp>
 
-#ifndef M_PI
-#define	M_PI	3.141592653
-#endif
-#ifndef SQR
+#ifndef SQR(x)
 #define SQR(x)	((x) * (x))
 #endif
 
 GLWidget3D::GLWidget3D(MainWindow *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers)) {
 	this->mainWin = parent;
-	shiftPressed = false;
 	ctrlPressed = false;
+	shiftPressed = false;
 
 	// This is necessary to prevent the screen overdrawn by OpenGL
 	//setAutoFillBackground(false);
@@ -43,11 +40,6 @@ GLWidget3D::GLWidget3D(MainWindow *parent) : QGLWidget(QGLFormat(QGL::SampleBuff
 	glm::mat4 light_pMatrix = glm::ortho<float>(-50, 50, -50, 50, 0.1, 200);
 	glm::mat4 light_mvMatrix = glm::lookAt(-light_dir * 50.0f, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	light_mvpMatrix = light_pMatrix * light_mvMatrix;
-}
-
-void GLWidget3D::updateStatusBar() {
-	QString msg = QString("xrot=%1, yrot=%2, zrot=%3, pos=(%4, %5, %6), fov=%7").arg(camera.xrot).arg(camera.yrot).arg(camera.zrot).arg(camera.pos.x).arg(camera.pos.y).arg(camera.pos.z).arg(camera.fovy);
-	mainWin->statusBar()->showMessage(msg);
 }
 
 /**
@@ -139,26 +131,6 @@ void GLWidget3D::initializeGL() {
 	renderManager.renderingMode = RenderManager::RENDERING_MODE_LINE;
 
 	glUniform1i(glGetUniformLocation(renderManager.programs["ssao"], "tex0"), 0);//tex0: 0
-
-	/*
-	std::vector<Vertex> vertices;
-	glutils::drawBox(30, 30, 15, glm::vec4(1, 1, 1, 1), glm::translate(glm::rotate(glm::mat4(), -(float)M_PI * 0.5f, glm::vec3(1, 0, 0)), glm::vec3(0, 0, 7.5)), vertices);
-	glutils::drawGrid(30, 30, 2, glm::vec4(0, 0, 1, 1), glm::vec4(0.95, 0.95, 1, 1), glm::rotate(glm::mat4(), -(float)M_PI * 0.5f, glm::vec3(1, 0, 0)), vertices);
-	renderManager.addObject("box", "", vertices, true);
-	*/
-
-	/*
-	float cameraDistance = cameraDistanceBase / tanf((float)camera.fovy * 0.5 / 180.0f * M_PI);
-	if (camera_type == 0) {
-		camera.pos.x = 0;
-		camera.pos.y = -cameraDistance * sinf(camera.xrot / 180.0f * M_PI) + cameraHeight * cosf(camera.xrot / 180.0f * M_PI);
-		camera.pos.z = cameraDistance * cosf(camera.xrot / 180.0f * M_PI) + cameraHeight * sinf(camera.xrot / 180.0f * M_PI);
-	}
-	else {
-		camera.pos = glm::vec3(0, 0, cameraDistance);
-	}
-	camera.updatePMatrix(width(), height());
-	*/
 
 	float camera_distance = camera.distanceBase / tan(utils::deg2rad(camera.fovy * 0.5));
 	camera.pos = glm::vec3(0, 0, camera_distance);
@@ -530,6 +502,8 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	resize(image_size, image_size);
 	resizeGL(image_size, image_size);
 
+	cga::CGA cga;
+
 	// setup grammars
 	std::vector<cga::Grammar> grammars;
 	std::vector<QString> grammar_filenames;
@@ -781,6 +755,8 @@ void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& test
 	resize(512, 512);
 	resizeGL(512, 512);
 
+	cga::CGA cga;
+
 	// setup grammars
 	std::vector<cga::Grammar> grammars;
 	QStringList filters;
@@ -916,10 +892,10 @@ void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& test
 				camera.fovy = fovRange.first + (fovRange.second - fovRange.first) * predicted_params[0];
 				predicted_params.erase(predicted_params.begin());
 			}
-			float cameraDistance = cameraDistanceBase / tanf(camera.fovy * 0.5 / 180.0f * M_PI);
+			float cameraDistance = cameraDistanceBase / tanf(glutils::deg2rad(camera.fovy * 0.5));
 			camera.pos.x = 0;
-			camera.pos.y = -cameraDistance * sinf(camera.xrot / 180.0f * M_PI) + cameraHeight * cosf(camera.xrot / 180.0f * M_PI);
-			camera.pos.z = cameraDistance * cosf(camera.xrot / 180.0f * M_PI) + cameraHeight * sinf(camera.xrot / 180.0f * M_PI);
+			camera.pos.y = -cameraDistance * sinf(glutils::deg2rad(camera.xrot)) + cameraHeight * cosf(glutils::deg2rad(camera.xrot));
+			camera.pos.z = cameraDistance * cosf(glutils::deg2rad(camera.xrot)) + cameraHeight * sinf(glutils::deg2rad(camera.xrot));
 			camera.updatePMatrix(width(), height());
 
 			// predictdパラメータをセット
@@ -1103,6 +1079,11 @@ void GLWidget3D::translateImage(cv::Mat source, cv::Mat& target, int shift_x, in
 			}
 		}
 	}
+}
+
+void GLWidget3D::updateStatusBar() {
+	QString msg = QString("xrot=%1, yrot=%2, zrot=%3, pos=(%4, %5, %6), fov=%7").arg(camera.xrot).arg(camera.yrot).arg(camera.zrot).arg(camera.pos.x).arg(camera.pos.y).arg(camera.pos.z).arg(camera.fovy);
+	mainWin->statusBar()->showMessage(msg);
 }
 
 void GLWidget3D::keyPressEvent(QKeyEvent *e) {

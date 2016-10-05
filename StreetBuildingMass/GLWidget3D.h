@@ -19,9 +19,23 @@ class MainWindow;
 
 class GLWidget3D : public QGLWidget {
 public:
+	MainWindow* mainWin;
+
+	// camera
+	Camera camera;
+	glm::vec3 light_dir;
+	glm::mat4 light_mvpMatrix;
+
+	// rendering engine
+	RenderManager renderManager;
+
+	// key status
+	bool ctrlPressed;
+	bool shiftPressed;
+
+public:
 	GLWidget3D(MainWindow *parent = 0);
 
-	void updateStatusBar();
 	void drawScene();
 	void render();
 	void loadCGA(const std::string& cga_filename);
@@ -30,6 +44,7 @@ public:
 	bool moveCenter(cv::Mat& img);
 	bool validateImage(const cv::Mat& img);
 	void translateImage(cv::Mat source, cv::Mat& target, int shift_x, int shift_y);
+	void updateStatusBar();
 
 	void keyPressEvent(QKeyEvent* e);
 	void keyReleaseEvent(QKeyEvent* e);
@@ -45,21 +60,6 @@ protected:
 	void mouseMoveEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);
 	void wheelEvent(QWheelEvent* e);
-
-public:
-	static enum { RENDERING_MODE_REGULAR = 0, RENDERING_MODE_LINE };
-
-public:
-	MainWindow* mainWin;
-	Camera camera;
-	glm::vec3 light_dir;
-	glm::mat4 light_mvpMatrix;
-	bool shiftPressed;
-	bool ctrlPressed;
-
-	RenderManager renderManager;
-
-	cga::CGA cga;
 
 };
 
