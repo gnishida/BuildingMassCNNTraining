@@ -459,7 +459,7 @@ void GLWidget3D::loadCGA(const std::string& cga_filename) {
 * @param fovMin			min of fov
 * @param fovMax			max of fov
 */
-void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, bool grayscale, float cameraDistanceBase, const std::pair<float, float>& xrotRange, float xrotSample, const std::pair<float, float>& yrotRange, float yrotSample, const std::pair<float, float>& zrotRange, float zrotSample, const std::pair<float, float>& fovRange, float fovSample, const std::pair<float, float>& xRange, float xSample, const std::pair<float, float>& yRange, float ySample, bool generateMean, int render_option, bool discardIfTopFaceIsVisible, bool discardIfBottomFaceIsVisible, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
+void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int numSamples, int image_size, float cameraDistanceBase, const std::pair<float, float>& xrotRange, float xrotSample, const std::pair<float, float>& yrotRange, float yrotSample, const std::pair<float, float>& zrotRange, float zrotSample, const std::pair<float, float>& fovRange, float fovSample, const std::pair<float, float>& xRange, float xSample, const std::pair<float, float>& yRange, float ySample, int render_option, bool discardIfTooBig, bool discardIfTopFaceIsVisible, bool discardIfBottomFaceIsVisible, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
 	if (QDir(out_dir).exists()) {
 		std::cout << "Clearning output directory..." << std::endl;
 		QDir(out_dir).removeRecursively();
@@ -472,7 +472,6 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	std::cout << "  out_dir: " << out_dir.toUtf8().constData() << std::endl;
 	std::cout << "  #Samples: " << numSamples << std::endl;
 	std::cout << "  image size: " << image_size << std::endl;
-	std::cout << "  grayscale: " << (grayscale ? "true" : "false") << std::endl;
 	std::cout << "  camera distance base: " << cameraDistanceBase << std::endl;
 	std::cout << "  x rot: " << xrotRange.first << " - " << xrotRange.second << " (every " << xrotSample << ")" << std::endl;
 	std::cout << "  y rot: " << yrotRange.first << " - " << yrotRange.second << " (every " << yrotSample << ")" << std::endl;
@@ -480,8 +479,8 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	std::cout << "  FOV: " << fovRange.first << " - " << fovRange.second << " (every " << fovSample << ")" << std::endl;
 	std::cout << "  x pos: " << xRange.first << " - " << xRange.second << " (every " << xSample << ")" << std::endl;
 	std::cout << "  y pos: " << yRange.first << " - " << yRange.second << " (every " << ySample << ")" << std::endl;
-	std::cout << "  generate Mean: " << (generateMean ? "true" : "false") << std::endl;
 	std::cout << "  render option: " << (render_option == RenderManager::RENDERING_MODE_CONTOUR ? "contour" : "line") << std::endl;
+	std::cout << "  discard if the building is too big: " << (discardIfTooBig ? "true" : "false") << std::endl;
 	std::cout << "  discard if top face is visible: " << (discardIfTopFaceIsVisible ? "true" : "false") << std::endl;
 	std::cout << "  discard if bottom face is visible: " << (discardIfBottomFaceIsVisible ? "true" : "false") << std::endl;
 	std::cout << "  modify image: " << (modifyImage ? "true" : "false") << std::endl;
@@ -503,6 +502,8 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	resizeGL(image_size, image_size);
 
 	cga::CGA cga;
+
+	camera.distanceBase = cameraDistanceBase;
 
 	// setup grammars
 	std::vector<cga::Grammar> grammars;
@@ -603,7 +604,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 										mat = cv::Mat(img.height(), img.width(), CV_8UC4, img.bits(), img.bytesPerLine()).clone();
 										cv::cvtColor(mat, mat, cv::COLOR_BGRA2BGR);
 
-										if (validateImage(mat)) {
+										if (!discardIfTooBig || validateImage(mat)) {
 											valid_image = true;
 											break;
 										}
@@ -639,14 +640,8 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 										// generate the rendered image
 										cv::Scalar color;
-										if (grayscale) {
-											mat = cv::Mat(image_size, image_size, CV_8U, cv::Scalar(255));
-											color = cv::Scalar(0);
-										}
-										else {
-											mat = cv::Mat(image_size, image_size, CV_8UC3, cv::Scalar(255, 255, 255));
-											color = cv::Scalar(0, 0, 0);
-										}
+										mat = cv::Mat(image_size, image_size, CV_8UC3, cv::Scalar(255, 255, 255));
+										color = cv::Scalar(0, 0, 0);
 										for (int ci = 0; ci < contour.size(); ++ci) {
 											int lineWidth = utils::genIntRand(lineWidthMin, lineWidthMax);
 											cv::line(mat, cv::Point(contour[ci].first.x, contour[ci].first.y), cv::Point(contour[ci].second.x, contour[ci].second.y), color, lineWidth, cv::LINE_AA);
@@ -655,10 +650,6 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 									else {
 										// 画像を縮小
 										//utils::resizeImage(mat, cv::Size(image_size, image_size));
-
-										if (grayscale) {
-											cv::cvtColor(mat, mat, cv::COLOR_BGR2GRAY);
-										}
 									}
 
 									// create the subfolder
@@ -695,25 +686,6 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 									outputVector(out, param_values);
 									out.flush();
 
-									// update mean image
-									if (generateMean) {
-										if (grayscale) {
-											mat.convertTo(mat, CV_64F);
-										}
-										else {
-											mat.convertTo(mat, CV_64FC3);
-										}
-										if (count == 0) {
-											if (grayscale) {
-												meanImg = cv::Mat(mat.size(), mat.type(), cv::Scalar(0));
-											}
-											else {
-												meanImg = cv::Mat(mat.size(), mat.type(), cv::Scalar(0, 0, 0));
-											}
-										}
-										meanImg += mat;
-									}
-
 									count++;
 								}
 							}
@@ -721,22 +693,6 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 					}
 				}
 			}
-		}
-
-		if (generateMean && count > 0) {
-			// generate mean image
-			meanImg /= count;
-			if (grayscale) {
-				meanImg.convertTo(meanImg, CV_8U);
-			}
-			else {
-				meanImg.convertTo(meanImg, CV_8UC3);
-			}
-
-			// save the mean image to a file
-			QFile file(out_dir_for_snippet + "/parameters.txt");
-			QString filename = out_dir_for_snippet + "/mean.png";
-			cv::imwrite(filename.toUtf8().constData(), meanImg);
 		}
 
 		file.close();
@@ -1024,24 +980,19 @@ bool GLWidget3D::moveCenter(cv::Mat& img) {
  * If there is a line close to the boundary, it is invalid.
  */
 bool GLWidget3D::validateImage(const cv::Mat& img) {
-	int margin = 20;
+	int margin = 2;
 
 	cv::Mat gray_img;
 	cvutils::grayScale(img, gray_img);
 
 	// if there is no line, return false.
-	/*
-	double min_val, max_val;
-	cv::minMaxLoc(gray_img, &min_val, &max_val);
-	if (min_val >= 100) return false;
-	*/
 	int count = 0;
 	for (int r = 0; r < gray_img.rows; ++r) {
 		for (int c = 0; c < gray_img.cols; ++c) {
 			if (gray_img.at<uchar>(r, c) < 100) count++;
 		}
 	}
-	if (count < 10) return false;
+	if (count < 30) return false;
 
 	// check horizontally
 	cv::Mat hor;

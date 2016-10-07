@@ -35,7 +35,6 @@ void MainWindow::onGenerateTrainingImages() {
 	if (dlg.exec() && !dlg.ui.lineEditCGADirectory->text().isEmpty() && !dlg.ui.lineEditOutputDirectory->text().isEmpty()) {
 		int numSamples = dlg.ui.lineEditNumSamples->text().toInt();
 		int imageSize = dlg.ui.lineEditImageSize->text().toInt();
-		bool grayscale = dlg.ui.checkBoxGrayscale->isChecked();
 		float cameraDistanceBase = dlg.ui.lineEditCameraDistance->text().toFloat();
 		std::pair<float, float> xrotRange = std::make_pair(dlg.ui.lineEditXrotMin->text().toFloat(), dlg.ui.lineEditXrotMax->text().toFloat());
 		float xrotSample = dlg.ui.lineEditXrotSample->text().toFloat();
@@ -49,8 +48,8 @@ void MainWindow::onGenerateTrainingImages() {
 		float xSample = dlg.ui.lineEditXSample->text().toFloat();
 		std::pair<float, float> yRange = std::make_pair(dlg.ui.lineEditYMin->text().toFloat(), dlg.ui.lineEditYMax->text().toFloat());
 		float ySample = dlg.ui.lineEditYSample->text().toFloat();
-		bool generateMean = dlg.ui.checkBoxGenerateMean->isChecked();
 		int render_option = dlg.ui.radioButtonRenderSilhouette->isChecked() ? RenderManager::RENDERING_MODE_CONTOUR : RenderManager::RENDERING_MODE_LINE;
+		bool discardIfTooBig = dlg.ui.checkBoxDiscardTooBig->isChecked();
 		bool discardIfTopFaceIsVisible = dlg.ui.checkBoxDiscardTopFaceVisible->isChecked();
 		bool discardIfBottomFaceIsVisible = dlg.ui.checkBoxDiscardBottomFaceVisible->isChecked();
 		bool modifyImage = dlg.ui.checkBoxModifyImage->isChecked();
@@ -59,7 +58,7 @@ void MainWindow::onGenerateTrainingImages() {
 		bool edgeNoise = dlg.ui.checkBoxEdgeNoise->isChecked();
 		float edgeNoiseMax = dlg.ui.lineEditEdgeNoiseMax->text().toFloat();
 
-		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, grayscale, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, xRange, xSample, yRange, ySample, generateMean, render_option, discardIfTopFaceIsVisible, discardIfBottomFaceIsVisible, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
+		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, xRange, xSample, yRange, ySample, render_option, discardIfTooBig, discardIfTopFaceIsVisible, discardIfBottomFaceIsVisible, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
 	}
 }
 

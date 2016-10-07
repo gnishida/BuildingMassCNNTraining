@@ -40,7 +40,6 @@ public:
     QLabel *label_4;
     QLabel *label_5;
     QLineEdit *lineEditImageSize;
-    QCheckBox *checkBoxGrayscale;
     QLabel *label_6;
     QLineEdit *lineEditCameraDistance;
     QLabel *label_7;
@@ -85,7 +84,6 @@ public:
     QLabel *label_28;
     QLineEdit *lineEditTotalNumImages;
     QLabel *label_29;
-    QCheckBox *checkBoxGenerateMean;
     QLabel *label_31;
     QLineEdit *lineEditXMin;
     QLineEdit *lineEditXMax;
@@ -105,18 +103,19 @@ public:
     QLabel *label_39;
     QCheckBox *checkBoxDiscardTopFaceVisible;
     QCheckBox *checkBoxDiscardBottomFaceVisible;
+    QCheckBox *checkBoxDiscardTooBig;
 
     void setupUi(QDialog *ImageGenerationDialog)
     {
         if (ImageGenerationDialog->objectName().isEmpty())
             ImageGenerationDialog->setObjectName(QStringLiteral("ImageGenerationDialog"));
-        ImageGenerationDialog->resize(579, 610);
+        ImageGenerationDialog->resize(579, 645);
         pushButtonOK = new QPushButton(ImageGenerationDialog);
         pushButtonOK->setObjectName(QStringLiteral("pushButtonOK"));
-        pushButtonOK->setGeometry(QRect(360, 570, 91, 31));
+        pushButtonOK->setGeometry(QRect(360, 600, 91, 31));
         pushButtonCancel = new QPushButton(ImageGenerationDialog);
         pushButtonCancel->setObjectName(QStringLiteral("pushButtonCancel"));
-        pushButtonCancel->setGeometry(QRect(460, 570, 91, 31));
+        pushButtonCancel->setGeometry(QRect(460, 600, 91, 31));
         label = new QLabel(ImageGenerationDialog);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(20, 20, 91, 16));
@@ -150,9 +149,6 @@ public:
         lineEditImageSize = new QLineEdit(ImageGenerationDialog);
         lineEditImageSize->setObjectName(QStringLiteral("lineEditImageSize"));
         lineEditImageSize->setGeometry(QRect(140, 110, 51, 20));
-        checkBoxGrayscale = new QCheckBox(ImageGenerationDialog);
-        checkBoxGrayscale->setObjectName(QStringLiteral("checkBoxGrayscale"));
-        checkBoxGrayscale->setGeometry(QRect(280, 110, 70, 17));
         label_6 = new QLabel(ImageGenerationDialog);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setGeometry(QRect(20, 140, 91, 16));
@@ -197,7 +193,7 @@ public:
         label_12->setGeometry(QRect(196, 260, 16, 16));
         groupBox = new QGroupBox(ImageGenerationDialog);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(20, 440, 541, 111));
+        groupBox->setGeometry(QRect(20, 470, 541, 111));
         checkBoxModifyImage = new QCheckBox(groupBox);
         checkBoxModifyImage->setObjectName(QStringLiteral("checkBoxModifyImage"));
         checkBoxModifyImage->setGeometry(QRect(40, 20, 141, 17));
@@ -286,9 +282,6 @@ public:
         label_29 = new QLabel(ImageGenerationDialog);
         label_29->setObjectName(QStringLiteral("label_29"));
         label_29->setGeometry(QRect(20, 350, 171, 16));
-        checkBoxGenerateMean = new QCheckBox(ImageGenerationDialog);
-        checkBoxGenerateMean->setObjectName(QStringLiteral("checkBoxGenerateMean"));
-        checkBoxGenerateMean->setGeometry(QRect(370, 350, 101, 17));
         label_31 = new QLabel(ImageGenerationDialog);
         label_31->setObjectName(QStringLiteral("label_31"));
         label_31->setGeometry(QRect(20, 290, 91, 16));
@@ -342,17 +335,19 @@ public:
         label_39->setGeometry(QRect(20, 410, 91, 16));
         checkBoxDiscardTopFaceVisible = new QCheckBox(ImageGenerationDialog);
         checkBoxDiscardTopFaceVisible->setObjectName(QStringLiteral("checkBoxDiscardTopFaceVisible"));
-        checkBoxDiscardTopFaceVisible->setGeometry(QRect(140, 410, 141, 17));
+        checkBoxDiscardTopFaceVisible->setGeometry(QRect(140, 440, 141, 17));
         checkBoxDiscardBottomFaceVisible = new QCheckBox(ImageGenerationDialog);
         checkBoxDiscardBottomFaceVisible->setObjectName(QStringLiteral("checkBoxDiscardBottomFaceVisible"));
-        checkBoxDiscardBottomFaceVisible->setGeometry(QRect(310, 410, 141, 17));
+        checkBoxDiscardBottomFaceVisible->setGeometry(QRect(310, 440, 141, 17));
+        checkBoxDiscardTooBig = new QCheckBox(ImageGenerationDialog);
+        checkBoxDiscardTooBig->setObjectName(QStringLiteral("checkBoxDiscardTooBig"));
+        checkBoxDiscardTooBig->setGeometry(QRect(140, 410, 141, 17));
         QWidget::setTabOrder(lineEditCGADirectory, pushButtonCGADirectory);
         QWidget::setTabOrder(pushButtonCGADirectory, lineEditOutputDirectory);
         QWidget::setTabOrder(lineEditOutputDirectory, pushButtonOutputDirectory);
         QWidget::setTabOrder(pushButtonOutputDirectory, lineEditNumSamples);
         QWidget::setTabOrder(lineEditNumSamples, lineEditImageSize);
-        QWidget::setTabOrder(lineEditImageSize, checkBoxGrayscale);
-        QWidget::setTabOrder(checkBoxGrayscale, lineEditCameraDistance);
+        QWidget::setTabOrder(lineEditImageSize, lineEditCameraDistance);
         QWidget::setTabOrder(lineEditCameraDistance, lineEditXrotMin);
         QWidget::setTabOrder(lineEditXrotMin, lineEditXrotMax);
         QWidget::setTabOrder(lineEditXrotMax, lineEditXrotSample);
@@ -372,8 +367,7 @@ public:
         QWidget::setTabOrder(lineEditYMin, lineEditYMax);
         QWidget::setTabOrder(lineEditYMax, lineEditYSample);
         QWidget::setTabOrder(lineEditYSample, lineEditTotalNumImages);
-        QWidget::setTabOrder(lineEditTotalNumImages, checkBoxGenerateMean);
-        QWidget::setTabOrder(checkBoxGenerateMean, checkBoxModifyImage);
+        QWidget::setTabOrder(lineEditTotalNumImages, checkBoxModifyImage);
         QWidget::setTabOrder(checkBoxModifyImage, lineEditLineWidthMin);
         QWidget::setTabOrder(lineEditLineWidthMin, lineEditLineWidthMax);
         QWidget::setTabOrder(lineEditLineWidthMax, checkBoxEdgeNoise);
@@ -398,7 +392,6 @@ public:
         label_3->setText(QApplication::translate("ImageGenerationDialog", "#Samples / viewpoint:", 0));
         label_4->setText(QApplication::translate("ImageGenerationDialog", "px", 0));
         label_5->setText(QApplication::translate("ImageGenerationDialog", "Image size:", 0));
-        checkBoxGrayscale->setText(QApplication::translate("ImageGenerationDialog", "Grayscale", 0));
         label_6->setText(QApplication::translate("ImageGenerationDialog", "Camera distance:", 0));
         label_7->setText(QApplication::translate("ImageGenerationDialog", "Rot around X axis:", 0));
         label_8->setText(QApplication::translate("ImageGenerationDialog", "~", 0));
@@ -426,7 +419,6 @@ public:
         label_27->setText(QApplication::translate("ImageGenerationDialog", "Sample every", 0));
         label_28->setText(QApplication::translate("ImageGenerationDialog", "degree", 0));
         label_29->setText(QApplication::translate("ImageGenerationDialog", "The total number of images will be", 0));
-        checkBoxGenerateMean->setText(QApplication::translate("ImageGenerationDialog", "Generate mean", 0));
         label_31->setText(QApplication::translate("ImageGenerationDialog", "X coordinates:", 0));
         label_32->setText(QApplication::translate("ImageGenerationDialog", "Y coordinates:", 0));
         label_33->setText(QApplication::translate("ImageGenerationDialog", "~", 0));
@@ -440,6 +432,7 @@ public:
         label_39->setText(QApplication::translate("ImageGenerationDialog", "Discard:", 0));
         checkBoxDiscardTopFaceVisible->setText(QApplication::translate("ImageGenerationDialog", "If the top face is visible", 0));
         checkBoxDiscardBottomFaceVisible->setText(QApplication::translate("ImageGenerationDialog", "If the bottom face is visible", 0));
+        checkBoxDiscardTooBig->setText(QApplication::translate("ImageGenerationDialog", "If the building is too big", 0));
     } // retranslateUi
 
 };

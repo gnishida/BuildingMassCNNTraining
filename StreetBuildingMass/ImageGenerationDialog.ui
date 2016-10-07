@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>579</width>
-    <height>610</height>
+    <height>645</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>570</y>
+     <y>600</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>570</y>
+     <y>600</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -168,19 +168,6 @@
      <width>51</width>
      <height>20</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBoxGrayscale">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>110</y>
-     <width>70</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Grayscale</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -348,7 +335,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>440</y>
+     <y>470</y>
      <width>541</width>
      <height>111</height>
     </rect>
@@ -707,19 +694,6 @@
     <string>The total number of images will be</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBoxGenerateMean">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>350</y>
-     <width>101</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Generate mean</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_31">
    <property name="geometry">
     <rect>
@@ -927,7 +901,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>410</y>
+     <y>440</y>
      <width>141</width>
      <height>17</height>
     </rect>
@@ -940,13 +914,26 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>410</y>
+     <y>440</y>
      <width>141</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
     <string>If the bottom face is visible</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxDiscardTooBig">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>410</y>
+     <width>141</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>If the building is too big</string>
    </property>
   </widget>
  </widget>
@@ -958,7 +945,6 @@
   <tabstop>pushButtonOutputDirectory</tabstop>
   <tabstop>lineEditNumSamples</tabstop>
   <tabstop>lineEditImageSize</tabstop>
-  <tabstop>checkBoxGrayscale</tabstop>
   <tabstop>lineEditCameraDistance</tabstop>
   <tabstop>lineEditXrotMin</tabstop>
   <tabstop>lineEditXrotMax</tabstop>
@@ -979,7 +965,6 @@
   <tabstop>lineEditYMax</tabstop>
   <tabstop>lineEditYSample</tabstop>
   <tabstop>lineEditTotalNumImages</tabstop>
-  <tabstop>checkBoxGenerateMean</tabstop>
   <tabstop>checkBoxModifyImage</tabstop>
   <tabstop>lineEditLineWidthMin</tabstop>
   <tabstop>lineEditLineWidthMax</tabstop>

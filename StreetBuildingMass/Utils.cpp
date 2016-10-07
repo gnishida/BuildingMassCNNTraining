@@ -174,7 +174,7 @@ namespace utils {
 		cv::imwrite("contour0.png", mat);
 #endif
 
-		cv::threshold(mat, mat, 128, 255, cv::THRESH_BINARY_INV);
+		cv::threshold(mat, mat, 250, 255, cv::THRESH_BINARY_INV);
 
 		std::vector<cv::Vec4i> lines;
 		cv::HoughLinesP(mat, lines, 1, CV_PI / 180, 10, 10, 10);
@@ -200,7 +200,7 @@ namespace utils {
 		cv::imwrite("contour.png", result);
 #endif
 
-		utils::cleanEdges(edges, 20, 5.0 / 180.0 * M_PI);
+		utils::cleanEdges(edges, 20, 4.0 / 180.0 * M_PI);
 #if 0
 		cv::Mat result2(mat.size(), CV_8UC3, cv::Scalar(255, 255, 255));
 		for (int i = 0; i < edges.size(); ++i) {

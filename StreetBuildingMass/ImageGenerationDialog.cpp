@@ -12,7 +12,6 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	ui.lineEditOutputDirectory->setText("C:/Anaconda/caffe/contour_regression/data/images");
 	ui.lineEditNumSamples->setText("1");
 	ui.lineEditImageSize->setText("227");
-	ui.checkBoxGrayscale->setChecked(false);
 	ui.lineEditCameraDistance->setText("25");
 	ui.lineEditXrotMin->setText("-40");
 	ui.lineEditXrotMax->setText("0");
@@ -32,14 +31,15 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	ui.lineEditYMin->setText("-15");
 	ui.lineEditYMax->setText("15");
 	ui.lineEditYSample->setText("6");
-	ui.checkBoxGenerateMean->setChecked(false);
 	ui.radioButtonRenderSilhouette->setChecked(true);
 	ui.radioButtonRenderLine->setChecked(false);
-	ui.checkBoxModifyImage->setChecked(false);
+	ui.checkBoxDiscardTooBig->setChecked(true);
+	ui.checkBoxDiscardTopFaceVisible->setChecked(true);
+	ui.checkBoxDiscardBottomFaceVisible->setChecked(true);
+	ui.checkBoxModifyImage->setChecked(true);
 	ui.lineEditLineWidthMin->setText("1");
 	ui.lineEditLineWidthMax->setText("1");
-	ui.checkBoxEdgeNoise->setEnabled(false);
-	ui.checkBoxEdgeNoise->setChecked(false);
+	ui.checkBoxEdgeNoise->setChecked(true);
 	ui.lineEditEdgeNoiseMax->setText("1.0");
 
 	connect(ui.pushButtonCGADirectory, SIGNAL(clicked()), this, SLOT(onCGADirectory()));
