@@ -115,7 +115,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindowClass)
     {
-        MainWindowClass->setWindowTitle(QApplication::translate("MainWindowClass", "Street View Building Mass", 0));
+        MainWindowClass->setWindowTitle(QApplication::translate("MainWindowClass", "Building Mass Training Images Generation", 0));
         actionOpenImage->setText(QApplication::translate("MainWindowClass", "Open Image", 0));
         actionExit->setText(QApplication::translate("MainWindowClass", "Exit", 0));
         actionParameterEstimation->setText(QApplication::translate("MainWindowClass", "Parameter Estimation", 0));

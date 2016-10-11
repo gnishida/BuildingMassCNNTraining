@@ -9,28 +9,35 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	group.addButton(ui.radioButtonRenderLine);
 
 	ui.lineEditCGADirectory->setText("../cga/mass");
-	ui.lineEditOutputDirectory->setText("C:/Anaconda/caffe/contour_regression/data/images");
-	ui.lineEditNumSamples->setText("1");
+	//ui.lineEditOutputDirectory->setText("C:/Anaconda/caffe/contour_regression/data/images");
+	ui.lineEditOutputDirectory->setText("//cuda.cs.purdue.edu/scratch2/contour_regression/data/images");
 	ui.lineEditImageSize->setText("227");
 	ui.lineEditCameraDistance->setText("25");
 	ui.lineEditXrotMin->setText("-40");
 	ui.lineEditXrotMax->setText("0");
-	ui.lineEditXrotSample->setText("8");
+	ui.lineEditXrotSample->setText("5");
 	ui.lineEditYrotMin->setText("-70");
 	ui.lineEditYrotMax->setText("-20");
-	ui.lineEditYrotSample->setText("10");
+	ui.lineEditYrotSample->setText("5");
 	ui.lineEditZrotMin->setText("-10");
 	ui.lineEditZrotMax->setText("10");
-	ui.lineEditZrotSample->setText("4");
+	ui.lineEditZrotSample->setText("5");
 	ui.lineEditFovMin->setText("20");
 	ui.lineEditFovMax->setText("90");
-	ui.lineEditFovSample->setText("14");
+	ui.lineEditFovSample->setText("5");
+	ui.lineEditOXMin->setText("-0.8");
+	ui.lineEditOXMax->setText("0.8");
+	ui.lineEditOXSample->setText("5");
+	ui.lineEditOYMin->setText("-0.8");
+	ui.lineEditOYMax->setText("0.8");
+	ui.lineEditOYSample->setText("5");
 	ui.lineEditXMin->setText("-15");
 	ui.lineEditXMax->setText("15");
-	ui.lineEditXSample->setText("6");
+	ui.lineEditXSample->setText("5");
 	ui.lineEditYMin->setText("-15");
 	ui.lineEditYMax->setText("15");
-	ui.lineEditYSample->setText("6");
+	ui.lineEditYSample->setText("5");
+	ui.lineEditPMSample->setText("5");
 	ui.radioButtonRenderSilhouette->setChecked(true);
 	ui.radioButtonRenderLine->setChecked(false);
 	ui.checkBoxDiscardTooBig->setChecked(true);
@@ -40,29 +47,19 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	ui.lineEditLineWidthMin->setText("1");
 	ui.lineEditLineWidthMax->setText("1");
 	ui.checkBoxEdgeNoise->setChecked(true);
-	ui.lineEditEdgeNoiseMax->setText("1.0");
+	ui.lineEditEdgeNoiseMax->setText("0.5");
 
 	connect(ui.pushButtonCGADirectory, SIGNAL(clicked()), this, SLOT(onCGADirectory()));
 	connect(ui.pushButtonOutputDirectory, SIGNAL(clicked()), this, SLOT(onOutputDirectory()));
-	connect(ui.lineEditNumSamples, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditXrotMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditXrotMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditXrotSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditYrotMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditYrotMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditYrotSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditZrotMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditZrotMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditZrotSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditFovMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditFovMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditFovSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditXMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditXMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditOXSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditOYSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditXSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditYMin, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
-	connect(ui.lineEditYMax, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.lineEditYSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
+	connect(ui.lineEditPMSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.checkBoxModifyImage, SIGNAL(clicked()), this, SLOT(onModifyImageClicked()));
 	connect(ui.checkBoxEdgeNoise, SIGNAL(clicked()), this, SLOT(onEdgeNoiseClicked()));
 	connect(ui.pushButtonOK, SIGNAL(clicked()), this, SLOT(onOK()));
@@ -75,56 +72,52 @@ ImageGenerationDialog::~ImageGenerationDialog() {
 }
 
 void ImageGenerationDialog::updateTotalNumImages() {
-	int samples = ui.lineEditNumSamples->text().toInt();
-	float xrot_min = ui.lineEditXrotMin->text().toFloat();
-	float xrot_max = ui.lineEditXrotMax->text().toFloat();
-	float xrot_sam = ui.lineEditXrotSample->text().toFloat();
+	int xrot_sam = ui.lineEditXrotSample->text().toInt();
 	if (xrot_sam == 0) {
 		xrot_sam = 1;
-		ui.lineEditXrotSample->setText("1");
 	}
 
-	float yrot_min = ui.lineEditYrotMin->text().toFloat();
-	float yrot_max = ui.lineEditYrotMax->text().toFloat();
-	float yrot_sam = ui.lineEditYrotSample->text().toFloat();
+	int yrot_sam = ui.lineEditYrotSample->text().toInt();
 	if (yrot_sam == 0) {
 		yrot_sam = 1;
-		ui.lineEditYrotSample->setText("1");
 	}
 
-	float zrot_min = ui.lineEditZrotMin->text().toFloat();
-	float zrot_max = ui.lineEditZrotMax->text().toFloat();
-	float zrot_sam = ui.lineEditZrotSample->text().toFloat();
+	int zrot_sam = ui.lineEditZrotSample->text().toInt();
 	if (zrot_sam == 0) {
 		zrot_sam = 1;
-		ui.lineEditZrotSample->setText("1");
 	}
 
-	float f_min = ui.lineEditFovMin->text().toFloat();
-	float f_max = ui.lineEditFovMax->text().toFloat();
-	float f_sam = ui.lineEditFovSample->text().toFloat();
+	int f_sam = ui.lineEditFovSample->text().toInt();
 	if (f_sam == 0) {
 		f_sam = 1;
-		ui.lineEditFovSample->setText("1");
 	}
 
-	float x_min = ui.lineEditXMin->text().toFloat();
-	float x_max = ui.lineEditXMax->text().toFloat();
-	float x_sam = ui.lineEditXSample->text().toFloat();
+	int ox_sam = ui.lineEditOXSample->text().toInt();
+	if (ox_sam == 0) {
+		ox_sam = 1;
+	}
+
+	int oy_sam = ui.lineEditOYSample->text().toInt();
+	if (oy_sam == 0) {
+		oy_sam = 1;
+	}
+
+	int x_sam = ui.lineEditXSample->text().toInt();
 	if (x_sam == 0) {
 		x_sam = 1;
-		ui.lineEditXSample->setText("1");
 	}
 
-	float y_min = ui.lineEditYMin->text().toFloat();
-	float y_max = ui.lineEditYMax->text().toFloat();
-	float y_sam = ui.lineEditYSample->text().toFloat();
+	int y_sam = ui.lineEditYSample->text().toInt();
 	if (y_sam == 0) {
 		y_sam = 1;
-		ui.lineEditYSample->setText("1");
 	}
 
-	int total = ((xrot_max - xrot_min) / xrot_sam + 1) * ((yrot_max - yrot_min) / yrot_sam + 1) * ((zrot_max - zrot_min) / zrot_sam + 1) * ((f_max - f_min) / f_sam + 1) * ((x_max - x_min) / x_sam + 1) * ((y_max - y_min) / y_sam + 1) * samples;
+	int pm_sam = ui.lineEditPMSample->text().toInt();
+	if (pm_sam == 0) {
+		pm_sam = 1;
+	}
+
+	int total = xrot_sam * yrot_sam * zrot_sam * f_sam * ox_sam * oy_sam * x_sam * y_sam * pm_sam * pm_sam * pm_sam;
 	ui.lineEditTotalNumImages->setText(QString::number(total));
 }
 

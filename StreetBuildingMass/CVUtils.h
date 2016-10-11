@@ -5,7 +5,7 @@
 #include <opencv2/calib3d.hpp>
 
 namespace cvutils {
-	cv::Mat rectify_image(cv::Mat& image, const std::vector<cv::Point2f>& pts);	void grayScale(const cv::Mat& img, cv::Mat& grayImg);
+	cv::Mat rectify_image(cv::Mat& image, const std::vector<cv::Point2f>& pts);	void resize_image(cv::Mat src, cv::Mat& tgt, cv::Size tgt_size);	void grayScale(const cv::Mat& img, cv::Mat& grayImg);
 }
 
 

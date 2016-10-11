@@ -33,21 +33,25 @@ void MainWindow::onOpenCGA() {
 void MainWindow::onGenerateTrainingImages() {
 	ImageGenerationDialog dlg;
 	if (dlg.exec() && !dlg.ui.lineEditCGADirectory->text().isEmpty() && !dlg.ui.lineEditOutputDirectory->text().isEmpty()) {
-		int numSamples = dlg.ui.lineEditNumSamples->text().toInt();
 		int imageSize = dlg.ui.lineEditImageSize->text().toInt();
 		float cameraDistanceBase = dlg.ui.lineEditCameraDistance->text().toFloat();
 		std::pair<float, float> xrotRange = std::make_pair(dlg.ui.lineEditXrotMin->text().toFloat(), dlg.ui.lineEditXrotMax->text().toFloat());
-		float xrotSample = dlg.ui.lineEditXrotSample->text().toFloat();
+		float xrotSample = dlg.ui.lineEditXrotSample->text().toInt();
 		std::pair<float, float> yrotRange = std::make_pair(dlg.ui.lineEditYrotMin->text().toFloat(), dlg.ui.lineEditYrotMax->text().toFloat());
-		float yrotSample = dlg.ui.lineEditYrotSample->text().toFloat();
+		float yrotSample = dlg.ui.lineEditYrotSample->text().toInt();
 		std::pair<float, float> zrotRange = std::make_pair(dlg.ui.lineEditZrotMin->text().toFloat(), dlg.ui.lineEditZrotMax->text().toFloat());
-		float zrotSample = dlg.ui.lineEditZrotSample->text().toFloat();
+		float zrotSample = dlg.ui.lineEditZrotSample->text().toInt();
 		std::pair<float, float> fovRange = std::make_pair(dlg.ui.lineEditFovMin->text().toFloat(), dlg.ui.lineEditFovMax->text().toFloat());
-		float fovSample = dlg.ui.lineEditFovSample->text().toFloat();
+		float fovSample = dlg.ui.lineEditFovSample->text().toInt();
+		std::pair<float, float> oxRange = std::make_pair(dlg.ui.lineEditOXMin->text().toFloat(), dlg.ui.lineEditOXMax->text().toFloat());
+		int oxSample = dlg.ui.lineEditOXSample->text().toInt();
+		std::pair<float, float> oyRange = std::make_pair(dlg.ui.lineEditOYMin->text().toFloat(), dlg.ui.lineEditOYMax->text().toFloat());
+		int oySample = dlg.ui.lineEditYSample->text().toInt();
 		std::pair<float, float> xRange = std::make_pair(dlg.ui.lineEditXMin->text().toFloat(), dlg.ui.lineEditXMax->text().toFloat());
-		float xSample = dlg.ui.lineEditXSample->text().toFloat();
+		int xSample = dlg.ui.lineEditXSample->text().toInt();
 		std::pair<float, float> yRange = std::make_pair(dlg.ui.lineEditYMin->text().toFloat(), dlg.ui.lineEditYMax->text().toFloat());
-		float ySample = dlg.ui.lineEditYSample->text().toFloat();
+		int ySample = dlg.ui.lineEditYSample->text().toInt();
+		int pmSample = dlg.ui.lineEditPMSample->text().toInt();
 		int render_option = dlg.ui.radioButtonRenderSilhouette->isChecked() ? RenderManager::RENDERING_MODE_CONTOUR : RenderManager::RENDERING_MODE_LINE;
 		bool discardIfTooBig = dlg.ui.checkBoxDiscardTooBig->isChecked();
 		bool discardIfTopFaceIsVisible = dlg.ui.checkBoxDiscardTopFaceVisible->isChecked();
@@ -58,7 +62,7 @@ void MainWindow::onGenerateTrainingImages() {
 		bool edgeNoise = dlg.ui.checkBoxEdgeNoise->isChecked();
 		float edgeNoiseMax = dlg.ui.lineEditEdgeNoiseMax->text().toFloat();
 
-		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), numSamples, imageSize, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, xRange, xSample, yRange, ySample, render_option, discardIfTooBig, discardIfTopFaceIsVisible, discardIfBottomFaceIsVisible, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
+		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), imageSize, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, oxRange, oxSample, oyRange, oySample, xRange, xSample, yRange, ySample, pmSample, render_option, discardIfTooBig, discardIfTopFaceIsVisible, discardIfBottomFaceIsVisible, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
 	}
 }
 

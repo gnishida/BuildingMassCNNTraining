@@ -46,6 +46,19 @@ namespace cvutils {
 		return warped;
 	}
 
+	void resize_image(cv::Mat src, cv::Mat& tgt, cv::Size tgt_size) {
+		if (src.rows > 512) {
+			cv::resize(src, src, cv::Size(512, 512));
+			cv::threshold(src, src, 250, 255, cv::THRESH_BINARY);
+		}
+		if (src.rows > 256) {
+			cv::resize(src, src, cv::Size(256, 256));
+			cv::threshold(src, src, 250, 255, cv::THRESH_BINARY);
+		}
+		cv::resize(src, tgt, tgt_size);
+		cv::threshold(tgt, tgt, 250, 255, cv::THRESH_BINARY);
+	}
+
 	void grayScale(const cv::Mat& img, cv::Mat& grayImg) {
 		if (img.channels() == 1) {
 			grayImg = img.clone();
