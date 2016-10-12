@@ -627,7 +627,6 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 											float xpos2 = xpos + utils::genRand(0, 1) * (xRange.second - xRange.first) / xSample;
 											float ypos2 = ypos + utils::genRand(0, 1) * (yRange.second - yRange.first) / ySample;
 
-											float camera_distance = camera.distanceBase / tan(utils::deg2rad(fov * 0.5));
 											camera.xrot = xrot2;
 											camera.yrot = yrot2;
 											camera.zrot = zrot2;
@@ -636,7 +635,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 											camera.center.y = oy2;
 											camera.pos.x = xpos2;
 											camera.pos.y = ypos2;
-											camera.pos.z = camera_distance;
+											camera.pos.z = camera.distanceBase / tan(utils::deg2rad(camera.fovy * 0.5));
 											camera.updatePMatrix(width(), height());
 
 											// set the PM param values
