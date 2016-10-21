@@ -459,7 +459,7 @@ void GLWidget3D::loadCGA(const std::string& cga_filename) {
 * @param fovMin			min of fov
 * @param fovMax			max of fov
 */
-void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int image_size, float cameraDistanceBase, const std::pair<float, float>& xrotRange, int xrotSample, const std::pair<float, float>& yrotRange, int yrotSample, const std::pair<float, float>& zrotRange, int zrotSample, const std::pair<float, float>& fovRange, int fovSample, const std::pair<float, float>& oxRange, int oxSample, const std::pair<float, float>& oyRange, int oySample, const std::pair<float, float>& xRange, int xSample, const std::pair<float, float>& yRange, int ySample, int pmSample, int render_option, bool discardIfTooBig, bool discardIfTopFaceIsVisible, bool discardIfBottomFaceIsVisible, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax) {
+void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& out_dir, int image_size, float cameraDistanceBase, const std::pair<float, float>& xrotRange, int xrotSample, const std::pair<float, float>& yrotRange, int yrotSample, const std::pair<float, float>& zrotRange, int zrotSample, const std::pair<float, float>& fovRange, int fovSample, const std::pair<float, float>& oxRange, int oxSample, const std::pair<float, float>& oyRange, int oySample, const std::pair<float, float>& xRange, int xSample, const std::pair<float, float>& yRange, int ySample, int pmSample, int render_option, bool discardIfTooBig, bool discardIfTopFaceIsVisible, bool discardIfBottomFaceIsVisible, bool modifyImage, int lineWidthMin, int lineWidthMax, bool edgeNoise, float edgeNoiseMax, bool edgeBlur, int edgeBlurSize) {
 	if (QDir(out_dir).exists()) {
 		std::cout << "Clearning output directory..." << std::endl;
 		QDir(out_dir).removeRecursively();
@@ -708,6 +708,10 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 												for (int ci = 0; ci < contour.size(); ++ci) {
 													int lineWidth = utils::genIntRand(lineWidthMin, lineWidthMax);
 													cv::line(mat, cv::Point(contour[ci].first.x, contour[ci].first.y), cv::Point(contour[ci].second.x, contour[ci].second.y), color, lineWidth, cv::LINE_AA);
+												}
+
+												if (edgeBlur) {
+													cv::blur(mat, mat, cv::Size(edgeBlurSize, edgeBlurSize));
 												}
 											}
 

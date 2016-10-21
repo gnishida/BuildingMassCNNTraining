@@ -61,8 +61,10 @@ void MainWindow::onGenerateTrainingImages() {
 		int lineWidthMax = dlg.ui.lineEditLineWidthMax->text().toInt();
 		bool edgeNoise = dlg.ui.checkBoxEdgeNoise->isChecked();
 		float edgeNoiseMax = dlg.ui.lineEditEdgeNoiseMax->text().toFloat();
+		bool edgeBlur = dlg.ui.checkBoxEdgeNoise->isChecked();
+		int edgeBlurSize = dlg.ui.lineEditEdgeBlurSize->text().toInt();
 
-		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), imageSize, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, oxRange, oxSample, oyRange, oySample, xRange, xSample, yRange, ySample, pmSample, render_option, discardIfTooBig, discardIfTopFaceIsVisible, discardIfBottomFaceIsVisible, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax);
+		glWidget3D->generateTrainingImages(dlg.ui.lineEditCGADirectory->text(), dlg.ui.lineEditOutputDirectory->text(), imageSize, cameraDistanceBase, xrotRange, xrotSample, yrotRange, yrotSample, zrotRange, zrotSample, fovRange, fovSample, oxRange, oxSample, oyRange, oySample, xRange, xSample, yRange, ySample, pmSample, render_option, discardIfTooBig, discardIfTopFaceIsVisible, discardIfBottomFaceIsVisible, modifyImage, lineWidthMin, lineWidthMax, edgeNoise, edgeNoiseMax, edgeBlur, edgeBlurSize);
 	}
 }
 

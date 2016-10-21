@@ -61,6 +61,8 @@ public:
     QCheckBox *checkBoxEdgeNoise;
     QLineEdit *lineEditEdgeNoiseMax;
     QLabel *label_15;
+    QCheckBox *checkBoxEdgeBlur;
+    QLineEdit *lineEditEdgeBlurSize;
     QLineEdit *lineEditZrotMax;
     QLabel *label_16;
     QLineEdit *lineEditZrotMin;
@@ -118,13 +120,13 @@ public:
     {
         if (ImageGenerationDialog->objectName().isEmpty())
             ImageGenerationDialog->setObjectName(QStringLiteral("ImageGenerationDialog"));
-        ImageGenerationDialog->resize(579, 702);
+        ImageGenerationDialog->resize(579, 732);
         pushButtonOK = new QPushButton(ImageGenerationDialog);
         pushButtonOK->setObjectName(QStringLiteral("pushButtonOK"));
-        pushButtonOK->setGeometry(QRect(360, 660, 91, 31));
+        pushButtonOK->setGeometry(QRect(360, 690, 91, 31));
         pushButtonCancel = new QPushButton(ImageGenerationDialog);
         pushButtonCancel->setObjectName(QStringLiteral("pushButtonCancel"));
-        pushButtonCancel->setGeometry(QRect(460, 660, 91, 31));
+        pushButtonCancel->setGeometry(QRect(460, 690, 91, 31));
         label = new QLabel(ImageGenerationDialog);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(20, 20, 91, 16));
@@ -196,7 +198,7 @@ public:
         label_12->setGeometry(QRect(226, 230, 16, 16));
         groupBox = new QGroupBox(ImageGenerationDialog);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(20, 530, 541, 111));
+        groupBox->setGeometry(QRect(20, 530, 541, 141));
         checkBoxModifyImage = new QCheckBox(groupBox);
         checkBoxModifyImage->setObjectName(QStringLiteral("checkBoxModifyImage"));
         checkBoxModifyImage->setGeometry(QRect(40, 20, 141, 17));
@@ -221,6 +223,12 @@ public:
         label_15 = new QLabel(groupBox);
         label_15->setObjectName(QStringLiteral("label_15"));
         label_15->setGeometry(QRect(216, 80, 16, 21));
+        checkBoxEdgeBlur = new QCheckBox(groupBox);
+        checkBoxEdgeBlur->setObjectName(QStringLiteral("checkBoxEdgeBlur"));
+        checkBoxEdgeBlur->setGeometry(QRect(40, 110, 91, 17));
+        lineEditEdgeBlurSize = new QLineEdit(groupBox);
+        lineEditEdgeBlurSize->setObjectName(QStringLiteral("lineEditEdgeBlurSize"));
+        lineEditEdgeBlurSize->setGeometry(QRect(160, 110, 51, 20));
         lineEditZrotMax = new QLineEdit(ImageGenerationDialog);
         lineEditZrotMax->setObjectName(QStringLiteral("lineEditZrotMax"));
         lineEditZrotMax->setGeometry(QRect(240, 200, 81, 20));
@@ -450,6 +458,7 @@ public:
         label_14->setText(QApplication::translate("ImageGenerationDialog", "~", 0));
         checkBoxEdgeNoise->setText(QApplication::translate("ImageGenerationDialog", "Edge noise", 0));
         label_15->setText(QApplication::translate("ImageGenerationDialog", "%", 0));
+        checkBoxEdgeBlur->setText(QApplication::translate("ImageGenerationDialog", "Blur", 0));
         label_16->setText(QApplication::translate("ImageGenerationDialog", "Rot around Z axis:", 0));
         label_17->setText(QApplication::translate("ImageGenerationDialog", "degree", 0));
         label_18->setText(QApplication::translate("ImageGenerationDialog", "degree", 0));

@@ -15,29 +15,29 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	ui.lineEditCameraDistance->setText("25");
 	ui.lineEditXrotMin->setText("-40");
 	ui.lineEditXrotMax->setText("0");
-	ui.lineEditXrotSample->setText("5");
+	ui.lineEditXrotSample->setText("4");
 	ui.lineEditYrotMin->setText("-70");
 	ui.lineEditYrotMax->setText("-20");
-	ui.lineEditYrotSample->setText("5");
+	ui.lineEditYrotSample->setText("4");
 	ui.lineEditZrotMin->setText("-10");
 	ui.lineEditZrotMax->setText("10");
-	ui.lineEditZrotSample->setText("5");
+	ui.lineEditZrotSample->setText("4");
 	ui.lineEditFovMin->setText("20");
 	ui.lineEditFovMax->setText("90");
-	ui.lineEditFovSample->setText("5");
+	ui.lineEditFovSample->setText("4");
 	ui.lineEditOXMin->setText("-0.8");
 	ui.lineEditOXMax->setText("0.8");
-	ui.lineEditOXSample->setText("5");
+	ui.lineEditOXSample->setText("4");
 	ui.lineEditOYMin->setText("-0.8");
 	ui.lineEditOYMax->setText("0.8");
-	ui.lineEditOYSample->setText("5");
+	ui.lineEditOYSample->setText("4");
 	ui.lineEditXMin->setText("-15");
 	ui.lineEditXMax->setText("15");
-	ui.lineEditXSample->setText("5");
+	ui.lineEditXSample->setText("4");
 	ui.lineEditYMin->setText("-15");
 	ui.lineEditYMax->setText("15");
-	ui.lineEditYSample->setText("5");
-	ui.lineEditPMSample->setText("5");
+	ui.lineEditYSample->setText("4");
+	ui.lineEditPMSample->setText("4");
 	ui.radioButtonRenderSilhouette->setChecked(true);
 	ui.radioButtonRenderLine->setChecked(false);
 	ui.checkBoxDiscardTooBig->setChecked(true);
@@ -48,6 +48,9 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	ui.lineEditLineWidthMax->setText("1");
 	ui.checkBoxEdgeNoise->setChecked(true);
 	ui.lineEditEdgeNoiseMax->setText("0.5");
+	ui.checkBoxEdgeBlur->setChecked(false);
+	ui.lineEditEdgeBlurSize->setEnabled(false);
+	ui.lineEditEdgeBlurSize->setText("5");
 
 	connect(ui.pushButtonCGADirectory, SIGNAL(clicked()), this, SLOT(onCGADirectory()));
 	connect(ui.pushButtonOutputDirectory, SIGNAL(clicked()), this, SLOT(onOutputDirectory()));
@@ -62,6 +65,7 @@ ImageGenerationDialog::ImageGenerationDialog(QWidget *parent) : QDialog(parent) 
 	connect(ui.lineEditPMSample, SIGNAL(textChanged(const QString&)), this, SLOT(updateTotalNumImages()));
 	connect(ui.checkBoxModifyImage, SIGNAL(clicked()), this, SLOT(onModifyImageClicked()));
 	connect(ui.checkBoxEdgeNoise, SIGNAL(clicked()), this, SLOT(onEdgeNoiseClicked()));
+	connect(ui.checkBoxEdgeBlur, SIGNAL(clicked()), this, SLOT(onEdgeBlurClicked()));
 	connect(ui.pushButtonOK, SIGNAL(clicked()), this, SLOT(onOK()));
 	connect(ui.pushButtonCancel, SIGNAL(clicked()), this, SLOT(onCancel()));
 
@@ -140,10 +144,16 @@ void ImageGenerationDialog::onModifyImageClicked() {
 	ui.lineEditLineWidthMax->setEnabled(ui.checkBoxModifyImage->isChecked());
 	ui.checkBoxEdgeNoise->setEnabled(ui.checkBoxModifyImage->isChecked());
 	ui.lineEditEdgeNoiseMax->setEnabled(ui.checkBoxModifyImage->isChecked());
+	ui.checkBoxEdgeBlur->setEnabled(ui.checkBoxModifyImage->isChecked());
+	ui.lineEditEdgeBlurSize->setEnabled(ui.checkBoxModifyImage->isChecked());
 }
 
 void ImageGenerationDialog::onEdgeNoiseClicked() {
 	ui.lineEditEdgeNoiseMax->setEnabled(ui.checkBoxEdgeNoise->isChecked());
+}
+
+void ImageGenerationDialog::onEdgeBlurClicked() {
+	ui.lineEditEdgeBlurSize->setEnabled(ui.checkBoxEdgeBlur->isChecked());
 }
 
 void ImageGenerationDialog::onOK() {

@@ -18,6 +18,7 @@ public slots:
 	void onOutputDirectory();
 	void onModifyImageClicked();
 	void onEdgeNoiseClicked();
+	void onEdgeBlurClicked();
 	void onOK();
 	void onCancel();
 
