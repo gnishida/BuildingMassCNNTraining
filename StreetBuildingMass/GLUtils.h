@@ -5,6 +5,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include "Vertex.h"
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 namespace glutils {
 
@@ -60,6 +61,7 @@ glm::vec3 lineLineIntersection(const glm::vec3& p1, const glm::vec3& v1, const g
 glm::vec3 rayPlaneIntersection(const glm::vec3& a, const glm::vec3& v, const glm::vec3& p, const glm::vec3& n);
 bool rayTriangleIntersection(const glm::vec3& a, const glm::vec3& v, const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3, glm::vec3& intPt);
 glm::vec2 barycentricCoordinates(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3, const glm::vec2& p);
+BoundingBox getBBox(std::vector<boost::shared_ptr<Face>>& faces);
 
 // mesh generation
 void drawCircle(float r1, float r2, const glm::vec4& color, const glm::mat4& mat, std::vector<Vertex>& vertices, int slices = 12);

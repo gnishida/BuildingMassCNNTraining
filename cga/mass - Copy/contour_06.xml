@@ -4,8 +4,8 @@
 	<attr name="width" value="10" range="4,50"/>
 	<attr name="depth" value="10" range="4,50"/>
 	<attr name="height" value="10" range="4,50"/>
-	<attr name="roof_height" value="1" range="1,4"/>
-	<attr name="roof_overhang" value="0.5" range="0.2,1"/>
+	<attr name="roof_height" value="1" range="0.5,1.2"/>
+	<attr name="roof_overhang" value="0.5" range="0.3,1.2"/>
 	
 	<!-- building mass -->
 	<rule name="Start">

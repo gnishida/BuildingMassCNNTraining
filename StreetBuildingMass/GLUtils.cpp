@@ -339,6 +339,17 @@ glm::vec2 barycentricCoordinates(const glm::vec2& p1, const glm::vec2& p2, const
 	return glm::vec2(alpha, beta);
 }
 
+BoundingBox getBBox(std::vector<boost::shared_ptr<Face>>& faces) {
+	BoundingBox bbox;
+	for (int i = 0; i < faces.size(); ++i) {
+		for (int j = 0; j < faces[i]->vertices.size(); ++j) {
+			bbox.addPoint(faces[i]->vertices[j].position);
+		}
+	}
+
+	return bbox;
+}
+
 void drawCircle(float r1, float r2, const glm::vec4& color, const glm::mat4& mat, std::vector<Vertex>& vertices, int slices) {
 	glm::vec4 p1(0, 0, 0, 1);
 	glm::vec4 n(0, 0, 1, 0);

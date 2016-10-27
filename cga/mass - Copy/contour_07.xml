@@ -4,8 +4,8 @@
 	<attr name="width" value="12" range="4,50"/>
 	<attr name="depth" value="10" range="4,50"/>
 	<attr name="height" value="10" range="4,50"/>
-	<attr name="roof_overhang" value="0.3" range="0.2,1"/>
-	<attr name="roof_slope" value="30" range="20,70"/>
+	<attr name="roof_overhang" value="0.5" range="0.5,1"/>
+	<attr name="roof_slope" value="30" range="20,30"/>
 	
 	<!-- building mass -->
 	<rule name="Start">
@@ -32,7 +32,7 @@
 		<offset offsetDistance="roof_overhang" inside="TopFaceOffset"/>
 	</rule>
 	<rule name="TopFaceOffset">
-		<extrude height="0.2"/>
+		<extrude height="0.6"/>
 		<comp>
 			<param name="side" value="RoofLedge"/>
 			<param name="top" value="TopFaceOffsetTop"/>

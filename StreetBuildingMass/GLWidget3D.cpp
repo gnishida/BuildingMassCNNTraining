@@ -486,10 +486,16 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 	std::cout << "  discard if top face is visible: " << (discardIfTopFaceIsVisible ? "true" : "false") << std::endl;
 	std::cout << "  discard if bottom face is visible: " << (discardIfBottomFaceIsVisible ? "true" : "false") << std::endl;
 	std::cout << "  modify image: " << (modifyImage ? "true" : "false") << std::endl;
-	std::cout << "  line width: " << lineWidthMin << " - " << lineWidthMax << std::endl;
-	std::cout << "  edge noise: " << (edgeNoise ? "true" : "false") << std::endl;
-	if (edgeNoise) {
-		std::cout << "  edge noise max: " << edgeNoiseMax << std::endl;
+	if (modifyImage) {
+		std::cout << "  line width: " << lineWidthMin << " - " << lineWidthMax << std::endl;
+		std::cout << "  edge noise: " << (edgeNoise ? "true" : "false") << std::endl;
+		if (edgeNoise) {
+			std::cout << "  edge noise max: " << edgeNoiseMax << std::endl;
+		}
+		std::cout << "  edge blur: " << (edgeBlur ? "true" : "false") << std::endl;
+		if (edgeBlur) {
+			std::cout << "  edge blur size: " << edgeBlurSize << std::endl;
+		}
 	}
 	std::cout << std::endl;
 
@@ -662,19 +668,19 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 											cga.generateGeometry(faces, true);
 											renderManager.addFaces(faces, true);
 
+											glutils::BoundingBox bbox = glutils::getBBox(faces);
+
 											// if the top face is visible, discard this
-											// Hack: assuming that faces[0] is the top face.
 											if (discardIfTopFaceIsVisible) {
-												glm::vec3 top_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(faces[0]->vertices[0].position, 1));
-												glm::vec3 top_normal = glm::vec3(camera.mvMatrix * glm::vec4(faces[0]->vertices[0].normal, 0));
+												glm::vec3 top_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(0, bbox.maxPt.y, 0, 1));
+												glm::vec3 top_normal = glm::vec3(camera.mvMatrix * glm::vec4(0, 1, 0, 0));
 												if (glm::dot(top_normal, top_view_dir) < 0) continue;
 											}
 
 											// if the bottom face is visible, discard this
-											// Hack: assuming that faces[1] is the bottom face.
 											if (discardIfBottomFaceIsVisible) {
-												glm::vec3 bottom_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(faces[1]->vertices[0].position, 1));
-												glm::vec3 bottom_normal = glm::vec3(camera.mvMatrix * glm::vec4(faces[1]->vertices[0].normal, 0));
+												glm::vec3 bottom_view_dir = glm::vec3(camera.mvMatrix * glm::vec4(0, bbox.minPt.y, 0, 1));
+												glm::vec3 bottom_normal = glm::vec3(camera.mvMatrix * glm::vec4(0, -1, 0, 0));
 												if (glm::dot(bottom_normal, bottom_view_dir) < 0) continue;
 											}
 
@@ -713,6 +719,10 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 												if (edgeBlur) {
 													cv::blur(mat, mat, cv::Size(edgeBlurSize, edgeBlurSize));
 												}
+											}
+											else {
+												cvutils::skeletonize(mat, mat);
+												cv::cvtColor(mat, mat, cv::COLOR_GRAY2BGR);
 											}
 
 											// create the subfolder
