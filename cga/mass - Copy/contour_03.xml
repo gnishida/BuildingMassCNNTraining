@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <grammar type="building" version="1.0" author="Gen Nishida">
 	<!-- parameters -->
-	<attr name="width" value="10" range="10,40"/>
-	<attr name="depth" value="10" range="10,40"/>
-	<attr name="height" value="10" range="10,40"/>
-	<attr name="corner_cut_length" value="4" range="4,9"/>
+	<attr name="width" value="15" range="15,40"/>
+	<attr name="depth" value="15" range="15,40"/>
+	<attr name="height" value="10" range="8,40"/>
+	<attr name="corner_cut_length" value="4" range="1,10"/>
 	
 	<rule name="Start">
 		<translate mode="rel" coordSystem="world">

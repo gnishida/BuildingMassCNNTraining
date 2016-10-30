@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <grammar version="1.0" author="Gen Nishida">
 	<!-- parameters -->
-	<attr name="width1" value="10" range="4,25"/>
-	<attr name="width2" value="10" range="4,25"/>
-	<attr name="depth1" value="10" range="4,25"/>
-	<attr name="depth2" value="10" range="4,25"/>
-	<attr name="height" value="10" range="4,50"/>
+	<attr name="width1" value="10" range="10,20"/>
+	<attr name="width2" value="10" range="4,30"/>
+	<attr name="depth1" value="10" range="1,20"/>
+	<attr name="depth2" value="10" range="10,30"/>
+	<attr name="height" value="10" range="4,40"/>
 
 	<!-- building mass -->
 	<rule name="Start">
