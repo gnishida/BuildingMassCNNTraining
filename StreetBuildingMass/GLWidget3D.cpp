@@ -655,7 +655,7 @@ void GLWidget3D::generateTrainingImages(const QString& cga_dir, const QString& o
 
 												cur = (cur - index) / pmSample;
 											}
-											cga.setParamValues(grammars[grammar_id], param_values);
+											cga::setParamValues(grammars[grammar_id], param_values);
 
 											// set axiom
 											boost::shared_ptr<cga::Shape> start = boost::shared_ptr<cga::Shape>(new cga::Rectangle("Start", "", glm::translate(glm::rotate(glm::mat4(), -3.141592f * 0.5f, glm::vec3(1, 0, 0)), glm::vec3(0, 0, 0)), glm::mat4(), 0, 0, glm::vec3(1, 1, 1)));
@@ -936,7 +936,7 @@ void GLWidget3D::parameterEstimation(const QString& cga_dir, const QString& test
 			camera.updatePMatrix(width(), height());
 
 			// predictdパラメータをセット
-			cga.setParamValues(grammars[grammar_id], predicted_params);
+			cga::setParamValues(grammars[grammar_id], predicted_params);
 
 			// set axiom
 			boost::shared_ptr<cga::Shape> start = boost::shared_ptr<cga::Shape>(new cga::Rectangle("Start", "", glm::translate(glm::rotate(glm::mat4(), -3.141592f * 0.5f, glm::vec3(1, 0, 0)), glm::vec3(0, 0, 0)), glm::mat4(), 0, 0, glm::vec3(1, 1, 1)));
