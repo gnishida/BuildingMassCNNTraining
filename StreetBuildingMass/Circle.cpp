@@ -16,6 +16,12 @@ Circle::Circle(const std::string& name, const std::string& grammar_type, const g
 	this->_modelMat = modelMat;
 	this->_scope = glm::vec3(width, height, 0);
 	this->_color = color;
+
+	_texCoords.resize(4);
+	_texCoords[0] = glm::vec2(0, 0);
+	_texCoords[1] = glm::vec2(1, 0);
+	_texCoords[2] = glm::vec2(1, 1);
+	_texCoords[3] = glm::vec2(0, 1);
 	this->_textureEnabled = false;
 }
 
@@ -123,7 +129,7 @@ void Circle::generateGeometry(std::vector<boost::shared_ptr<glutils::Face> >& fa
 	std::vector<Vertex> vertices;
 
 	glm::mat4 mat = _pivot * glm::translate(_modelMat, glm::vec3(_scope.x * 0.5f, _scope.y * 0.5f, 0));
-	if (!_texture.empty() && _textureEnabled) {
+	if (!_texture.empty()) {
 		glutils::drawCircle(_scope.x * 0.5f, _scope.y * 0.5f, _texWidth, _texHeight, mat, vertices, CIRCLE_SLICES);
 		faces.push_back(boost::shared_ptr<glutils::Face>(new glutils::Face(_name, _grammar_type, vertices, _texture)));
 	}
