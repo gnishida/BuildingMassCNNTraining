@@ -22,6 +22,11 @@
 			<param name="zSize" type="absolute" value="0"/>
 		</size>
 		<extrude height="height1"/>
+		<comp>
+			<param name="side" value="Facade"/>
+			<param name="top" value="RoofTop"/>
+			<param name="bottom" value="Base"/>
+		</comp>
 	</rule>
 	
 	<rule name="Start2">
@@ -39,7 +44,7 @@
 		<comp>
 			<param name="side" value="Facade"/>
 			<param name="top" value="Roof"/>
-			<param name="bottom" value="Base."/>
+			<param name="bottom" value="Base"/>
 		</comp>
 	</rule>
 	
@@ -51,7 +56,7 @@
 		<extrude height="0.4"/>
 		<comp>
 			<param name="side" value="RoofLedge"/>
-			<param name="top" value="TopFaceOffsetTop"/>
+			<param name="top" value="RoofTop"/>
 			<param name="bottom" value="RoofLedge"/>
 		</comp>
 	</rule>
