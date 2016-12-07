@@ -59,33 +59,7 @@ namespace cvutils {
 		cv::threshold(tgt, tgt, 250, 255, cv::THRESH_BINARY);
 	}
 
-	void skeletonize(cv::Mat src, cv::Mat& tgt) {
-		grayScale(src, src);
-		cv::threshold(src, src, 128, 255, cv::THRESH_BINARY_INV);
-
-		bool done = false;
-		cv::Mat eroded;
-		cv::Mat temp;
-		tgt = cv::Mat(src.size(), CV_8U, cv::Scalar(0));
-		cv::Mat element = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(3, 3));
-
-		while (!done) {
-			cv::erode(src, eroded, element);
-			cv::dilate(eroded, temp, element);
-			cv::subtract(src, temp, temp);
-			cv::bitwise_or(tgt, temp, tgt);
-			src = eroded.clone();
-
-			double max;
-			cv::minMaxLoc(src, 0, &max);
-			done = (max == 0);
-		}
-
-		// invert the color
-		tgt = 255 - tgt;
-	}
-
-	void grayScale(cv::Mat img, cv::Mat& grayImg) {
+	void grayScale(const cv::Mat& img, cv::Mat& grayImg) {
 		if (img.channels() == 1) {
 			grayImg = img.clone();
 		}

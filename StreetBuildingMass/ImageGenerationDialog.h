@@ -13,12 +13,10 @@ public:
 	~ImageGenerationDialog();
 
 public slots:
-	void updateTotalNumImages();
 	void onCGADirectory();
 	void onOutputDirectory();
 	void onModifyImageClicked();
 	void onEdgeNoiseClicked();
-	void onEdgeBlurClicked();
 	void onOK();
 	void onCancel();
 

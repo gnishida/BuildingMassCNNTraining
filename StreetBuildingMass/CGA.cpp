@@ -10,6 +10,9 @@
 
 namespace cga {
 
+CGA::CGA() {
+}
+
 /**
  * Randomly select parameter values if the range is specified for the parameter
  */
@@ -56,9 +59,6 @@ void setParamValues(Grammar& grammar, const std::vector<float>& params) {
 			grammar.attrs[it->first].value = boost::lexical_cast<std::string>((it->second.range_end - it->second.range_start) * param + it->second.range_start);
 		}
 	}
-}
-
-CGA::CGA() {
 }
 
 /**
