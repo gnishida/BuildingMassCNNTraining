@@ -18,7 +18,7 @@
 		</translate>
 		<size>
 			<param name="xSize" type="absolute" value="width"/>
-			<param name="ySize" type="absolute" value="depth1"/>
+			<param name="ySize" type="absolute" value="depth1*2+depth2"/>
 			<param name="zSize" type="absolute" value="0"/>
 		</size>
 		<extrude height="height1"/>
@@ -33,37 +33,19 @@
 		<translate mode="rel" coordSystem="world">
 			<param name="x" type="absolute" value="-width*0.5"/>
 			<param name="y" type="absolute" value="-depth2*0.5"/>
-			<param name="z" type="absolute" value="0"/>
+			<param name="z" type="absolute" value="height1"/>
 		</translate>
 		<size>
 			<param name="xSize" type="absolute" value="width"/>
 			<param name="ySize" type="absolute" value="depth2"/>
 			<param name="zSize" type="absolute" value="0"/>
 		</size>
-		<extrude height="height1+height2"/>
+		<extrude height="height2"/>
 		<comp>
-			<param name="side" value="Facade"/>
+			<param name="side" value="Facade2"/>
 			<param name="top" value="Roof"/>
 			<param name="bottom" value="Base"/>
 		</comp>
 	</rule>
 	
-	<rule name="Start3">
-		<translate mode="rel" coordSystem="world">
-			<param name="x" type="absolute" value="-width*0.5"/>
-			<param name="y" type="absolute" value="depth2*0.5"/>
-			<param name="z" type="absolute" value="0"/>
-		</translate>
-		<size>
-			<param name="xSize" type="absolute" value="width"/>
-			<param name="ySize" type="absolute" value="depth1"/>
-			<param name="zSize" type="absolute" value="0"/>
-		</size>
-		<extrude height="height1"/>
-		<comp>
-			<param name="side" value="Facade"/>
-			<param name="top" value="Roof"/>
-			<param name="bottom" value="Base"/>
-		</comp>
-	</rule>
 </grammar>
